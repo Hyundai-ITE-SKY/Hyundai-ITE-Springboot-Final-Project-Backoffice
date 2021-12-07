@@ -2,459 +2,349 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
-
-		<div class="card m-2">
-			<div class="card-header">회원 가입</div>
-			<div class="card-body">
-				<div>
-					<form id="joinForm">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">mid</span>
+		<!-- Page Heading -->
+		<div class="d-sm-flex align-items-center justify-content-between mb-4">
+			<h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+			<a href="#"
+				class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+				class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+		</div>
+		<!-- Content Row -->
+		<div class="row">
+			<!-- Earnings (Monthly) Card Example -->
+			<div class="col-xl-3 col-md-6 mb-4">
+				<div class="card border-left-primary shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div
+									class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+									Earnings (Monthly)</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
 							</div>
-							<input type="text" name="mid" class="form-control"
-								autocomplete="username">
-						</div>
-
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">mname</span>
+							<div class="col-auto">
+								<i class="fas fa-calendar fa-2x text-gray-300"></i>
 							</div>
-							<textarea name="mname" class="form-control"></textarea>
 						</div>
+					</div>
+				</div>
+			</div>
 
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">mpassword</span>
+			<!-- Earnings (Monthly) Card Example -->
+			<div class="col-xl-3 col-md-6 mb-4">
+				<div class="card border-left-success shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div
+									class="text-xs font-weight-bold text-success text-uppercase mb-1">
+									Earnings (Annual)</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
 							</div>
-							<input type="password" name="mpassword" class="form-control"
-								autocomplete="current-password">
-						</div>
-
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">mrole</span>
+							<div class="col-auto">
+								<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
 							</div>
-							<select class="form-control" name="mrole">
-								<option value="ROLE_ADMIN">ROLE_ADMIN</option>
-								<option value="ROLE_MANAGER">ROLE_MANAGER</option>
-								<option value="ROLE_USER" selected>ROLE_USER</option>
-							</select>
 						</div>
+					</div>
+				</div>
+			</div>
 
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">memail</span>
+			<!-- Earnings (Monthly) Card Example -->
+			<div class="col-xl-3 col-md-6 mb-4">
+				<div class="card border-left-info shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div
+									class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+								</div>
+								<div class="row no-gutters align-items-center">
+									<div class="col-auto">
+										<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+									</div>
+									<div class="col">
+										<div class="progress progress-sm mr-2">
+											<div class="progress-bar bg-info" role="progressbar"
+												style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+												aria-valuemax="100"></div>
+										</div>
+									</div>
+								</div>
 							</div>
-							<input type="email" name="memail" class="form-control">
+							<div class="col-auto">
+								<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+							</div>
 						</div>
+					</div>
+				</div>
+			</div>
 
-						<div class="mt-3">
-							<a href="javascript:join1()" class="btn btn-info btn-sm mr-2">POST
-								/member/join1</a> <a href="javascript:join2()"
-								class="btn btn-info btn-sm">POST /member/join2</a>
+			<!-- Pending Requests Card Example -->
+			<div class="col-xl-3 col-md-6 mb-4">
+				<div class="card border-left-warning shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div
+									class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+									Pending Requests</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+							</div>
+							<div class="col-auto">
+								<i class="fas fa-comments fa-2x text-gray-300"></i>
+							</div>
 						</div>
-					</form>
-					<script th:inline="javascript">
-				function join1() {
-					var member = {
-						mid: 		$("#joinForm [name=mid]").val(),
-						mname: 		$("#joinForm [name=mname]").val(),
-						mpassword: 	$("#joinForm [name=mpassword]").val(),
-						mrole: 		$("#joinForm [name=mrole]").val(),
-						memail: 	$("#joinForm [name=memail]").val(),
-					};
-					
-					$.ajax({
-						url: "[(@{/member/join1})]",
-						method: "post",
-						data: member
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-				
-				function join2() {
-					var member = {
-						mid: 		$("#joinForm [name=mid]").val(),
-						mname: 		$("#joinForm [name=mname]").val(),
-						mpassword: 	$("#joinForm [name=mpassword]").val(),
-						mrole: 		$("#joinForm [name=mrole]").val(),
-						memail: 	$("#joinForm [name=memail]").val(),
-					};
-					
-					$.ajax({
-						url: "[(@{/member/join2})]",
-						method: "post",
-						data: JSON.stringify(member),
-						contentType: "application/json",
-						processData: false //data를 QueryString으로 표현하지 않음
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-			</script>
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="card m-2">
-			<div class="card-header">인증</div>
-			<div class="card-body">
-				<div>
-					<form id="loginForm">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">mid</span>
-							</div>
-							<input type="text" name="mid" class="form-control"
-								autocomplete="username">
-						</div>
+		<!-- Content Row -->
 
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">mpassword</span>
-							</div>
-							<input type="password" name="mpassword" class="form-control"
-								autocomplete="current-password">
-						</div>
+		<div class="row">
 
-						<div class="mt-3">
-							<a href="javascript:login1()" class="btn btn-info btn-sm mr-2">POST
-								/member/login1</a> <a href="javascript:login2()"
-								class="btn btn-info btn-sm">POST /member/login2</a>
+			<!-- Area Chart -->
+			<div class="col-xl-8 col-lg-7">
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						<h6 class="m-0 font-weight-bold text-primary">Earnings
+							Overview</h6>
+						<div class="dropdown no-arrow">
+							<a class="dropdown-toggle" href="#" role="button"
+								id="dropdownMenuLink" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"> <i
+								class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+							</a>
+							<div
+								class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+								aria-labelledby="dropdownMenuLink">
+								<div class="dropdown-header">Dropdown Header:</div>
+								<a class="dropdown-item" href="#">Action</a> <a
+									class="dropdown-item" href="#">Another action</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Something else here</a>
+							</div>
 						</div>
-					</form>
-					<script th:inline="javascript">
-				function login1() {
-					var mid = $("#loginForm [name=mid]").val();
-					var mpassword = $("#loginForm [name=mpassword]").val();
-					$.ajax({
-						url: "[(@{/member/login1})]",
-						method: "post",
-						data: {mid, mpassword}
-					}).done((data) => {
-						console.log(data);
-						sessionStorage.setItem("mid", data.mid);
-					    sessionStorage.setItem("jwt", data.jwt);
-					});
-				}
-				
-				function login2() {
-					var mid = $("#loginForm [name=mid]").val();
-					var mpassword = $("#loginForm [name=mpassword]").val();
-					$.ajax({
-						url: "[(@{/member/login2})]",
-						method: "post",
-						data: JSON.stringify({mid, mpassword}),
-						contentType: "application/json",
-						processData: false //data를 QueryString으로 표현하지 않음
-					}).done((data) => {
-						console.log(data);
-						sessionStorage.setItem("mid", data.mid);
-					    sessionStorage.setItem("jwt", data.jwt);
-					});
-				}
-			</script>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="chart-area">
+							<canvas id="myAreaChart"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Pie Chart -->
+			<div class="col-xl-4 col-lg-5">
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						<h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+						<div class="dropdown no-arrow">
+							<a class="dropdown-toggle" href="#" role="button"
+								id="dropdownMenuLink" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"> <i
+								class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+							</a>
+							<div
+								class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+								aria-labelledby="dropdownMenuLink">
+								<div class="dropdown-header">Dropdown Header:</div>
+								<a class="dropdown-item" href="#">Action</a> <a
+									class="dropdown-item" href="#">Another action</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Something else here</a>
+							</div>
+						</div>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="chart-pie pt-4 pb-2">
+							<canvas id="myPieChart"></canvas>
+						</div>
+						<div class="mt-4 text-center small">
+							<span class="mr-2"> <i class="fas fa-circle text-primary"></i>
+								Direct
+							</span> <span class="mr-2"> <i class="fas fa-circle text-success"></i>
+								Social
+							</span> <span class="mr-2"> <i class="fas fa-circle text-info"></i>
+								Referral
+							</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="card m-2">
-			<div class="card-header">인증 확인</div>
-			<div class="card-body">
-				<div>
-					<a href="javascript:authTest1()" class="btn btn-info btn-sm mr2">GET
-						/board/test(without jwt)</a> <a href="javascript:authTest2()"
-						class="btn btn-info btn-sm">GET /board/test(with jwt)</a> <a
-						href="javascript:authTest3()" class="btn btn-info btn-sm">GET
-						/board/test(with jwt, cors)</a>
-					<script th:inline="javascript">
-				function authTest1() {
-					$.ajax({
-						url: "[(@{/board/test})]"
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-				
-				function authTest2() {
-					$.ajax({
-						url: "[(@{/board/test})]",
-						headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-				
-				function authTest3() {
-					$.ajax({
-						url: "http://kosa1.iptime.org:50107/board/test",
-						headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-			</script>
+		<!-- Content Row -->
+		<div class="row">
+
+			<!-- Content Column -->
+			<div class="col-lg-6 mb-4">
+
+				<!-- Project Card Example -->
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+					</div>
+					<div class="card-body">
+						<h4 class="small font-weight-bold">
+							Server Migration <span class="float-right">20%</span>
+						</h4>
+						<div class="progress mb-4">
+							<div class="progress-bar bg-danger" role="progressbar"
+								style="width: 20%" aria-valuenow="20" aria-valuemin="0"
+								aria-valuemax="100"></div>
+						</div>
+						<h4 class="small font-weight-bold">
+							Sales Tracking <span class="float-right">40%</span>
+						</h4>
+						<div class="progress mb-4">
+							<div class="progress-bar bg-warning" role="progressbar"
+								style="width: 40%" aria-valuenow="40" aria-valuemin="0"
+								aria-valuemax="100"></div>
+						</div>
+						<h4 class="small font-weight-bold">
+							Customer Database <span class="float-right">60%</span>
+						</h4>
+						<div class="progress mb-4">
+							<div class="progress-bar" role="progressbar" style="width: 60%"
+								aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+						<h4 class="small font-weight-bold">
+							Payout Details <span class="float-right">80%</span>
+						</h4>
+						<div class="progress mb-4">
+							<div class="progress-bar bg-info" role="progressbar"
+								style="width: 80%" aria-valuenow="80" aria-valuemin="0"
+								aria-valuemax="100"></div>
+						</div>
+						<h4 class="small font-weight-bold">
+							Account Setup <span class="float-right">Complete!</span>
+						</h4>
+						<div class="progress">
+							<div class="progress-bar bg-success" role="progressbar"
+								style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+								aria-valuemax="100"></div>
+						</div>
+					</div>
 				</div>
+
+				<!-- Color System -->
+				<div class="row">
+					<div class="col-lg-6 mb-4">
+						<div class="card bg-primary text-white shadow">
+							<div class="card-body">
+								Primary
+								<div class="text-white-50 small">#4e73df</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 mb-4">
+						<div class="card bg-success text-white shadow">
+							<div class="card-body">
+								Success
+								<div class="text-white-50 small">#1cc88a</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 mb-4">
+						<div class="card bg-info text-white shadow">
+							<div class="card-body">
+								Info
+								<div class="text-white-50 small">#36b9cc</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 mb-4">
+						<div class="card bg-warning text-white shadow">
+							<div class="card-body">
+								Warning
+								<div class="text-white-50 small">#f6c23e</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 mb-4">
+						<div class="card bg-danger text-white shadow">
+							<div class="card-body">
+								Danger
+								<div class="text-white-50 small">#e74a3b</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 mb-4">
+						<div class="card bg-secondary text-white shadow">
+							<div class="card-body">
+								Secondary
+								<div class="text-white-50 small">#858796</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 mb-4">
+						<div class="card bg-light text-black shadow">
+							<div class="card-body">
+								Light
+								<div class="text-black-50 small">#f8f9fc</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 mb-4">
+						<div class="card bg-dark text-white shadow">
+							<div class="card-body">
+								Dark
+								<div class="text-white-50 small">#5a5c69</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
-		</div>
 
-		<div class="card m-2">
-			<div class="card-header">게시물 목록</div>
-			<div class="card-body">
-				<div>
-					<a href="javascript:getBoardList()" class="btn btn-info btn-sm">GET
-						/board/list</a>
-					<script th:inline="javascript">
-				function getBoardList() {
-					$.ajax({
-						url: "[(@{/board/list})]",
-						data: {pageNo:1},
-						headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-			</script>
+			<div class="col-lg-6 mb-4">
+
+				<!-- Illustrations -->
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+					</div>
+					<div class="card-body">
+						<div class="text-center">
+							<img class="img-fluid px-3 px-sm-4 mt-3 mb-4"
+								style="width: 25rem;" src="img/undraw_posting_photo.svg"
+								alt="...">
+						</div>
+						<p>
+							Add some quality, svg illustrations to your project courtesy of <a
+								target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>,
+							a constantly updated collection of beautiful svg images that you
+							can use completely free and without attribution!
+						</p>
+						<a target="_blank" rel="nofollow" href="https://undraw.co/">Browse
+							Illustrations on unDraw &rarr;</a>
+					</div>
 				</div>
-			</div>
-		</div>
 
-		<div class="card m-2">
-			<div class="card-header">게시물 보기</div>
-			<div class="card-body">
-				<div>
-					<form id="boardInfoForm">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">bno</span>
-							</div>
-							<input type="text" name="bno" class="form-control">
-						</div>
-						<div class="mt-3">
-							<a href="javascript:getBoard()" class="btn btn-info btn-sm mr-2">GET
-								/board/{bno}</a>
-						</div>
-					</form>
-					<script th:inline="javascript">
-				function getBoard() {
-					const bno = $("#boardInfoForm [name=bno]").val();
-					
-					$.ajax({
-						url: "[(@{/board})]" + "/" + bno,
-						headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-			</script>
+				<!-- Approach -->
+				<div class="card shadow mb-4">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">Development
+							Approach</h6>
+					</div>
+					<div class="card-body">
+						<p>SB Admin 2 makes extensive use of Bootstrap 4 utility
+							classes in order to reduce CSS bloat and poor page performance.
+							Custom CSS classes are used to create custom components and
+							custom utility classes.</p>
+						<p class="mb-0">Before working with this theme, you should
+							become familiar with the Bootstrap framework, especially the
+							utility classes.</p>
+					</div>
 				</div>
-			</div>
-		</div>
 
-		<div class="card m-2">
-			<div class="card-header">게시물 쓰기</div>
-			<div class="card-body">
-				<div>
-					<form id="boardInsertForm">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">btitle</span>
-							</div>
-							<input type="text" name="btitle" class="form-control">
-						</div>
-
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">bcontent</span>
-							</div>
-							<textarea name="bcontent" class="form-control"></textarea>
-						</div>
-
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">mid</span>
-							</div>
-							<input type="text" name="mid" class="form-control" value="user"
-								readonly>
-						</div>
-
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">battach</span>
-							</div>
-							<input type="file" class="form-control" name="battach">
-						</div>
-
-						<div class="mt-3">
-							<a href="javascript:createBoard()"
-								class="btn btn-info btn-sm mr-2">POST /board/create</a>
-						</div>
-					</form>
-					<script th:inline="javascript">
-				function createBoard() {
-					const btitle = $("#boardInsertForm [name=btitle]").val();
-					const bcontent = $("#boardInsertForm [name=bcontent]").val();
-					const mid = $("#boardInsertForm [name=mid]").val();
-					const battach = document.querySelector("#boardInsertForm [name=battach]").files[0];
-					
-					// Multipart/form-data
-					const formData = new FormData();
-					formData.append("btitle", btitle);
-					formData.append("bcontent", bcontent);
-					formData.append("mid", mid);
-					if(battach) {
-						formData.append("battach", battach);
-					}
-					
-					$.ajax({
-						url: "[(@{/board/create})]",
-						headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
-						method: "post",
-						data: formData,
-						processData: false,
-						contentType: false,
-						cache: false
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-			</script>
-				</div>
-			</div>
-		</div>
-
-		<div class="card m-2">
-			<div class="card-header">게시물 수정</div>
-			<div class="card-body">
-				<div>
-					<form id="boardUpdateForm">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">bno</span>
-							</div>
-							<input type="text" name="bno" class="form-control">
-						</div>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">btitle</span>
-							</div>
-							<input type="text" name="btitle" class="form-control">
-						</div>
-
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">bcontent</span>
-							</div>
-							<textarea name="bcontent" class="form-control"></textarea>
-						</div>
-
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">battach</span>
-							</div>
-							<input type="file" class="form-control" name="battach">
-						</div>
-
-						<div class="mt-3">
-							<a href="javascript:updateBoard()"
-								class="btn btn-info btn-sm mr-2">POST /board/update</a>
-						</div>
-					</form>
-					<script th:inline="javascript">
-				function updateBoard() {
-					const bno = $("#boardUpdateForm [name=bno]").val();
-					const btitle = $("#boardUpdateForm [name=btitle]").val();
-					const bcontent = $("#boardUpdateForm [name=bcontent]").val();
-					const battach = document.querySelector("#boardUpdateForm [name=battach]").files[0];
-					
-					//Multipart/form-data
-					const formData = new FormData();
-					formData.append("bno", bno);
-					formData.append("btitle", btitle);
-					formData.append("bcontent", bcontent);
-					if(battach) {
-						formData.append("battach", battach);
-					}
-					
-					$.ajax({
-						url: "[(@{/board/update})]",
-						headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
-						//multipart/form-data 인코딩된 데이터는 반드시 POST 방식으로 처리(PUT 방식이 아님)
-						method: "post",
-						data: formData,
-						processData: false,
-						contentType: false,
-						cache: false
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-			</script>
-				</div>
-			</div>
-		</div>
-
-		<div class="card m-2">
-			<div class="card-header">게시물 삭제</div>
-			<div class="card-body">
-				<div>
-					<form id="boardDeleteForm">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">bno</span>
-							</div>
-							<input type="text" name="bno" class="form-control">
-						</div>
-						<div class="mt-3">
-							<a href="javascript:deleteBoard()"
-								class="btn btn-info btn-sm mr-2">DELETE /board/{bno}</a>
-						</div>
-					</form>
-					<script th:inline="javascript">
-				function deleteBoard() {
-					const bno = $("#boardDeleteForm [name=bno]").val();
-					
-					$.ajax({
-						url: "[(@{/board})]" + "/" + bno,
-						headers: {Authorization:`Bearer ${sessionStorage.getItem("jwt")}`},
-						method: "delete",
-					}).done((data) => {
-						console.log(data);
-					});
-				}
-			</script>
-				</div>
-			</div>
-		</div>
-
-		<div class="card m-2">
-			<div class="card-header">게시물 첨부 가져오기</div>
-			<div class="card-body">
-				<div>
-					<form id="downloadAttachForm">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">bno</span>
-							</div>
-							<input type="text" name="bno" class="form-control">
-						</div>
-						<div class="mt-3">
-							<a href="javascript:downloadAttach()"
-								class="btn btn-info btn-sm mr-2">GET /board/battach/{bno}</a>
-						</div>
-					</form>
-					<img id="attachImg" class="mt-2" width="300px" />
-					<script th:inline="javascript">
-				function downloadAttach() {
-					const bno = $("#downloadAttachForm [name=bno]").val();
-					const url = "[(@{/board/battach/})]" + bno;
-					const jwt = "jwt=" + sessionStorage.getItem("jwt");
-					$("#attachImg").attr("src", `${url}?${jwt}`);
-				}
-			</script>
-				</div>
 			</div>
 		</div>
 
