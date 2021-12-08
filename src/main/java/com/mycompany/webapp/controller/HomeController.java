@@ -14,16 +14,10 @@ public class HomeController {
 		log.info("실행");
 		return "home";
 	}
-  
-	@RequestMapping("/grade")
-	public String grade() {
-		log.info("실행");
-		return "grade";
-	}
 	
-	@RequestMapping("/member")
-	public String member() {
+	@RequestMapping("/login")
+	public String login() {
 		log.info("실행");
-		return "member";
+		return "login";
 	}
 }
