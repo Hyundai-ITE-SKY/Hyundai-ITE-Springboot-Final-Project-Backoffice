@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+	<th:block th:fragment="content">
+		<div>
+			<h5 class="mb-3 text-gray-800">상품 검색</h5>
+		</div>
+		<!-- 상품 검색 -->
+		<div class="card shadow mb-4">
+			<div class="card-body table-responsive" style="padding-top: 0px; padding-bottom: 0px;">
+				<table class="table table-borderless">
+					<tr>
+						<td class="col-2">검색</td>
+						<td class="input-group">
+							<div class="input-group-prepend">
+								<button class="btn btn-outline-primary dropdown-toggle"
+									type="button" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false">검색 분류</button>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="#">상품코드</a> <a
+										class="dropdown-item" href="#">상품명</a>
+								</div>
+							</div> <input type="text" class="form-control"
+							aria-label="Text input with dropdown button">
+						</td>
+					</tr>
+					<tr>
+						<td scope="row">카테고리</td>
+						<td class="input-group">
+							<div class="input-group-prepend">
+								<button class="btn btn-outline-primary dropdown-toggle"
+									type="button" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false">대분류</button>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="#">상품코드</a> <a
+										class="dropdown-item" href="#">상품명</a>
+								</div>
+							</div>
+							<div class="input-group-prepend">
+								<button class="btn btn-outline-primary dropdown-toggle"
+									type="button" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false">중분류</button>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="#">상품코드</a> <a
+										class="dropdown-item" href="#">상품명</a>
+								</div>
+							</div>
+							<div class="input-group-prepend">
+								<button class="btn btn-outline-primary dropdown-toggle"
+									type="button" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false">소분류</button>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="#">상품코드</a> <a
+										class="dropdown-item" href="#">상품명</a>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td scope="row">상품등록일</td>
+						<td class="d-flex justify-space-between">
+							<div class="md-form md-outline input-with-post-icon datepicker mr-3">
+								<input placeholder="Select date" type="date" id="example"
+									class="form-control">
+							</div>
+							<span>~</span>
+							<div class="md-form md-outline input-with-post-icon datepicker ml-3">
+								<input placeholder="Select date" type="date" id="example"
+									class="form-control">
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div class="btn btn-primary mb-1">검색</div>
+			</div>
+		</div>
+		<!-- 상품 목록 -->
+		<div>
+			<h5 class="mb-3 text-gray-800">상품 목록</h5>
+		</div>
+		<div class="card shadow mb-4">
+			<div class="table-responsive">
+				<table class="table table-bordered mb-0 text-center" style="font-size:14px;">
+					<thead>
+						<tr>
+							<th class="col-1">상품 번호</th>
+							<th>대분류</th>
+							<th>중분류</th>
+							<th>소분류</th>
+							<th class="col-2">브랜드</th>
+							<th class="col-2">상품 코드</th>
+							<th class="col-3">상품명</th>
+							<th class="col-2">상품등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- 반복문 처리 -->
+						<tr onClick="location.href='http://localhost:81/product/detail'">
+							<td>1</td>
+							<td>WOMEN</td>
+							<td>OUTER</td>
+							<td>COAT</td>
+							<td>브랜드</td>
+							<td>상품코드</td>
+							<td>상품명</td>
+							<td>2021.12.07</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>WOMEN</td>
+							<td>OUTER</td>
+							<td>COAT</td>
+							<td>브랜드</td>
+							<td>상품코드</td>
+							<td>상품명</td>
+							<td>2021.12.07</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>WOMEN</td>
+							<td>OUTER</td>
+							<td>COAT</td>
+							<td>브랜드</td>
+							<td>상품코드</td>
+							<td>상품명</td>
+							<td>2021.12.07</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>WOMEN</td>
+							<td>OUTER</td>
+							<td>COAT</td>
+							<td>브랜드</td>
+							<td>상품코드</td>
+							<td>상품명</td>
+							<td>2021.12.07</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>WOMEN</td>
+							<td>OUTER</td>
+							<td>COAT</td>
+							<td>브랜드</td>
+							<td>상품코드</td>
+							<td>상품명</td>
+							<td>2021.12.07</td>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>WOMEN</td>
+							<td>OUTER</td>
+							<td>COAT</td>
+							<td>브랜드</td>
+							<td>상품코드</td>
+							<td>상품명</td>
+							<td>2021.12.07</td>
+						</tr>
+						
+						<tr>
+							<td colspan="8">
+							  <ul class="pagination justify-content-center mb-1 mt-1">
+							    <li class="page-item disabled">
+							      <a class="page-link" href="#" tabindex="-1">Previous</a>
+							    </li>
+							    <li class="page-item"><a class="page-link" href="#">1</a></li>
+							    <li class="page-item"><a class="page-link" href="#">2</a></li>
+							    <li class="page-item"><a class="page-link" href="#">3</a></li>
+							    <li class="page-item">
+							      <a class="page-link" href="#">Next</a>
+							    </li>
+							  </ul>
+							</td>	
+						</tr>						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</th:block>
+</th:block>
+</html>
