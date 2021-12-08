@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+	<th:block th:fragment="content">
+		<div style="margin: 50px;">
+			<div class="my-4 p-4 rounded bg-gray-300 border border-dark">
+				<h4 class="font-weight-bolder mb-2">이벤트 검색</h4>
+				<form class="container">
+					<div class="row">
+						<label class="col-1 font-weight-bolder">검색</label>
+						<div class="col-11">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+										<option selected>이벤트 아이디</option>
+										<option value="1">이벤트 이름</option>
+									</select>
+								</div>
+								<input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+							</div>
+						</div>
+						<div class="col-11"></div>
+						<div class="col-1">
+							<button class="btn text-white" style="background-color: #2D3134" type="submit">검색</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<h4 class="font-weight-bolder mb-2" style="margin-bottom: 100px;">주문 목록</h4>
+
+			<table class="table table-sm mx-auto">
+				<tr class="row text-white text-center font-weight-bolder" style="background-color: #2D3134;">
+					<td class="col-2">이벤트 아이디</td>
+					<td class="col-2">이벤트 이름</td>
+					<td class="col-2">이벤트 시작일</td>
+					<td class="col-2">이벤트 종료일</td>
+					<td class="col-2">남은 수량</td>
+					<td class="col-2">제한 인원</td>
+				</tr>
+				
+				<tr class="row text-center" th:onclick="'location.href=\'' + @{/event/detail}+'\''">
+					<td class="col-2">eid</td>
+					<td class="col-2">ename</td>
+					<td class="col-2">estartdate</td>
+					<td class="col-2">eenddate</td>
+					<td class="col-2">eamount</td>
+					<td class="col-2">elimit</td>
+				</tr>
+				
+				<tr class="row text-center" th:onclick="'location.href=\'' + @{/event/detail}+'\''">
+					<td class="col-2">eid</td>
+					<td class="col-2">ename</td>
+					<td class="col-2">estartdate</td>
+					<td class="col-2">eenddate</td>
+					<td class="col-2">eamount</td>
+					<td class="col-2">elimit</td>
+				</tr>
+			</table>
+
+		</div>
+	</th:block>
+</th:block>
+
+</html>
