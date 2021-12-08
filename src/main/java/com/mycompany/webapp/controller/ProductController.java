@@ -11,6 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/product")
 public class ProductController {
 	
+	//상품등록
+	@RequestMapping("/create")
+	public String productCreate() {
+		log.info("실행");
+		return "product/ProductCreate";
+	}
+	
 	//상품조회
 	@RequestMapping("/list")
 	public String productList() {
