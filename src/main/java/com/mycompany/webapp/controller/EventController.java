@@ -27,4 +27,10 @@ public class EventController {
 		log.info("실행");
 		return "event/eventUpdate";
 	}
+	
+	@RequestMapping("/create")
+	public String eventCreate() {
+		log.info("실행");
+		return "event/eventCreate";
+	}
 }
