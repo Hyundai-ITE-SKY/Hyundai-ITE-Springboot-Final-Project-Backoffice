@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+	<th:block th:fragment="content">
+		<div>
+			<h5 class="mb-3 text-gray-800">상품 정보</h5>
+		</div>
+		<div class="card shadow mb-4">
+			<table class="table table-bordered" style="font-size: 14px;">
+				<tr>
+					<th class="col-2" scope="col">상품 품번</th>
+					<td scope="col">상품 코드</td>
+					<th class="col-2" scope="col">브랜드</th>
+					<td scope="col">브랜드 이름</td>
+				</tr>
+				<tr>
+					<th>상품 가격</th>
+					<td>1,000,000원</td>
+					<th>시즌 정보</th>
+					<td>SS</td>
+				</tr>
+				<tr>
+					<th>상품명</th>
+					<td colspan="3">상품명상품명상품명상품명</td>
+				</tr>
+				<tr>
+					<th>카테고리</th>
+					<td colspan="3">WOMEN > OUTER > COAT</td>
+				</tr>
+				<tr>
+					<th>상세 설명</th>
+					<td colspan="3">쏼라쏼라</td>
+				</tr>
+			</table>
+			
+			<table class="table table-bordered text-center" style="font-size: 14px;">
+				<tr>
+					<th class="col-2" scope="col">색상 코드</th>
+					<th scope="col">이미지1</th>
+					<th scope="col">이미지2</th>
+					<th scope="col">이미지3</th>
+					<th scope="col">컬러 이미지</th>
+					<th scope="col">사이즈</th>
+					<th scope="col">재고</th>
+				</tr>
+				<tr>
+					<td rowspan="2">OW</td>
+					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/"></td>
+					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/"></td>
+					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/"></td>
+					<td rowspan="2"><img style="width:20px;height:20px"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_C01.jpg"></td>
+					<td>64</td>
+					<td>5</td>
+				</tr>
+				<tr>
+					<td>67</td>
+					<td>2</td>
+				</tr>
+				
+				<tr>
+					<td rowspan="2">PR</td>
+					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/"></td>
+					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/"></td>
+					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/"></td>
+					<td rowspan="2"><img style="width:20px;height:20px"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_C01.jpg"></td>
+					<td>64</td>
+					<td>5</td>
+				</tr>
+				<tr>
+					<td>67</td>
+					<td>2</td>
+				</tr>
+			</table>
+			<div class="d-flex justify-content-center mt-3 mb-4">
+				<div class="btn btn-outline-dark btn-sm mr-5">취소</div>
+				<a th:href="@{/product/update}" class="btn btn-dark btn-sm">수정</a>
+			</div>
+		</div>
+	</th:block>
+</th:block>
+</html>
