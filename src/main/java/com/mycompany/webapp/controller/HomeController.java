@@ -13,4 +13,16 @@ public class HomeController {
 		log.info("실행");
 		return "home";
 	}
+	
+	@RequestMapping("/grade")
+	public String grade() {
+		log.info("실행");
+		return "grade";
+	}
+	
+	@RequestMapping("/member")
+	public String member() {
+		log.info("실행");
+		return "member";
+	}
 }
