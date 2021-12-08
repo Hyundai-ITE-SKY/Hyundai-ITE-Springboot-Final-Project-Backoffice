@@ -55,9 +55,9 @@
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
 						data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="#">상품 등록</a> <a
-								class="collapse-item" th:href="@{/product/list}">상품 조회 및 수정</a> <a
-								class="collapse-item" href="#">상품 재고 관리</a>
+							<a class="collapse-item" href="#">상품 등록</a>
+              <a class="collapse-item" th:href="@{/product/list}">상품 조회 및 수정</a>
+							<a class="collapse-item" th:href="@{/product/productstock}">상품 재고 관리 </a>
 						</div>
 					</div></li>
 
@@ -69,10 +69,10 @@
 					<div id="collapseUtilities" class="collapse"
 						aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="utilities-color.html">전체 주문 목록
-								조회 및 관리</a>
+							<a class="collapse-item" th:href="@{/order/orderinquiry}">전체 주문 목록 조회 및 관리</a>
 						</div>
-					</div></li>
+					</div>
+				</li>
 
 				<li class="nav-item"><a class="nav-link collapsed" href="#"
 					data-toggle="collapse" data-target="#collapseDisplay"

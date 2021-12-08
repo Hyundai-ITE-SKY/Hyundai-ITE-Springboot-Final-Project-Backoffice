@@ -30,6 +30,12 @@ public class ProductController {
 		log.info("실행");
 		return "product/ProductUpdate";
 	}
-	
+  
+	@RequestMapping("/productstock")
+	public String orderInquiry(Model model) {
+		log.info("실행");
+
+		return "/product/productStock";
+	}
 	
 }
