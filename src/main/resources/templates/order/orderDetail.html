@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+	<th:block th:fragment="content">
+		<div style="margin: 50px;">
+			<h4 class="font-weight-bolder mb-2" style="margin-bottom: 100px;">주문 상세</h4>
+			<div class="card rounded border bg-gray-300 border border-dark">
+				<h5 class="font-weight-bolder m-2" style="margin-bottom: 100px;">주문 정보</h5>
+				<div class="card-body">
+					<table class="table table-sm table-bordered table-dark">
+						<tr class="text-white">
+							<th class="text-center">주문 번호</th>
+							<th class="text-center">주문날짜</th>
+							<th class="text-center">결제 수단</th>
+							<th class="text-center">주문상태</th>
+							<th class="text-center">입금 마감일</th>
+							<th class="text-center">할인금액</th>
+							<th class="text-center">총 결제금액</th>
+						</tr>
+						
+						<tr class="bg-light text-dark">
+							<th class="text-center">oid</th>
+							<th class="text-center">2021.12.07</th>
+							<th class="text-center">계좌 번호</th>
+							<th class="text-center">결제 완료</th>
+							<th class="text-center">2021.12.10</th>
+							<th class="text-center">150,000 ￦</th>
+							<th class="text-center">1,000,000 ￦</th>
+						</tr>
+					</table>
+
+					<table class="table table-sm table-bordered table-dark">
+						<tr class="text-white">
+							<th class="text-center">주문자 아이디</th>
+							<th class="text-center">수령인</th>
+							<th class="text-center">수령인 번호</th>
+							<th class="text-center">우편번호</th>
+							<th class="text-center" style="width:260px;">주소</th>
+							<th class="text-center" style="width:220px;">상세주소</th>
+							<th class="text-center">마일리지 사용</th>
+							<th class="text-center">쿠폰 사용</th>
+						</tr>
+						
+						<tr class="bg-light text-dark">
+							<th class="text-center">user1</th>
+							<th class="text-center">receiver</th>
+							<th class="text-center">010-5370-5930</th>
+							<th class="text-center">12345</th>
+							<th class="text-center" style="width:220px;">서울특별시 송파구 **동 *******</th>
+							<th class="text-center" style="width:220px;">***동 ****호</th>
+							<th class="text-center">1,000 P</th>
+							<th class="text-center">102 번</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div class="card rounded bg-gray-300 border border-dark my-4">
+				<h5 class="font-weight-bolder m-2" style="margin-bottom: 100px;">주문 물품 정보</h5>
+
+				<div class="card-body">
+					<table class="table table-sm table-bordered table-dark text-white mx-auto" style="width:70%;">
+						<tr style="width:100%;">
+							<th class="text-center">제품 번호</th>
+							<th class="text-center">컬러 코드</th>
+							<th class="text-center">사이즈</th>
+							<th class="text-center">수량</th>
+						</tr>
+						
+						<tr class="bg-light text-dark" style="width:100%;">
+							<th class="text-center">PRODUCT123</th>
+							<th class="text-center">BK</th>
+							<th class="text-center">XL</th>
+							<th class="text-center">1</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+			
+			<a class="btn btn-primary" th:href="@{/order/orderinquiry}">목록으로</a>
+		</div>
+	</th:block>
+</th:block>
+
+</html>

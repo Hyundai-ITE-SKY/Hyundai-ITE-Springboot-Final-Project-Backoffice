@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+	<th:block th:fragment="content">
+		<div style="margin: 50px;">
+			<div class="my-4 p-4 rounded bg-gray-300 border border-dark">
+				<h4 class="font-weight-bolder mb-2">주문 검색</h4>
+				<form class="container">
+					<div class="row">
+						<label class="col-1 font-weight-bolder">검색</label>
+						<div class="col-11">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<select class="custom-select" id="inputGroupSelect04"
+										aria-label="Example select with button addon">
+										<option selected>주문 번호</option>
+										<option value="1">수령인 이름</option>
+										<option value="2">주문자 아이디</option>
+									</select>
+								</div>
+								<input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+							</div>
+						</div>
+						<label class="col-1 font-weight-bolder">기간</label>
+						<div class="col-10">
+							<input type="date" /> &nbsp;-&nbsp; <input type="date" />
+						</div>
+
+						<div class="col-11"></div>
+						<div class="col-1">
+							<button class="btn text-white" style="background-color: #2D3134" type="submit">검색</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<h4 class="font-weight-bolder mb-2" style="margin-bottom: 100px;">주문 목록</h4>
+
+			<table class="table table-sm">
+				<tr class="row text-white text-center font-weight-bolder" style="background-color: #2D3134">
+					<td class="col-2">주문일자</td>
+					<td class="col-2">주문번호</td>
+					<td class="col-2">상품 개수</td>
+					<td class="col-2">주문자</td>
+					<td class="col-2">결제금액</td>
+					<td class="col-2">주문상태</td>
+				</tr>
+				
+				<tr th:each="order, status : ${orderList}" class="row text-center" th:onclick="'location.href=\'' + @{/order/orderdetail}+'\''">
+					<td class="col-2">[[${#dates.format(order.odate,'yyyy.MM.dd')}]]</td>
+					<td class="col-2">[[${order.oid}]]</td>
+					<td class="col-2">4</td>
+					<td class="col-2">[[${order.mid}]]</td>
+					<td class="col-2">[[${#numbers.formatInteger(order.ototal, 3, 'COMMA')}]] ￦</td> 
+					<td class="col-2"> [[${order.ostatus}]] </td>
+				</tr>
+				
+				<tr>
+					<td>
+						<nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-center">
+								<li class="page-item disabled"><a class="page-link">Previous</a></li>
+								<li class="page-item"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#">Next</a></li>
+							</ul>
+						</nav>
+					</td>
+				</tr>
+				
+			</table>
+
+		</div>
+	</th:block>
+</th:block>
+
+</html>

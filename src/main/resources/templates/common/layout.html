@@ -56,9 +56,9 @@
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
 						data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="#">상품 등록</a> <a
-								class="collapse-item" href="#">상품 조회 및 수정</a> <a
-								class="collapse-item" href="#">상품 재고 관리</a>
+							<a class="collapse-item" href="#">상품 등록</a>
+              <a class="collapse-item" th:href="@{/product/list}">상품 조회 및 수정</a>
+							<a class="collapse-item" th:href="@{/product/productstock}">상품 재고 관리 </a>
 						</div>
 					</div></li>
 
@@ -70,9 +70,10 @@
 					<div id="collapseUtilities" class="collapse"
 						aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="utilities-color.html">주문 목록 관리</a>
+							<a class="collapse-item" th:href="@{/order/orderinquiry}">주문 목록 관리</a>
 						</div>
-					</div></li>
+					</div>
+				</li>
 
 				<li class="nav-item"><a class="nav-link collapsed" href="#"
 					data-toggle="collapse" data-target="#collapseDisplay"
@@ -125,7 +126,7 @@
 				<!-- Main Content -->
 				<div id="content">
 					<!-- Begin Page Content -->
-					<div class="container-fluid">
+					<div class="container-fluid" style="padding-top:24px;">
 						<th:block th:replace="${content}"></th:block>
 					</div>
 					<!-- /.container-fluid -->
@@ -151,14 +152,12 @@
 		<!-- Bootstrap core JavaScript-->
 		<script th:src="@{/jquery/jquery-3.5.1.min.js}"></script>
 		<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
-		<!-- Core plugin JavaScript-->
-		<script th:src="@{/jquery-easing/jquery.easing.min.js}"></script>
 		<!-- Custom scripts for all pages-->
 		<script th:src="@{/js/sb-admin-2.min.js}"></script>
 		<!-- Page level plugins -->
 		<script th:src="@{/chart.js/Chart.min.js}"></script>
 		<!-- Page level custom scripts -->
-		<script th:src="@{/demo/chart-area-demo.js}"></script>
+		<script th:src="@{/js/demo/chart-area-demo.js}"></script>
 		<script th:src="@{/js/demo/chart-pie-demo.js}"></script>
 	</body>
 </th:block>
