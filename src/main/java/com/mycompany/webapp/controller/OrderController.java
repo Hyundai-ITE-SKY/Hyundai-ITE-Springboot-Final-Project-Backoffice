@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/order")
 public class OrderController {
 	
-	@RequestMapping("/orderinquiry")
+	@RequestMapping("/orderlist")
 	public String orderInquiry(Model model) {
 		log.info("실행");
 		List<OrderList> orderList = new LinkedList<OrderList>();
@@ -36,7 +36,7 @@ public class OrderController {
 		//주문 개수
 		
 		model.addAttribute("orderList", orderList);
-		return "/order/orderInquiry";
+		return "/order/orderList";
 	}
 	
 	@RequestMapping("/orderdetail")

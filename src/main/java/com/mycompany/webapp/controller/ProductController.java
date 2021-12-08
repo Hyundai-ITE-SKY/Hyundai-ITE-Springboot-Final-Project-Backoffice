@@ -15,28 +15,28 @@ public class ProductController {
 	@RequestMapping("/create")
 	public String productCreate() {
 		log.info("실행");
-		return "product/ProductCreate";
+		return "product/productCreate";
 	}
 	
 	//상품조회
 	@RequestMapping("/list")
 	public String productList() {
 		log.info("실행");
-		return "product/ProductList";
+		return "product/productList";
 	}
 	
 	//상품상세
 	@RequestMapping("/detail")
 	public String productDetail() {
 		log.info("실행");
-		return "product/ProductDetail";
+		return "product/productDetail";
 	}
 	
 	//상품수정
 	@RequestMapping("/update")
 	public String productUpdate() {
 		log.info("실행");
-		return "product/ProductUpdate";
+		return "product/productUpdate";
 	}
   
 	@RequestMapping("/productstock")
