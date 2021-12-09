@@ -29,12 +29,12 @@ public class MemberController {
 		auth.setMid("mid1");
 		
 		WebClient webClient = WebClient.create();
-
+		
 		Grades grades = webClient.get().uri("http://localhost:82/member/grade/list")
 				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Grades.class).block();
 		
 		model.addAttribute("grades", grades.getGrades());
-
+		
 		return "member/memberGrade";
 	}
 
