@@ -16,17 +16,81 @@
 							<th scope="col">삭제</th>
 						</tr>
 					</thead>
-					<tbody id="grade-table">
-						<tr th:each="grade, status: ${grades}">
+					<tbody>
+						<tr th:id="'grade-table-row' + ${status.count}"
+							th:each="grade, status: ${grades}">
 							<th scope="row">[[${status.count}]]</th>
-							<td>[[${grade.gname}]]</td>
-							<td>[[${grade.gmin}]]원 이상 [[${grade.gmax}]]원 미만 결제</td>
-							<td>[[${grade.gsale}]]%</td>
-							<td><button class="btn btn-primary btn-sm">수정</button></td>
-							<td><button class="btn btn-danger btn-sm">삭제</button></td>
+							<td th:id="|gradeName${status.count}|">[[${grade.gname}]]</td>
+							<td th:id="|gradeMax${status.count}|">결제 금액
+								[[${grade.gmax}]]원 미만</td>
+							<td th:id="|gradeSale${status.count}|">[[${grade.gsale}]]%</td>
+							<td><button class="btn btn-primary btn-sm"
+									th:onclick="|changeUpdateForm(${grade.gmax}, ${grade.gsale}, ${status.count})|">수정</button></td>
+							<td><a th:href="@{/member/grade/delete(gmax=${grade.gmax})}"
+								class="btn btn-danger btn-sm">삭제</a></td>
 						</tr>
 					</tbody>
 				</table>
+				<script>
+					function changeUpdateForm(gmax, gsale, id) {
+						let th_id = '#grade-table-row' + id;
+						let gname = $(`#gradeName${id}`)[0].innerHTML;
+
+						let tmp = "";
+						tmp += "<th scope='row'>" + id + "</th>";
+						tmp += "<td><input name='gname' type='text' class='form-control' id='inputGradeName" + id + "' value='" + gname + "'/></td>";
+						tmp += "<td><input name='gmax' type='number' class='form-control' id='inputGradeMax" + id + "' value='" + gmax + "'/></td>";
+						tmp += "<td><input name='gsale' type='number' class='form-control' id='inputGradeSale" + id + "' value='" + gsale + "'/></td>";
+						tmp += `<td><button class='btn btn-primary btn-sm' onclick='submitUpdate(${gmax}, ${id})'>확인</button></td>`;
+						tmp += `<td><a class='btn btn-success btn-sm' onclick='changeReadForm("${gname}", ${gmax}, ${gsale}, ${id})'>취소</a></td>`;
+
+						$(th_id).html(tmp);
+					}
+
+					function changeReadForm(gname, gmax, gsale, id) {
+						let th_id = '#grade-table-row' + id;
+
+						let tmp = "";
+						tmp += `<th scope="row">${id}</th>`;
+						tmp += `<td id="gradeName${id}">${gname}</td>`;
+						tmp += `<td id="gradeMax${id}">결제 금액 ${gmax}원 미만</td>`;
+						tmp += `<td id="gradeSale${id}">${gsale}%</td>`;
+						tmp += `<td><button class="btn btn-primary btn-sm" onclick="changeUpdateForm(${gmax}, ${gsale}, ${id})">수정</button></td>`;
+						tmp += `<td><a href="/member/grade/delete?gmax=${gmax}" class="btn btn-warning btn-sm">삭제</a></td>`;
+
+						$(th_id).html(tmp);
+					}
+
+					function submitUpdate(gmax, id) {
+						let changeGname = $(`#inputGradeName${id}`).val();
+						let changeGmax = $(`#inputGradeMax${id}`).val();
+						let changeGsale = $(`#inputGradeSale${id}`).val();
+						
+						let params = {
+								'gname' : changeGname,
+								'gmax' : changeGmax,
+								'gsale' : changeGsale,
+						};
+
+						let url = `grade/update?beforegmax=${gmax}`;
+
+						let form = document.createElement('form');
+						form.setAttribute('method', 'post');
+						form.setAttribute('action', url);
+						document.charset = "utf-8";
+						
+						for (let key in params) {
+							let hiddenField = document.createElement('input');
+							hiddenField.setAttribute('type', 'hidden');
+							hiddenField.setAttribute('name', key);
+							hiddenField.setAttribute('value', params[key]);
+							form.appendChild(hiddenField);
+						}
+						
+						document.body.appendChild(form);
+						form.submit();
+					}
+				</script>
 				<div>
 					<button class="btn btn-success btn-sm" type="button"
 						data-toggle="collapse" data-target="#collapseAddGrade"
@@ -37,34 +101,28 @@
 				<div class="mt-3">
 					<div class="collapse" id="collapseAddGrade">
 						<div class="card card-body">
-							<form>
+							<form method="post" action="grade/create"
+								enctype="multipart/form-data">
 								<div class="form-row">
-									<div class="form-group col-md-2">
-										<label for="inputGradeName">등급명</label> <input type="text"
-											class="form-control" id="inputGradeName"
+									<div class="form-group col-md-3">
+										<label for="inputGradeName">등급명</label> <input name="gname"
+											type="text" class="form-control" id="inputGradeName"
 											aria-describedby="helpGradeName"> <small
 											id="helpGradeName" class="form-text text-muted">등급명을
 											입력하세요.</small>
 									</div>
 									<div class="col-md-1"></div>
-									<div class="form-group col-md-2">
-										<label for="inputMinCash">최소금액</label> <input type="number"
-											class="form-control" id="inputMinCash"
-											aria-describedby="helpMinCash"> <small
-											id="helpMinCash" class="form-text text-muted">등급은
-											최소금액 이상으로 산정됩니다.</small>
-									</div>
-									<div class="form-group col-md-2">
-										<label for="inputMaxCash">최대금액</label> <input type="number"
-											class="form-control" id="inputMaxCash"
+									<div class="form-group col-md-3">
+										<label for="inputMaxCash">최대금액</label> <input name="gmax"
+											type="number" class="form-control" id="inputMaxCash"
 											aria-describedby="helpMaxCash"> <small
 											id="helpMaxCash" class="form-text text-muted">등급은
 											최대금액 미만으로 산정됩니다.</small>
 									</div>
 									<div class="col-md-1"></div>
-									<div class="form-group col-md-2">
-										<label for="inputSale">할인율</label> <input type="number"
-											class="form-control" id="inputSale"
+									<div class="form-group col-md-3">
+										<label for="inputSale">할인율</label> <input name="gsale"
+											type="number" class="form-control" id="inputSale"
 											aria-describedby="helpSale"> <small id="helpSale"
 											class="form-text text-muted">해당 등급에게 적용되는 할인율입니다.</small>
 									</div>

@@ -13,7 +13,7 @@
 							<th scope="col">이름</th>
 							<th scope="col">이메일</th>
 							<th scope="col">휴대폰번호</th>
-							<th scope="col">누적결제금액</th>
+							<th scope="col">권한</th>
 							<th scope="col">가입일자</th>
 							<th scope="col">계정상태</th>
 							<th scope="col">탈퇴여부</th>
@@ -21,18 +21,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Lv.1</td>
-							<td><a href="/grade">홍길동</a></td>
-							<td>gildongHong1886@naver.com</td>
-							<td>010-1234-5555</td>
-							<td>1,000,000원</td>
-							<td>2021.11.31</td>
-							<td><select class="form-control form-control-sm">
-									<option>일반</option>
-									<option>휴면</option>
-							</select></td>
+						<tr th:each="member, status: ${members}">
+							<th scope="row">[[${status.count}]]</th>
+							<td>[[${member.mgrade}]]</td>
+							<td><a href="/grade">[[${member.mname}]]</a></td>
+							<td>[[${member.memail}]]</td>
+							<td>[[${member.mtel}]]</td>
+							<td>[[${member.mrole}]]</td>
+							<td>[[${member.mdate}]]</td>
+							<td>일반</td>
 							<td>X</td>
 							<td><button class="btn btn-danger btn-sm">삭제</button></td>
 						</tr>
@@ -40,13 +37,12 @@
 				</table>
 				<div>
 					<button class="btn btn-success btn-sm" type="button"
-						data-toggle="collapse" data-target="#collapseAddGrade"
-						aria-expanded="false" aria-controls="collapseAddGrade">등급
+						data-toggle="collapse" data-target="#collapseAddMember"
+						aria-expanded="false" aria-controls="collapseAddMember">계정
 						추가</button>
-					<button class="btn btn-success btn-sm">등급 부여</button>
 				</div>
 				<div class="mt-3">
-					<div class="collapse" id="collapseAddGrade">
+					<div class="collapse" id="collapseAddMember">
 						<div class="card card-body">
 							<form>
 								<div class="form-row">
