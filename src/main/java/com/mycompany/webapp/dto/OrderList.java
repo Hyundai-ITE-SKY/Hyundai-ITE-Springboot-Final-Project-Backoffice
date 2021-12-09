@@ -23,4 +23,7 @@ public class OrderList {
 	private int odiscounted;
 	private int ototal;
 	private List<OrderItem> orderitem;
+	
+	//주문 상품 개수 추가
+	private int countitem;
 }
