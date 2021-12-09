@@ -3,7 +3,7 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
 		<div>
-			<div>회원 등급 관리</div>
+			<h5 class="mb-3 text-gray-800">회원 등급 관리</h5>
 			<div class="card card-body">
 				<table class="table text-center">
 					<thead>
@@ -12,56 +12,16 @@
 							<th scope="col">등급명</th>
 							<th scope="col">등급 기준</th>
 							<th scope="col">등급 혜택(할인율)</th>
-							<th scope="col"></th>
-							<th scope="col"></th>
+							<th scope="col">수정</th>
+							<th scope="col">삭제</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Lv.1</td>
-							<td>0원 이상 50,000원 미만 결제</td>
-							<td>0%</td>
-							<td><button class="btn btn-primary btn-sm">수정</button></td>
-							<td><button class="btn btn-danger btn-sm">삭제</button></td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Lv.2</td>
-							<td>50,000원 이상 200,000원 미만 결제</td>
-							<td>5%</td>
-							<td><button class="btn btn-primary btn-sm">수정</button></td>
-							<td><button class="btn btn-danger btn-sm">삭제</button></td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td>Lv.3</td>
-							<td>200,000원 이상 500,000원 미만 결제</td>
-							<td>10%</td>
-							<td><button class="btn btn-primary btn-sm">수정</button></td>
-							<td><button class="btn btn-danger btn-sm">삭제</button></td>
-						</tr>
-						<tr>
-							<th scope="row">4</th>
-							<td>Lv.4</td>
-							<td>500,000원 이상 1,000,000원 미만 결제</td>
-							<td>15%</td>
-							<td><button class="btn btn-primary btn-sm">수정</button></td>
-							<td><button class="btn btn-danger btn-sm">삭제</button></td>
-						</tr>
-						<tr>
-							<th scope="row">5</th>
-							<td>Lv.5</td>
-							<td>1,000,000원 이상 2,500,000원 미만 결제</td>
-							<td>20%</td>
-							<td><button class="btn btn-primary btn-sm">수정</button></td>
-							<td><button class="btn btn-danger btn-sm">삭제</button></td>
-						</tr>
-						<tr>
-							<th scope="row">6</th>
-							<td>Lv.6</td>
-							<td>2,500,000원 이상 5,000,000원 미만 결제</td>
-							<td>25%</td>
+					<tbody id="grade-table">
+						<tr th:each="grade, status: ${grades}">
+							<th scope="row">[[${status.count}]]</th>
+							<td>[[${grade.gname}]]</td>
+							<td>[[${grade.gmin}]]원 이상 [[${grade.gmax}]]원 미만 결제</td>
+							<td>[[${grade.gsale}]]%</td>
 							<td><button class="btn btn-primary btn-sm">수정</button></td>
 							<td><button class="btn btn-danger btn-sm">삭제</button></td>
 						</tr>
