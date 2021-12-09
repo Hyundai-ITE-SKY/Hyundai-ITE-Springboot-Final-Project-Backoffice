@@ -14,50 +14,50 @@
 					<table class="table table-bordered" style="font-size: 14px;">
 						<tr>
 							<th class="col-2" scope="col">주문번호</th>
-							<td scope="col">oid</td>
+							<td scope="col">[[${orderlist.oid}]]</td>
 							<th class="col-2" scope="col">주문 상태</th>
-							<td scope="col">결제 완료</td>
+							<td scope="col">[[${orderlist.ostatus}]]</td>
 						</tr>
 						<tr>
 							<th>주문 날짜</th>
-							<td>2021.12.07</td>
+							<td>[[${#dates.format(orderlist.odate, 'yyyy.MM.dd')}]]</td>
 							<th>입금 마감일</th>
-							<td>2022.1.15</td>
+							<td>[[${#dates.format(orderlist.oaccountdeadline, 'yyyy.MM.dd')}]]</td>
 						</tr>
 						<tr>
 							<th>할인금액</th>
-							<td>150,000 ￦</td>
+							<td>[[${#numbers.formatInteger(orderlist.odiscounted, 3, 'COMMA')}]] ￦</td>
 							<th>총 결제금액</th>
-							<td>1,000,000 ￦</td>
+							<td>[[${#numbers.formatInteger(orderlist.ototal, 3, 'COMMA')}]] ￦</td>
 						</tr>
 						<tr>
 							<th>결제 수단</th>
-							<td colspan="3">계좌 번호</td>
+							<td colspan="3">[[${orderlist.opayment}]]</td>
 						</tr>
 					</table>
 
 					<table class="table table-bordered" style="font-size: 14px;">
 						<tr>
 							<th class="col-2" scope="col">주문자 아이디</th>
-							<td scope="col">user1</td>
+							<td scope="col">[[${orderlist.mid}]]</td>
 							<th class="col-2" scope="col">수령인</th>
-							<td scope="col">receiver</td>
+							<td scope="col">[[${orderlist.oreceiver}]]</td>
 							<th class="col-2" scope="col">수령인 번호</th>
-							<td scope="col">010-5370-5930</td>
+							<td scope="col">[[${orderlist.otel}]]</td>
 						</tr>
 						<tr>
 							<th class="col-2" scope="col">우편번호</th>
-							<td scope="col">12345</td>
+							<td scope="col">[[${orderlist.ozipcode}]]</td>
 							<th class="col-2" scope="col">주소</th>
-							<td scope="col">서울특별시 송파구 **동 *******</td>
+							<td scope="col">[[${orderlist.oaddress1}]]</td>
 							<th class="col-2" scope="col">상세주소</th>
-							<td scope="col">***동 ****호</td>
+							<td scope="col">[[${orderlist.oaddress2}]]</td>
 						</tr>
 						<tr>
 							<th>마일리지 사용</th>
-							<td colspan="2">1,000 P</td>
+							<td colspan="2">[[${orderlist.ousedmileage}]] P</td>
 							<th>쿠폰 사용</th>
-							<td colspan="2">102 번</td>
+							<td colspan="2">[[${orderlist.ousedcoupon}]] 번</td>
 						</tr>
 					</table>
 				</div>
@@ -78,11 +78,11 @@
 							<th class="text-center">수량</th>
 						</tr>
 
-						<tr class="bg-light text-dark" style="width: 100%;">
-							<th class="text-center">PRODUCT123</th>
-							<th class="text-center">BK</th>
-							<th class="text-center">XL</th>
-							<th class="text-center">1</th>
+						<tr class="bg-light text-dark" style="width: 100%;" th:each="item : ${orderitems}">
+							<td class="text-center">[[${item.pid}]]</td>
+							<td class="text-center">[[${item.ccolorcode}]]</td>
+							<td class="text-center">[[${item.psize}]]</td>
+							<td class="text-center">[[${item.oamount}]]</td>
 						</tr>
 					</table>
 				</div>
