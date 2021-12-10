@@ -1,5 +1,7 @@
 package com.mycompany.webapp.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.mycompany.webapp.dto.Auth;
+import com.mycompany.webapp.dto.Brand;
+import com.mycompany.webapp.dto.Category;
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Products;
@@ -85,11 +89,17 @@ public class ProductController {
 		
 		Products products = webClient.get().uri("http://localhost:82/product/{pid}", pid)
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+		Category categoryList = webClient.get().uri("http://localhost:82/product/category")
+				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Category.class).block();
 		
 		Product product = products.getProduct();
+
 		model.addAttribute("product", product);
 		model.addAttribute("colors", product.getColors());
+		model.addAttribute("categoryList", categoryList.getCategory());
 		
+		List<Brand> brands = products.getBrands();
+		model.addAttribute("brands", brands);
 		return "product/productUpdate";
 	}
   
