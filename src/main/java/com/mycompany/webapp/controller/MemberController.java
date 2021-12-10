@@ -1,5 +1,7 @@
 package com.mycompany.webapp.controller;
 
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Grade;
 import com.mycompany.webapp.dto.Grades;
+import com.mycompany.webapp.dto.Member;
 import com.mycompany.webapp.dto.Members;
 import com.mycompany.webapp.dto.Result;
 
@@ -30,7 +33,7 @@ public class MemberController {
 		// Auth auth = (Auth) session.getAttribute("auth");
 		Auth auth = new Auth();
 		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
 		auth.setMid("mid1");
 
 		WebClient webClient = WebClient.create();
@@ -43,6 +46,46 @@ public class MemberController {
 		return "member/memberList";
 	}
 
+	@RequestMapping("/create")
+	public String createMember(Member member, Model model, HttpSession session) {
+		log.info("실행");
+
+		// Auth auth = (Auth) session.getAttribute("auth");
+		Auth auth = new Auth();
+		auth.setJwt(
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
+		auth.setMid("mid1");
+
+		WebClient webClient = WebClient.create();
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+
+		SimpleDateFormat sDate = new SimpleDateFormat("yyyy-MM-dd");
+
+		map.add("mid", member.getMid());
+		map.add("mpassword", member.getMpassword());
+		map.add("mname", member.getMname());
+		map.add("memail", member.getMemail());
+		map.add("mtel", member.getMtel());
+		map.add("mzipcode", member.getMzipcode());
+		map.add("maddress1", member.getMaddress1());
+		map.add("maddress2", member.getMaddress2());
+		map.add("mgrade", "Level1");
+		map.add("mdate", sDate.format(member.getMdate()));
+		map.add("mpoint", "0");
+		map.add("mrole", member.getMrole());
+		map.add("mtotalpayment", String.valueOf(member.getMtotalpayment()));
+
+		log.info(member.toString());
+
+		Result result = webClient.post().uri("http://localhost:82/member/create")
+				.header("Authorization", "Bearer " + auth.getJwt()).body(BodyInserters.fromFormData(map)).retrieve()
+				.bodyToMono(Result.class).block();
+
+		log.info(result.toString());
+
+		return "redirect:/member/list";
+	}
+
 	// 회원 등급 관리
 	@RequestMapping("/grade")
 	public String memberGrade(Model model, HttpSession session) {
@@ -51,7 +94,7 @@ public class MemberController {
 		// Auth auth = (Auth) session.getAttribute("auth");
 		Auth auth = new Auth();
 		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
 		auth.setMid("mid1");
 
 		WebClient webClient = WebClient.create();
@@ -71,7 +114,7 @@ public class MemberController {
 		// Auth auth = (Auth) session.getAttribute("auth");
 		Auth auth = new Auth();
 		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
 		auth.setMid("mid1");
 
 		WebClient webClient = WebClient.create();
@@ -96,7 +139,7 @@ public class MemberController {
 		// Auth auth = (Auth) session.getAttribute("auth");
 		Auth auth = new Auth();
 		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
 		auth.setMid("mid1");
 
 		WebClient webClient = WebClient.create();
@@ -121,7 +164,7 @@ public class MemberController {
 		// Auth auth = (Auth) session.getAttribute("auth");
 		Auth auth = new Auth();
 		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
 		auth.setMid("mid1");
 
 		WebClient webClient = WebClient.create();
