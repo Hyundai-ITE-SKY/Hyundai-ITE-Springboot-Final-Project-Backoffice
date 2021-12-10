@@ -66,12 +66,7 @@
 		</div>
 		<div class="card shadow mb-4">
 			<div class="table-responsive">
-			<script>
-			$(document).ready(function() {
-				  $('#dataTable').DataTable();
-				});
-			</script>
-				<table class="table table-bordered mb-0 text-center" id="dataTable" style="font-size:14px;">
+				<table class="table table-hover table-bordered mb-0 text-center" style="font-size:14px;">
 					<thead>
 						<tr>
 							<th class="col-1">상품 번호</th>
@@ -85,7 +80,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="product : ${products}">
+						<tr th:each="product : ${products}" th:onclick="'location.href=\'' + @{/product/detail(pid=${product.pid})} + '\''">
 							<td>[[${product.pno}]]</td>
 							<td>[[${product.clarge}]]</td>
 							<td>[[${product.cmedium}]]</td>

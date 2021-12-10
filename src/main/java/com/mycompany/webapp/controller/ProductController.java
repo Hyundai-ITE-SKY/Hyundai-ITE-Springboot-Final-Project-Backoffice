@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Pager;
+import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Products;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,15 +51,45 @@ public class ProductController {
 	
 	//상품상세
 	@RequestMapping("/detail")
-	public String productDetail() {
+	public String productDetail(Model model, HttpSession session, @RequestParam("pid")String pid) {
 		log.info("실행");
+		
+		Auth auth = new Auth();
+		auth.setJwt(
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
+		auth.setMid("mid1");
+		
+		WebClient webClient = WebClient.create();
+		
+		Products products = webClient.get().uri("http://localhost:82/product/{pid}", pid)
+				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+		
+		Product product = products.getProduct();
+		model.addAttribute("product", product);
+		model.addAttribute("colors", product.getColors());
 		return "product/productDetail";
 	}
 	
-	//상품수정
+	//상품수정 페이지 
 	@RequestMapping("/update")
-	public String productUpdate() {
+	public String productUpdate(Model model, HttpSession session, @RequestParam("pid")String pid) {
 		log.info("실행");
+		
+
+		Auth auth = new Auth();
+		auth.setJwt(
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
+		auth.setMid("mid1");
+		
+		WebClient webClient = WebClient.create();
+		
+		Products products = webClient.get().uri("http://localhost:82/product/{pid}", pid)
+				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+		
+		Product product = products.getProduct();
+		model.addAttribute("product", product);
+		model.addAttribute("colors", product.getColors());
+		
 		return "product/productUpdate";
 	}
   

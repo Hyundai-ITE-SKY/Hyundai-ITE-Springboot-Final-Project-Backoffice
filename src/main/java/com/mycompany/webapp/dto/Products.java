@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class Products {
-	public List<Product> products;
-	public int totalRows;
+	private List<Product> products;
+	private int totalRows;
+	private Product product;
 }
