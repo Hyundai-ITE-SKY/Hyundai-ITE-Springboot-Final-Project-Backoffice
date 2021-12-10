@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderController {
 	
 	@RequestMapping("/orderlist/{pageNo}")
-	public String orderInquiry(Model model, HttpSession session, @PathVariable int pageNo) {
+	public String orderInquiry(Model model, @PathVariable int pageNo) {
 		log.info("실행");
 		
 		//Auth auth = (Auth) session.getAttribute("auth");
