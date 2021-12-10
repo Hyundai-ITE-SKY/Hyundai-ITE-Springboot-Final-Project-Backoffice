@@ -43,10 +43,10 @@
 				<tr class="row text-center" th:each="event : ${events}" th:onclick="'location.href=\'' + @{/event/detail/{eid}(eid=${event.eid})}+'\''">
 					<td class="col-2">[[${event.eid}]]</td>
 					<td class="col-2">[[${event.ename}]]</td>
-					<td class="col-2">[[${#dates.format(event.estartdate, 'yyyy.MM.dd')}]]</td>
-					<td class="col-2">[[${#dates.format(event.eenddate, 'yyyy.MM.dd')}]]</td>
-					<td class="col-2">[[${event.eamount}]] 개</td>
-					<td class="col-2">[[${event.eamount}]] 개</td>
+					<td class="col-2">[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
+					<td class="col-2">[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
+					<td class="col-2">[[${event.eamount}]]</td>
+					<td class="col-2">[[${event.elimit}]]</td>
 				</tr>
 				
 				<tr>

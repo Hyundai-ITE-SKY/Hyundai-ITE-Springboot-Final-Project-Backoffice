@@ -6,12 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.RequestBodySpec;
 
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Event;
@@ -71,12 +73,64 @@ public class EventController {
 		
 		return "event/eventDetail";
 	}
+	
 	//이벤트 수정
-	@RequestMapping("/update")
-	public String eventUpdate() {
+	@GetMapping("/update/{eid}")
+	public String eventUpdateForm(Model model, @PathVariable int eid) {
 		log.info("실행");
+		
+		//Auth auth = (Auth) session.getAttribute("auth");
+		Auth auth = new Auth();
+		auth.setJwt(
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMDg4NDQsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.K4W_19VvCxl1tXSra6Fz6VHKZEwqAuyEVGyfVYBNuqU");
+		auth.setMid("mid1");
+		
+		WebClient webClient = WebClient.create();
+		Event event = webClient.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
+				.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(Event.class).block();
+		
+		model.addAttribute("event", event);
+		
 		return "event/eventUpdate";
 	}
+	
+	@PostMapping("/update/{eid}")
+	public String eventUpdate(Model model, @PathVariable int eid, Event event) {
+		log.info("실행");
+		/*수정*/
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+		WebClient webClient = WebClient.create();
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+		map.add("eid", event.getEid()+"");
+		map.add("ename", event.getEname()+"");
+		map.add("edetail", event.getEdetail()+"");
+		map.add("estartdate", simpleDateFormat.format(event.getEstartdate())+"");
+		map.add("eenddate", simpleDateFormat.format(event.getEenddate())+"");
+		map.add("eimage", event.getEimage()+"");
+		map.add("eamount", event.getEamount()+"");
+		map.add("elimit", event.getElimit()+"");
+		
+		IntegerVariable integerVariable = webClient.post().uri("http://localhost:82/event/update")
+				.body(BodyInserters.fromFormData(map))
+				.retrieve().bodyToMono(IntegerVariable.class).block();
+		
+		
+		/* detail로 보낼 event 정보 get */
+		// Auth auth = (Auth) session.getAttribute("auth");
+		Auth auth = new Auth();
+		auth.setJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMDg4NDQsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.K4W_19VvCxl1tXSra6Fz6VHKZEwqAuyEVGyfVYBNuqU");
+		auth.setMid("mid1");
+		
+		WebClient webClient2 = WebClient.create();
+		Event newEvent = webClient2.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
+				.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(Event.class).block();
+		
+		model.addAttribute("event", newEvent);
+		
+		return "event/eventDetail";
+	}
+	
 	//이벤트 추가
 	@GetMapping("/create")
 	public String eventCreateForm(Model model) {
@@ -88,7 +142,6 @@ public class EventController {
 	@PostMapping("/create")
 	public String eventCreate(Event event) {
 		log.info("실행");
-		log.info("event " + event);
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
 		WebClient webClient = WebClient.create();
@@ -103,11 +156,24 @@ public class EventController {
 		map.add("elimit", event.getElimit()+"");
 		//log.info("estartdate " + simpleDateFormat.format(event.getEstartdate()));
 		
-		//문제
 		IntegerVariable integerVariable = webClient.post().uri("http://localhost:82/event/create")
 											.body(BodyInserters.fromFormData(map))
 											.retrieve().bodyToMono(IntegerVariable.class).block();
 		
-		return "event/eventList";
+		return "redirect:/event/list/1";
+	}
+	
+	@GetMapping("/delete/{eid}")
+	public String eventDelete(@PathVariable int eid) {
+		log.info("실행");
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+		map.add("eid", eid+"");
+		
+		WebClient webClient = WebClient.create();
+		IntegerVariable integerVariable = ((RequestBodySpec) webClient.delete().uri("http://localhost:82/event/delete"))
+				.body(BodyInserters.fromFormData(map))
+				.retrieve().bodyToMono(IntegerVariable.class).block();
+		
+		return "redirect:/event/list/1";
 	}
 }
