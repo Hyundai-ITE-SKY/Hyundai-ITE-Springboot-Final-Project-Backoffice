@@ -32,30 +32,37 @@
 
 			<table class="table table-sm mx-auto">
 				<tr class="row text-white text-center font-weight-bolder" style="background-color: #2D3134;">
-					<td class="col-2">이벤트 아이디</td>
-					<td class="col-2">이벤트 이름</td>
-					<td class="col-2">이벤트 시작일</td>
-					<td class="col-2">이벤트 종료일</td>
-					<td class="col-2">남은 수량</td>
-					<td class="col-2">제한 인원</td>
+					<th class="col-2">이벤트 아이디</th>
+					<th class="col-2">이벤트 이름</th>
+					<th class="col-2">이벤트 시작일</th>
+					<th class="col-2">이벤트 종료일</th>
+					<th class="col-2">남은 수량</th>
+					<th class="col-2">제한 인원</th>
 				</tr>
 				
-				<tr class="row text-center" th:onclick="'location.href=\'' + @{/event/detail}+'\''">
-					<td class="col-2">eid</td>
-					<td class="col-2">ename</td>
-					<td class="col-2">estartdate</td>
-					<td class="col-2">eenddate</td>
-					<td class="col-2">eamount</td>
-					<td class="col-2">elimit</td>
+				<tr class="row text-center" th:each="event : ${events}" th:onclick="'location.href=\'' + @{/event/detail/{eid}(eid=${event.eid})}+'\''">
+					<td class="col-2">[[${event.eid}]]</td>
+					<td class="col-2">[[${event.ename}]]</td>
+					<td class="col-2">[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
+					<td class="col-2">[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
+					<td class="col-2">[[${event.eamount}]]</td>
+					<td class="col-2">[[${event.elimit}]]</td>
 				</tr>
 				
-				<tr class="row text-center" th:onclick="'location.href=\'' + @{/event/detail}+'\''">
-					<td class="col-2">eid</td>
-					<td class="col-2">ename</td>
-					<td class="col-2">estartdate</td>
-					<td class="col-2">eenddate</td>
-					<td class="col-2">eamount</td>
-					<td class="col-2">elimit</td>
+				<tr>
+					<td>
+						<nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-center">
+								<li class="page-item"><a th:href="@{/order/orderlist/1}" class="page-link">처음</a></li>
+								
+								<th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+									<li class="page-item"><a class="page-link" th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+								</th:block>
+								
+								<li class="page-item"><a class="page-link" th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
+							</ul>
+						</nav>
+					</td>
 				</tr>
 			</table>
 

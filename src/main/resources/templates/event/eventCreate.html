@@ -2,50 +2,75 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
+	
+	<script th:inline="javascript">
+	function makeCreate(){
+		let startString = $("#estartdate").val();
+		let yy = startString.substr(0,4);
+		let MM = startString.substr(5,2);
+		let dd = startString.substr(8,2);
+		$("input[name=estartdate]").val(new Date(yy,MM-1,dd));
+		
+		let endString = $("#eenddate").val();
+		yy = endString.substr(0,4);
+		MM = endString.substr(5,2);
+		dd = endString.substr(8,2);
+		$("input[name=eenddate]").val(new Date(yy,MM-1,dd));
+		
+		console.log(startDate);
+		console.log(endDate);
+		$("#eventCreateForm").submit();
+	}
+	</script>
+	
 		<div>
 			<h5 class="mb-3 text-gray-800">이벤트 추가</h5>
 		</div>
 		<div class="card shadow mb-4">
-			<table class="table table-bordered" style="font-size: 14px;">
-				<tr>
-					<th class="col-2" scope="col">이벤트 아이디</th>
-					<td scope="col"><input type="text"  class="form-control"/></td>
-					<th class="col-2" scope="col">이벤트 이름</th>
-					<td scope="col"><input type="text"  class="form-control"/></td>
-				</tr>
-				<tr>
-					<th>이벤트 시작일</th>
-					<td>
-						<input type="date"  class="form-control"/>
-					</td>
-					<th>이벤트 종료일</th>
-					<td>
-						<input type="date" class="form-control"/>
-					</td>
-				</tr>
-				<tr>
-					<th>남은 수량</th>
-					<td><input type="number"  class="form-control"/></td>
-					<th>제한 인원</th>
-					<td><input type="number"  class="form-control"/></td>
-				</tr>
-			</table>
-			
-			<table class="table table-bordered text-center" style="font-size: 14px;">
-				<tr>
-					<th scope="col">쿠폰 이미지</th>
-					<th>이벤트 정보</th>
-				</tr>
-				<tr>
-					<td>
-						<input type="text"  class="form-control"/>
-					</td>
-					<td><textarea class="form-control"></textarea></td>
-				</tr>
-			</table>
-			<div class="d-flex justify-content-center mt-3 mb-4">
-				<a th:href="@{/product/update}" class="btn btn-dark btn-sm">추가</a>
-			</div>
+			<form id="eventCreateForm" method="post" th:action="@{/event/create}" th:object="${event}">
+				<table class="table table-bordered" style="font-size: 14px;">
+					<tr>
+						<th class="col-2" scope="col">이벤트 아이디</th>
+						<td scope="col"><input type="number" name="eid" class="form-control"/></td>
+						<th class="col-2" scope="col">이벤트 이름</th>
+						<td scope="col"><input type="text" name="ename" class="form-control"/></td>
+					</tr>
+					<tr>
+						<th>이벤트 시작일</th>
+						<td>
+							<input type="date" id="estartdate" class="form-control"/>
+							<input type="hidden" name="estartdate"class="form-control"/>
+						</td>
+						<th>이벤트 종료일</th>
+						<td>
+							<input type="date" id="eenddate" class="form-control"/>
+							<input type="hidden" name="eenddate" class="form-control"/>
+						</td>
+					</tr>
+					<tr>
+						<th>남은 수량</th>
+						<td><input type="number" name="eamount" class="form-control"/></td>
+						<th>제한 인원</th>
+						<td><input type="number" name="elimit" class="form-control"/></td>
+					</tr>
+				</table>
+				
+				<table class="table table-bordered text-center" style="font-size: 14px;">
+					<tr>
+						<th scope="col">쿠폰 이미지</th>
+						<th>이벤트 정보</th>
+					</tr>
+					<tr>
+						<td>
+							<input type="text" name="eimage" class="form-control"/>
+						</td>
+						<td><textarea name="edetail" class="form-control"></textarea></td>
+					</tr>
+				</table>
+				<div class="d-flex justify-content-center mt-3 mb-4">
+					<button onclick="makeCreate()" class="btn btn-dark btn-sm">추가</button>
+				</div>
+			</form>
 		</div>
 	</th:block>
 </th:block>

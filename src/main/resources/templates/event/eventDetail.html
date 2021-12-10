@@ -9,21 +9,21 @@
 			<table class="table table-bordered" style="font-size: 14px;">
 				<tr>
 					<th class="col-2" scope="col">이벤트 아이디</th>
-					<td scope="col">eid</td>
+					<td scope="col">[[${event.eid}]]</td>
 					<th class="col-2" scope="col">이벤트 이름</th>
-					<td scope="col">ename</td>
+					<td scope="col">[[${event.ename}]]</td>
 				</tr>
 				<tr>
 					<th>이벤트 시작일</th>
-					<td>2021.12.07</td>
+					<td>[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
 					<th>이벤트 종료일</th>
-					<td>2022.1.15</td>
+					<td>[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
 				</tr>
 				<tr>
 					<th>남은 수량</th>
-					<td>9</td>
+					<td>[[${event.eamount}]]</td>
 					<th>제한 인원</th>
-					<td>10</td>
+					<td>[[${event.elimit}]]</td>
 				</tr>
 				
 			</table>
@@ -34,13 +34,14 @@
 					<th>이벤트 정보</th>
 				</tr>
 				<tr>
-					<td><img style="width:150px;"src="https://user-images.githubusercontent.com/55488114/143763321-b8823939-2506-4eb3-a9fa-05e42ee57f58.jpg"></td>
-					<td>MATIN KIM BLACK FRIDAY SALE! 최대 60% 할인 쿠폰 발급</td>
+					<td><img style="width:150px;" th:src="${event.eimage}"></td>
+					<td>[[${event.edetail}]]</td>
 				</tr>
 			</table>
 			<div class="d-flex justify-content-center mt-3 mb-4">
-				<div class="btn btn-outline-dark btn-sm mr-5">취소</div>
-				<a th:href="@{/event/update}" class="btn btn-dark btn-sm">수정</a>
+				<a class="btn btn-outline-dark btn-sm mr-2" th:href="@{/event/list/{eid}(eid=${event.eid})}">이벤트 목록</a>
+				<a th:href="@{/event/update/{eid}(eid=${event.eid})}" class="btn btn-dark btn-sm mr-2">수정</a>
+				<a class="btn btn-dark btn-sm" th:href="@{/event/delete/{eid}(eid=${event.eid})}">삭제</a>
 			</div>
 		</div>
 	</th:block>
