@@ -22,7 +22,7 @@
 							<th scope="row">[[${status.count}]]</th>
 							<td th:id="|gradeName${status.count}|">[[${grade.gname}]]</td>
 							<td th:id="|gradeMax${status.count}|">결제 금액
-								[[${grade.gmax}]]원 미만</td>
+								[[${#numbers.formatInteger(grade.gmax, 3, 'COMMA')}]]원 미만</td>
 							<td th:id="|gradeSale${status.count}|">[[${grade.gsale}]]%</td>
 							<td><button class="btn btn-primary btn-sm"
 									th:onclick="|changeUpdateForm(${grade.gmax}, ${grade.gsale}, ${status.count})|">수정</button></td>
@@ -53,10 +53,10 @@
 						let tmp = "";
 						tmp += `<th scope="row">${id}</th>`;
 						tmp += `<td id="gradeName${id}">${gname}</td>`;
-						tmp += `<td id="gradeMax${id}">결제 금액 ${gmax}원 미만</td>`;
+						tmp += `<td id="gradeMax${id}">결제 금액 ${gmax.toLocaleString()}원 미만</td>`;
 						tmp += `<td id="gradeSale${id}">${gsale}%</td>`;
 						tmp += `<td><button class="btn btn-primary btn-sm" onclick="changeUpdateForm(${gmax}, ${gsale}, ${id})">수정</button></td>`;
-						tmp += `<td><a href="/member/grade/delete?gmax=${gmax}" class="btn btn-warning btn-sm">삭제</a></td>`;
+						tmp += `<td><a href="/member/grade/delete?gmax=${gmax}" class="btn btn-danger btn-sm">삭제</a></td>`;
 
 						$(th_id).html(tmp);
 					}

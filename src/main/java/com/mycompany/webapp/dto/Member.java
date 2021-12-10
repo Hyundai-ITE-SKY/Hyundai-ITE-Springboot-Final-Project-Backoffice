@@ -2,6 +2,8 @@ package com.mycompany.webapp.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -15,8 +17,10 @@ public class Member {
 	private String maddress1;
 	private String maddress2;
 	private String mgrade;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date mdate;
 	private int mpoint;
 	private boolean menabled;
 	private String mrole;
+	private int mtotalpayment;
 }
