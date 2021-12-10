@@ -12,14 +12,15 @@
 					<td class="col-auto" scope="col">
 						<div class="input-group input-group-sm">
 							<input class="form-control input-sm" type="text"
-								placeholder="상품 코드를 입력하세요." value="상품 코드" />
+								placeholder="상품 코드를 입력하세요." th:value="${product.pid}" readonly/>
 						</div>
 					</td>
 					<th class="col-2" scope="col">브랜드</th>
 					<td scope="col">
 						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text"
-								placeholder="브랜드 이름을 입력하세요." value="브랜드 이름" />
+							<select th:field="${product.bno}" class="custom-select mr-sm-2" id="brandSelect">
+								<option th:each="brand : ${brands}" th:value="${brand.bno}" th:text="${brand.bname}"></option>
+							</select>
 						</div>
 					</td>
 				</tr>
@@ -28,14 +29,16 @@
 					<td>
 						<div class="input-group input-group-sm">
 							<input class="form-control input-sm" type="text"
-								placeholder="상품 가격을 입력하세요." value="1,000,000" />
+								placeholder="상품 가격을 입력하세요." th:value="${product.pprice}" />
 						</div>
 					</td>
 					<th>시즌 정보</th>
 					<td>
 						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text"
-								placeholder="시즌 정보를 입력하세요." value="SS" />
+							<select th:field="${product.pseason}" class="custom-select mr-sm-2" id="seasonSelect">
+								<option th:value="SS">SS</option>
+								<option th:value="FW">FW</option>
+							</select>
 						</div>
 					</td>
 				</tr>
@@ -43,7 +46,7 @@
 					<th>상품명</th>
 					<td colspan="3">
 						<input class="form-control input-sm" type="text"
-								placeholder="상품명을 입력하세요." value="상품명상품명상품명상품명" />
+								placeholder="상품명을 입력하세요." th:value="${product.pname}" />
 					</td>
 				</tr>
 				<tr>
@@ -52,26 +55,24 @@
 						<div class="d-flex">
 							<div class="col-auto my-1">
 								<label class="mr-sm-2" for="">대분류</label>
-								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-									<option selected>선택하세요</option>
-									<option value="women">WOMEN</option>
-									<option value="men">MEN</option>
-									<option value="bath">BATH</option>
-									<option value="lifestyle">LIFESTYLE</option>
+								<select th:field="${product.clarge}" class="custom-select mr-sm-2" id="clargeSelect" onchange="test()">
+									<option th:each="clarge : ${categoryList}" th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
 								</select>
 							</div>
 							<div class="col-auto my-1">
 								<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label>
-								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-									<option selected>선택하세요</option>
-									<option value="outer">Outer</option>
-									<option value="cardigan">Cardigan/Vest</option>
+								<select class="custom-select mr-sm-2" id="cmediumSelect">
+									<option value="Outer">Outer</option>
+									<option value="Top"selected>Top</option>
 								</select>
 							</div>
 							<div class="col-auto my-1">
 								<label class="mr-sm-2" for="inlineFormCustomSelect">소분류</label>
-								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-									<option selected>선택하세요</option>
+								<select class="custom-select mr-sm-2" id="csmallSelect">
+									<option value="Blouse">Blouse</option>
+									<option value="knit"selected>Knit</option>
+									<option value="Shirts">Shirts</option>
+									<option value="T-Shirts">T-Shirts</option>
 								</select>
 							</div>
 						</div>
@@ -80,139 +81,116 @@
 				<tr>
 					<th>상세 설명</th>
 					<td colspan="3">
-						<textarea class="form-control" aria-label="With textarea"></textarea>
+						<textarea class="form-control" aria-label="With textarea">[[${product.pdetail}]]</textarea>
 					</td>
 				</tr>
 			</table>
 
 			<table class="table table-bordered text-center" style="font-size: 14px;">
 				<tr>
-					<th class="col-2" scope="col">색상 코드</th>
+					<th class="col-1" scope="col">색상 코드</th>
 					<th scope="col">이미지1</th>
 					<th scope="col">이미지2</th>
 					<th scope="col">이미지3</th>
+					<th scope="col">함께 코디한 상품</th>
 					<th scope="col">컬러 이미지</th>
 					<th class="col-1" scope="col">사이즈</th>
 					<th class="col-1" scope="col">재고</th>
 				</tr>
+				<div th:remove="tag" th:each="color, status :${colors}" th:with="stockCount=${color.stocks.size()}">
 				<tr>
-					<td rowspan="2">
+					<!-- 색상 코드 -->
+					<td th:rowspan="${color.stocks.size()}">
 						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="OW" />
+							<input class="form-control input-sm" type="text" th:value="${color.ccolorcode}" />
 						</div>
 					</td>
-					<td rowspan="2">
-						<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/">
+					<td th:rowspan="${color.stocks.size()}">
+						<img style="width: 100px;" th:id="'c1image'+${status.count}" th:src="@{${color.cimage1}}">
 						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" value="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/" />
+							<input class="form-control input-sm mt-3" type="text" th:id="'cimage1Input'+${status.count}" th:value="${color.cimage1}"/>
 						</div>
-						<a class="btn btn-dark btn-sm">적용</a>
+						<button th:onclick="'updateCimage1('+${status.count}+')'" class="btn btn-dark btn-sm">적용</button>
 					</td>
-					<td rowspan="2">
-						<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W02.jpg/dims/resize/684x1032/">
+					<td th:rowspan="${color.stocks.size()}">
+						<img style="width: 100px;" th:id="'c2image'+${status.count}" th:src="@{${color.cimage2}}">
 						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" value="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/" />
+							<input class="form-control input-sm mt-3" th:id="'cimage2Input'+${status.count}" type="text" th:value="${color.cimage2}" />
 						</div>
-						<a class="btn btn-dark btn-sm">적용</a>
+						<button th:onclick="'updateCimage2('+${status.count}+')'" class="btn btn-dark btn-sm">적용</button>
 					</td>
-					<td rowspan="2">
-						<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W03.jpg/dims/resize/684x1032/">
+					<td th:rowspan="${color.stocks.size()}">
+						<img style="width: 100px;" th:id="'c3image'+${status.count}" th:src="@{${color.cimage3}}">
 						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" value="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/" />
+							<input class="form-control input-sm mt-3" th:id="'cimage3Input'+${status.count}" type="text" th:value="${color.cimage3}" />
 						</div>
-						<a class="btn btn-dark btn-sm">적용</a>
+						<button th:onclick="'updateCimage3('+${status.count}+')'" class="btn btn-dark btn-sm">적용</button>
 					</td>
-					<td rowspan="2">
-						<img style="width: 20px; height: 20px" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_C01.jpg">
-						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" value="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/" />
+					<td th:rowspan="${color.stocks.size()}">
+						<div class="input-group input-group-sm">
+							<input class="form-control input-sm" type="text" th:value="${color.cmatchpid}" />
 						</div>
-						<a class="btn btn-dark btn-sm">적용</a>
+					</td>
+					<td th:rowspan="${color.stocks.size()}">
+						<img style="width: 20px; height: 20px" th:id="'colorimage'+${status.count}" th:src="@{${color.ccolorimage}}">
+						<div class="d-flex input-group input-group-sm pa-0">
+							<input class="form-control input-sm mt-3" type="text" th:id="'colorimageInput'+${status.count}" th:value="${color.ccolorimage}" />
+						</div>
+						<button th:onclick="'updateColorimage('+${status.count}+')'" class="btn btn-dark btn-sm">적용</button>
+						<script th:inline="javascript">
+							function updateCimage1(idx){
+								var inputid = "#cimage1Input"+idx;
+								var cimageid = "#c1image" +idx;
+								var input = $(inputid).val();
+								$(cimageid).attr("src", input);
+							}
+							function updateCimage2(idx){
+								var inputid = "#cimage2Input"+idx;
+								var cimageid = "#c2image" +idx;
+								var input = $(inputid).val();
+								$(cimageid).attr("src", input);
+							}
+							function updateCimage3(idx){
+								var inputid = "#cimage3Input"+idx;
+								var cimageid = "#c3image" +idx;
+								var input = $(inputid).val();
+								$(cimageid).attr("src", input);
+							}
+							function updateColorimage(idx){
+								var inputid = "#colorimageInput"+idx;
+								var cimageid = "#colorimage" +idx;
+								var input = $(inputid).val();
+								$(cimageid).attr("src", input);
+							}
+						</script>
 					</td>
 					<td>
 						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="64" />
+							<input class="form-control input-sm" type="text" th:value="${stockCount>0}?${color.stocks[0].ssize}:''" />
 						</div>
 					</td>
 					<td>
 						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="5" />
+							<input class="form-control input-sm" type="text" th:value="${stockCount>0}?${color.stocks[0].samount}:''" />
 						</div>
 					</td>
 				</tr>
-				<tr>
+				<tr th:each="stock, stats:${color.stocks}" th:if="${!stats.first}">
 					<td>
 						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="67" />
+							<input class="form-control input-sm" type="text" th:value="${stock.ssize}" />
 						</div>
 					</td>
 					<td>
 						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="2" />
+							<input class="form-control input-sm" type="text" th:value="${stock.samount}" />
 						</div>
 					</td>
 				</tr>
-
-				<tr>
-					<td rowspan="2">
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="PR" />
-						</div>
-					</td>
-					<td rowspan="2">
-						<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/">
-						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" value="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/" />
-						</div>
-						<a class="btn btn-dark btn-sm">적용</a>
-					</td>
-					<td rowspan="2">
-						<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W02.jpg/dims/resize/684x1032/">
-						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" value="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/" />
-						</div>
-						<a class="btn btn-dark btn-sm">적용</a>
-					</td>
-					<td rowspan="2">
-						<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W03.jpg/dims/resize/684x1032/">
-						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" value="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/" />
-						</div>
-						<a class="btn btn-dark btn-sm">적용</a>
-					</td>
-					<td rowspan="2">
-						<img style="width: 20px; height: 20px" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_C01.jpg">
-						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" value="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/" />
-						</div>
-						<a class="btn btn-dark btn-sm">적용</a>
-					</td>
-					<td>
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="64" />
-						</div>
-					</td>
-					<td>
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="5" />
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="67" />
-						</div>
-					</td>
-					<td>
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" value="2" />
-						</div>
-					</td>
-				</tr>
+				</div>
 			</table>
 			<div class="d-flex justify-content-center mt-3 mb-4">
-				<a class="btn btn-outline-primary btn-sm mr-5" th:href="@{/product/detail}">취소</a>
+				<a class="btn btn-outline-primary btn-sm mr-5" th:href="@{/product/detail(pid=${product.pid})}">취소</a>
 				<a th:href="@{/product/detail}" class="btn btn-primary btn-sm">저장</a>
 			</div>
 		</div>

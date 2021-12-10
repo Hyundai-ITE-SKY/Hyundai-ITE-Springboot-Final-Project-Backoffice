@@ -3,33 +3,36 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
 		<div>
-			<h5 class="mb-3 text-gray-800">상품 정보</h5>
+			<h5 class="text-gray-800">상품 정보</h5>
+		</div>
+		<div class="d-flex justify-content-end">
+			<div class="btn btn-danger btn-sm">상품 삭제</div>
 		</div>
 		<div class="card shadow mb-4">
 			<table class="table table-bordered" style="font-size: 14px;">
 				<tr>
 					<th class="col-2" scope="col">상품 품번</th>
-					<td scope="col">상품 코드</td>
+					<td scope="col">[[${product.pid}]]</td>
 					<th class="col-2" scope="col">브랜드</th>
-					<td scope="col">브랜드 이름</td>
+					<td scope="col">[[${product.bname}]]</td>
 				</tr>
 				<tr>
 					<th>상품 가격</th>
-					<td>1,000,000원</td>
+					<td>[[${#numbers.formatInteger(product.pprice,3,'COMMA')}]]원</td>
 					<th>시즌 정보</th>
-					<td>SS</td>
+					<td>[[${product.pseason}]]</td>
 				</tr>
 				<tr>
 					<th>상품명</th>
-					<td colspan="3">상품명상품명상품명상품명</td>
+					<td colspan="3">[[${product.pname}]]</td>
 				</tr>
 				<tr>
 					<th>카테고리</th>
-					<td colspan="3">WOMEN > OUTER > COAT</td>
+					<td colspan="3">[[${product.clarge}]] > [[${product.cmedium}]] > [[${product.csmall}]]</td>
 				</tr>
 				<tr>
 					<th>상세 설명</th>
-					<td colspan="3">쏼라쏼라</td>
+					<td colspan="3">[[${product.pdetail}]]</td>
 				</tr>
 			</table>
 			
@@ -39,41 +42,32 @@
 					<th scope="col">이미지1</th>
 					<th scope="col">이미지2</th>
 					<th scope="col">이미지3</th>
+					<th scope="col">함께 코디한 상품</th>
 					<th scope="col">컬러 이미지</th>
 					<th scope="col">사이즈</th>
-					<th scope="col">재고</th>
+					<th scope="col">재고</th> 
 				</tr>
-				<tr>
-					<td rowspan="2">OW</td>
-					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/"></td>
-					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/"></td>
-					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/"></td>
-					<td rowspan="2"><img style="width:20px;height:20px"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_C01.jpg"></td>
-					<td>64</td>
-					<td>5</td>
-				</tr>
-				<tr>
-					<td>67</td>
-					<td>2</td>
-				</tr>
+				<div th:remove="tag" th:each="color:${colors}" th:with="stockCount=${color.stocks.size()}">
+					<tr>
+						<td th:rowspan="${color.stocks.size()}">[[${color.ccolorcode}]]</td>
+						<td th:rowspan="${color.stocks.size()}"><img style="width:100px;" th:src="@{${color.cimage1}}"></td>
+						<td th:rowspan="${color.stocks.size()}"><img style="width:100px;" th:src="@{${color.cimage2}}"></td>
+						<td th:rowspan="${color.stocks.size()}"><img style="width:100px;" th:src="@{${color.cimage3}}"></td>
+						<td th:rowspan="${color.stocks.size()}">[[${color.cmatchpid}]]</td>
+						<td th:rowspan="${color.stocks.size()}"><img style="width:20px;height:20px" th:src="@{${color.ccolorimage}}"></td>
+						<td th:text="${stockCount>0}?${color.stocks[0].ssize}:''"></td>
+						<td th:text="${stockCount>0}?${color.stocks[0].samount}:''"></td>
+					</tr>
+					<tr th:each="stock, stats:${color.stocks}" th:if="${!stats.first}">
+						<td th:text="${stock.ssize}"></td>
+						<td th:text="${stock.samount}"></td>
+					</tr> 
+				</div>
 				
-				<tr>
-					<td rowspan="2">PR</td>
-					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/"></td>
-					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/"></td>
-					<td rowspan="2"><img style="width:100px;"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_W01.jpg/dims/resize/684x1032/"></td>
-					<td rowspan="2"><img style="width:20px;height:20px"src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_PR_C01.jpg"></td>
-					<td>64</td>
-					<td>5</td>
-				</tr>
-				<tr>
-					<td>67</td>
-					<td>2</td>
-				</tr>
 			</table>
 			<div class="d-flex justify-content-center mt-3 mb-4">
 				<div class="btn btn-outline-dark btn-sm mr-5">취소</div>
-				<a th:href="@{/event/update}" class="btn btn-dark btn-sm">수정</a>
+				<a th:href="@{/product/update(pid=${product.pid})}" class="btn btn-dark btn-sm">수정</a>
 			</div>
 		</div>
 	</th:block>

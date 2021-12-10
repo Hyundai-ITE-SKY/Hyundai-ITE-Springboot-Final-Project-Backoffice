@@ -56,20 +56,6 @@
 							</div>
 						</td>
 					</tr>
-					<tr>
-						<td scope="row">상품등록일</td>
-						<td class="d-flex justify-space-between">
-							<div class="md-form md-outline input-with-post-icon datepicker mr-3">
-								<input placeholder="Select date" type="date" id="example"
-									class="form-control">
-							</div>
-							<span>~</span>
-							<div class="md-form md-outline input-with-post-icon datepicker ml-3">
-								<input placeholder="Select date" type="date" id="example"
-									class="form-control">
-							</div>
-						</td>
-					</tr>
 				</table>
 				<div class="btn btn-primary mb-1">검색</div>
 			</div>
@@ -80,7 +66,7 @@
 		</div>
 		<div class="card shadow mb-4">
 			<div class="table-responsive">
-				<table class="table table-bordered mb-0 text-center" style="font-size:14px;">
+				<table class="table table-hover table-bordered mb-0 text-center" style="font-size:14px;">
 					<thead>
 						<tr>
 							<th class="col-1">상품 번호</th>
@@ -90,84 +76,41 @@
 							<th class="col-2">브랜드</th>
 							<th class="col-2">상품 코드</th>
 							<th class="col-3">상품명</th>
-							<th class="col-2">상품등록일</th>
+							<th class="col-2">상품 가격</th>
 						</tr>
 					</thead>
 					<tbody>
-						<!-- 반복문 처리 -->
-						<tr onClick="location.href='http://localhost:81/product/detail'">
-							<td>1</td>
-							<td>WOMEN</td>
-							<td>OUTER</td>
-							<td>COAT</td>
-							<td>브랜드</td>
-							<td>상품코드</td>
-							<td>상품명</td>
-							<td>2021.12.07</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>WOMEN</td>
-							<td>OUTER</td>
-							<td>COAT</td>
-							<td>브랜드</td>
-							<td>상품코드</td>
-							<td>상품명</td>
-							<td>2021.12.07</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>WOMEN</td>
-							<td>OUTER</td>
-							<td>COAT</td>
-							<td>브랜드</td>
-							<td>상품코드</td>
-							<td>상품명</td>
-							<td>2021.12.07</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>WOMEN</td>
-							<td>OUTER</td>
-							<td>COAT</td>
-							<td>브랜드</td>
-							<td>상품코드</td>
-							<td>상품명</td>
-							<td>2021.12.07</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>WOMEN</td>
-							<td>OUTER</td>
-							<td>COAT</td>
-							<td>브랜드</td>
-							<td>상품코드</td>
-							<td>상품명</td>
-							<td>2021.12.07</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>WOMEN</td>
-							<td>OUTER</td>
-							<td>COAT</td>
-							<td>브랜드</td>
-							<td>상품코드</td>
-							<td>상품명</td>
-							<td>2021.12.07</td>
+						<tr th:each="product : ${products}" th:onclick="'location.href=\'' + @{/product/detail(pid=${product.pid})} + '\''">
+							<td>[[${product.pno}]]</td>
+							<td>[[${product.clarge}]]</td>
+							<td>[[${product.cmedium}]]</td>
+							<td>[[${product.csmall}]]</td>
+							<td>[[${product.bname}]]</td>
+							<td>[[${product.pid}]]</td>
+							<td>[[${product.pname}]]</td>
+							<td>[[${#numbers.formatInteger(product.pprice, 3, 'COMMA')}]]원</td>
 						</tr>
 						
 						<tr>
 							<td colspan="8">
 							  <ul class="pagination justify-content-center mb-1 mt-1">
-							    <li class="page-item disabled">
-							      <a class="page-link" href="#" tabindex="-1">Previous</a>
+							  	<li class="page-item">
+							  		<a class="page-link" th:href="@{/product/list(pageNo=1)}">처음</a>
+							  	</li>
+							    <li class="page-item" th:if="${pager.groupNo>1}">
+							      <a th:href="@{/product/list(pageNo=${pager.startPageNo-1})}" class="page-link">이전</a>
 							    </li>
-							    <li class="page-item"><a class="page-link" href="#">1</a></li>
-							    <li class="page-item"><a class="page-link" href="#">2</a></li>
-							    <li class="page-item"><a class="page-link" href="#">3</a></li>
-							    <li class="page-item">
-							      <a class="page-link" href="#">Next</a>
+							    <th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+							    	<li class="page-item">
+										<a th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'" th:href="@{/product/list(pageNo=${i})}">[[${i}]]</a>
+									</li>
+								</th:block>
+							    <li class="page-item" th:if="${pager.groupNo<pager.totalGroupNo}">
+							      <a th:href="@{/product/list(pageNo=${pager.endPageNo+1})}" class="page-link">이후</a>
 							    </li>
+							  	<li class="page-item">
+							  		<a class="page-link" th:href="@{/product/list(pageNo=${pager.totalPageNo})}">마지막</a>
+							  	</li>
 							  </ul>
 							</td>	
 						</tr>						
