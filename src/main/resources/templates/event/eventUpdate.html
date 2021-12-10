@@ -2,53 +2,78 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
+		<script th:inline="javascript">
+			$(window).ready(function(){
+				$("#edetail").val([[${event.edetail}]]);
+			})
+			
+			function makeEventUpdate(){
+				let startString = $("#estartdate").val();
+				let yy = startString.substr(0,4);
+				let MM = startString.substr(5,2);
+				let dd = startString.substr(8,2);
+				$("input[name=estartdate]").val(new Date(yy,MM-1,dd));
+				
+				let endString = $("#eenddate").val();
+				yy = endString.substr(0,4);
+				MM = endString.substr(5,2);
+				dd = endString.substr(8,2);
+				$("input[name=eenddate]").val(new Date(yy,MM-1,dd));
+				
+				$("#eventUpdateForm").submit();
+			}
+		</script>
 		<div>
 			<h5 class="mb-3 text-gray-800">이벤트 정보</h5>
 		</div>
 		<div class="card shadow mb-4">
-			<table class="table table-bordered" style="font-size: 14px;">
-				<tr>
-					<th class="col-2" scope="col">이벤트 아이디</th>
-					<td scope="col"><td scope="col">eid</td></td>
-					<th class="col-2" scope="col">이벤트 이름</th>
-					<td scope="col"><input type="text" class="form-control"/></td>
-				</tr>
-				<tr>
-					<th>이벤트 시작일</th>
-					<td>
-						<input type="date"/>
-					</td>
-					<th>이벤트 종료일</th>
-					<td>
-						<input type="date"/>
-					</td>
-				</tr>
-				<tr>
-					<th>남은 수량</th>
-					<td><input type="number"  class="form-control"/></td>
-					<th>제한 인원</th>
-					<td><input type="number"  class="form-control"/></td>
-				</tr>
-			</table>
-			
-			<table class="table table-bordered text-center" style="font-size: 14px;">
-				<tr>
-					<th scope="col">쿠폰 이미지</th>
-					<th>이벤트 정보</th>
-				</tr>
-				<tr>
-					<td class="d-flex flex-column align-items-center">
-						<img class="d-block mb-1" style="width:150px;"src="https://user-images.githubusercontent.com/55488114/143763321-b8823939-2506-4eb3-a9fa-05e42ee57f58.jpg">
-						<input type="text"/>
-					</td>
-					<td><textarea class="form-control" aria-label="textarea"></textarea></td>
-				</tr>
-			</table>
-			<div class="d-flex justify-content-center mt-3 mb-4">
-				<div class="btn btn-outline-dark btn-sm mr-2">취소</div>
-				<a th:href="@{/product/update}" class="btn btn-dark btn-sm mr-2">수정</a>
-				<a class="btn btn-dark btn-sm">삭제</a>
-			</div>
+			<form id="eventUpdateForm" method="post" th:action="@{/event/update/{eid}(eid=${event.eid})}" th:object="${event}">
+				<table class="table table-bordered" style="font-size: 14px;">
+					<tr>
+						<th class="col-2" scope="col">이벤트 아이디</th>
+						<td scope="col" name="eid">[[${event.eid}]]</td>
+						<th class="" scope="col">이벤트 이름</th>
+						<td scope="col"><input name="ename" type="text" class="form-control" th:value="${event.ename}"/></td>
+					</tr>
+					<tr>
+						<th>이벤트 시작일</th>
+						<td>
+							<input type="date" id="estartdate" th:value="${#dates.format(event.estartdate, '20yy-MM-dd')}"/>
+							<input type="hidden" name="estartdate"/>
+						</td>
+						<th>이벤트 종료일</th>
+						<td>
+							<input type="date" id="eenddate" th:value="${#dates.format(event.eenddate, '20yy-MM-dd')}"/>
+							<input type="hidden" name="eenddate"/>
+						</td>
+					</tr>
+					<tr>
+						<th>남은 수량</th>
+						<td><input type="number" name="eamount" class="form-control" th:value="${event.eamount}"/></td>
+						<th>제한 인원</th>
+						<td><input type="number" name="elimit" class="form-control" th:value="${event.elimit}"/></td>
+					</tr>
+				</table>
+				
+				<table class="table table-bordered text-center" style="font-size: 14px;">
+					<tr>
+						<th scope="col">쿠폰 이미지</th>
+						<th>이벤트 정보</th>
+					</tr>
+					<tr>
+						<td class="d-flex flex-column align-items-center">
+							<img class="d-block mb-1" style="width:150px;" th:src="${event.eimage}">
+							<input type="text" name="eimage" th:value="${event.eimage}"/>
+						</td>
+						<td><textarea id="edetail" name="edetail" class="form-control" aria-label="textarea"></textarea></td>
+					</tr>
+				</table>
+				<div class="d-flex justify-content-center mt-3 mb-4">
+					<a class="btn btn-outline-dark btn-sm mr-2" th:href="@{/event/detail/{eid}(eid=${event.eid})}">이벤트 상세</a>
+					<button th:onclick="makeEventUpdate()" class="btn btn-dark btn-sm mr-2">수정</button>
+					<a class="btn btn-dark btn-sm" th:href="@{/event/delete/{eid}(eid=${event.eid})}">삭제</a>
+				</div>
+			</form>
 		</div>
 	</th:block>
 </th:block>

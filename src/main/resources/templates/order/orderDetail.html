@@ -16,7 +16,11 @@
 							<th class="col-2" scope="col">주문번호</th>
 							<td scope="col">[[${orderlist.oid}]]</td>
 							<th class="col-2" scope="col">주문 상태</th>
-							<td scope="col">[[${orderlist.ostatus}]]</td>
+							<td class="col" th:if="${orderlist.ostatus==1}"> 결제 </td>
+							<td class="col" th:if="${orderlist.ostatus==2}"> 배송 </td>
+							<td class="col" th:if="${orderlist.ostatus==3}"> 배송완료 </td>
+							<td class="col" th:if="${orderlist.ostatus==4}"> 구매확정 </td>
+							
 						</tr>
 						<tr>
 							<th>주문 날짜</th>
@@ -32,7 +36,8 @@
 						</tr>
 						<tr>
 							<th>결제 수단</th>
-							<td colspan="3">[[${orderlist.opayment}]]</td>
+							<td colspan="3" th:if="${orderlist.opayment==0}">신용카드</td>
+							<td colspan="3" th:if="${orderlist.opayment==1}">가상계좌</td>
 						</tr>
 					</table>
 
@@ -55,9 +60,11 @@
 						</tr>
 						<tr>
 							<th>마일리지 사용</th>
-							<td colspan="2">[[${orderlist.ousedmileage}]] P</td>
+							<td colspan="2" th:if="${orderlist.ousedmileage != 0}">[[${orderlist.ousedmileage}]] P</td>
+							<td colspan="2" th:if="${orderlist.ousedmileage == 0}">미사용</td>
 							<th>쿠폰 사용</th>
-							<td colspan="2">[[${orderlist.ousedcoupon}]] 번</td>
+							<td colspan="2" th:if="${orderlist.ousedcoupon != 0}">[[${orderlist.ousedcoupon}]] 번</td>
+							<td colspan="2" th:if="${orderlist.ousedcoupon == 0}">미사용</td>
 						</tr>
 					</table>
 				</div>
