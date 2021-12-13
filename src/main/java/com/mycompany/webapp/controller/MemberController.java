@@ -115,6 +115,22 @@ public class MemberController {
 
 		return "redirect:/member/grade";
 	}
+	
+	@RequestMapping("/grade/apply")
+	public String applyGrade(Model model, HttpSession session) {
+		log.info("실행");
+
+		Auth auth = (Auth) session.getAttribute("auth");
+
+		WebClient webClient = WebClient.create();
+
+		Result result = webClient.get().uri("http://localhost:82/member/grade/apply")
+				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Result.class).block();
+
+		log.info(result.toString());
+
+		return "redirect:/member/grade";
+	}
 
 	@RequestMapping("/grade/update")
 	public String updateGrade(int beforegmax, Grade grade, Model model, HttpSession session) {

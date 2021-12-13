@@ -11,8 +11,8 @@
 							<th scope="col">No.</th>
 							<th scope="col">등급</th>
 							<th scope="col">이름</th>
-							<th scope="col">이메일</th>
-							<th scope="col">휴대폰번호</th>
+							<th scope="col">아이디</th>
+							<th scope="col">누적결제금액</th>
 							<th scope="col">권한</th>
 							<th scope="col">가입일자</th>
 							<th scope="col">계정상태</th>
@@ -25,8 +25,9 @@
 							<th scope="row">[[${status.count}]]</th>
 							<td>[[${member.mgrade}]]</td>
 							<td><a href="/grade">[[${member.mname}]]</a></td>
-							<td>[[${member.memail}]]</td>
-							<td>[[${member.mtel}]]</td>
+							<td>[[${member.mid}]]</td>
+							<td>[[${#numbers.formatInteger(member.mtotalpayment, 3,
+								'COMMA')}]]</td>
 							<td>[[${member.mrole}]]</td>
 							<td>[[${#calendars.format(member.mdate, 'yyyy-MM-dd')}]]</td>
 							<td>일반</td>
@@ -44,8 +45,7 @@
 				<div class="mt-3">
 					<div class="collapse" id="collapseAddMember">
 						<div class="card card-body">
-							<form method="post" action="create"
-								enctype="multipart/form-data">
+							<form method="post" action="create" enctype="multipart/form-data">
 								<div class="form-row">
 									<div class="form-group col-md-5">
 										<label for="inputMemberName">이름</label> <input name="mname"
