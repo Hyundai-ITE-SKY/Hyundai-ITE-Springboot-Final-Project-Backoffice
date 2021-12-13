@@ -30,11 +30,7 @@ public class MemberController {
 	public String memberInfo(Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 
@@ -50,11 +46,7 @@ public class MemberController {
 	public String createMember(Member member, Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
@@ -91,19 +83,15 @@ public class MemberController {
 	public String memberGrade(Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
-		
+
 		Grades grades = webClient.get().uri("http://localhost:82/member/grade/list")
 				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Grades.class).block();
 
 		model.addAttribute("grades", grades.getGrades());
-		
+
 		return "member/memberGrade";
 	}
 
@@ -111,11 +99,7 @@ public class MemberController {
 	public String createGrade(Grade grade, Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
@@ -136,11 +120,7 @@ public class MemberController {
 	public String updateGrade(int beforegmax, Grade grade, Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
@@ -161,11 +141,7 @@ public class MemberController {
 	public String deleteGrade(int gmax, Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkyMDgyNzMsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.AGWyDnlX1yOTSALTVVAR9qovJfijmbhy6oFueWFRBIU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 
