@@ -4,15 +4,23 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Brand;
 import com.mycompany.webapp.dto.Category;
+import com.mycompany.webapp.dto.IntegerVariable;
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Products;
@@ -75,11 +83,10 @@ public class ProductController {
 	}
 	
 	//상품수정 페이지 
-	@RequestMapping("/update")
+	@GetMapping("/update")
 	public String productUpdate(Model model, HttpSession session, @RequestParam("pid")String pid) {
 		log.info("실행");
 		
-
 		Auth auth = new Auth();
 		auth.setJwt(
 				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
@@ -102,11 +109,45 @@ public class ProductController {
 		model.addAttribute("brands", brands);
 		return "product/productUpdate";
 	}
-  
-	@RequestMapping("/productstock")
-	public String orderInquiry(Model model) {
+	
+	//상품 수정 실행
+	@PostMapping("/update")
+	public String updateProduct(Product product, Model model, HttpSession session, RedirectAttributes redirattr) throws Exception {
 		log.info("실행");
-
+		log.info(product.toString());
+		
+		String clarge = product.getClarge();
+		product.setClarge(clarge.substring(0, clarge.length()-1)); //콤마가 찍히는 부분 제거
+		String pseason = product.getPseason();
+		product.setPseason(pseason.substring(0, pseason.length()-1)); //콤마가 찍히는 부분 제거
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonInString = mapper.writeValueAsString(product);
+		
+		WebClient webClient = WebClient.create("http://localhost:82/product");
+		Products updateProducts = webClient.post().uri("/update").header(
+				HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.body(BodyInserters.fromValue(jsonInString))
+				.retrieve().bodyToMono(Products.class).block();
+		
+		Product updateProduct = updateProducts.getProduct();
+		redirattr.addAttribute("pid", updateProduct.getPid());
+		
+		return "redirect:/product/detail";
+	}
+	
+	//상품삭제
+	@RequestMapping("/delete")
+	public String deleteProduct(@RequestParam String pid) {
+		log.info("실행");
+		WebClient webClient = WebClient.create("http://localhost:82/product");
+		IntegerVariable integerVariable = webClient.delete().uri("/{pid}", pid).retrieve().bodyToMono(IntegerVariable.class).block();
+		return "redirect:/product/list";
+	}
+	
+	@RequestMapping("/productstock")
+	public String updateProductStock(Model model) {
+		log.info("실행");
+		
 		return "/product/productStock";
 	}
 	
