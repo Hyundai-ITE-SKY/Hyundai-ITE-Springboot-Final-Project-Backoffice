@@ -5,17 +5,25 @@
 	<th:block th:fragment="content">
 
 		<script>
+			//초기 orderObj 세팅
 			var orderObj = {'event' : 0, 'best' : 1 , 'new' : 2};
 		
 			$(function() {
 				let startVal="";
 				let endVal="";
 				let startN;
-				let endN;
-				let eventN = orderObj.event;
-				let bestN = orderObj.best;
-				let newN = orderObj.new;
+				let endN;				
+				let eventN = Number($('#event').val());
+				let bestN = Number($('#best').val());
+				let newN = Number($('#new').val());
 				
+				orderObj.event = eventN;
+				orderObj.best = bestN;
+				orderObj.new = newN;
+				
+				console.log("eventN"+eventN);
+				console.log("bestN"+bestN);
+				console.log("newN"+newN);
 				
 				$("#sortable").sortable({
 					start: function(event, ui) {
@@ -72,13 +80,17 @@
 							orderObj[endVal] = startN;
 						}
 						
+						$('#event').val(orderObj.event);
+						$('#best').val(orderObj.best);
+						$('#new').val(orderObj.new);
+						
 			        	console.log("end : "+ui.item.index());
 			        }
 				});
 				$("#sortable").disableSelection();
 			});
 			
-			function testOrder(){
+			function makeOrder(){
 				let eventN = orderObj.event;
 				let bestN = orderObj.best;
 				let newN = orderObj.new;
@@ -86,53 +98,38 @@
 				console.log(eventN);
 				console.log(bestN);
 				console.log(newN);
+				
+				$('#exhibitionForm').submit();
 			}
+			
 		</script>
-
-		<input type="hidden" id="event" name="event" th:value="0"/>
-		<input type="hidden" id="best" name="best" th:value="1"/>
-		<input type="hidden" id="new" name="new" th:value="2"/>
+		
 		<div class="page-content page-container" id="page-content">
 			<h4 class="font-weight-bolder m-4">전시 관리</h4>
-			
+			<div></div>
 			<div class="padding">
 				<div class=" d-flex justify-content-center mb-2">
-					<ul class="list list-group list-group-horizontal card list-unstyled" 
-						id="sortable" data-sortable-id="0" aria-dropeffect="move">
-						<li class="list-item" data-id="1" draggable="true" role="option" aria-grabbed="false">
-							<div class="d-flex flex-column card">
-								<div class="card-body">
-									<img style="height:250px;" src="https://user-images.githubusercontent.com/55488114/145777063-c003d4ce-41db-41db-b078-cc599650643d.jpg"/>
+					<form id="exhibitionForm" method="post" th:action="@{/exhibition/update}" th:object="${exhibitions}">
+						<ul class="list list-group list-group-horizontal card list-unstyled" 
+							id="sortable" data-sortable-id="0" aria-dropeffect="move">
+							<li th:each="exhibition, status : ${exhibitions}" class="list-item" data-id="1" draggable="true" role="option" aria-grabbed="false">
+								<div class="d-flex flex-column card">
+									<div class="card-body">
+										<img style="height:250px;" th:src="${exhibition.eximg}"/>
+									</div>
+									<div class="card-body">
+										<span class="badge badge-pill badge-secondary" style="width:60px; height:25px; font-size:15px;">[[${exhibition.exid}]]</span>
+										<input type="hidden" th:name="|exhibitions[${status.index}].exid|" th:value="${exhibition.exid}"/>
+										<input type="hidden" th:name="|exhibitions[${status.index}].eximg|" th:value="${exhibition.eximg}"/>
+										<input type="hidden" th:id="${exhibition.exid}" th:name="|exhibitions[${status.index}].orderno|" th:value="${exhibition.orderno}"/>
+									</div>
 								</div>
-								<div class="card-body">
-									<span class="badge badge-pill badge-secondary" style="width:60px; height:25px; font-size:15px;">Event</span>
-								</div>
-							</div>
-						</li>
-						<li class="list-item" data-id="2" draggable="true" role="option" aria-grabbed="false">
-							<div class="d-flex flex-column card">
-								<div class="card-body">
-									<img style="height:250px;" src="https://user-images.githubusercontent.com/55488114/145791574-697daa05-e41a-422a-bcf5-65a27f8a7155.jpg"/>
-								</div>
-								<div class="card-body">
-									<span class="badge badge-pill badge-secondary" style="width:60px; height:25px; font-size:15px;">Best</span>
-								</div>
-							</div>
-						</li>
-						<li class="list-item" data-id="3" draggable="true" role="option" aria-grabbed="false">
-							<div class="d-flex flex-column card">
-								<div class="card-body">
-									<img style="height:250px;" src="https://user-images.githubusercontent.com/55488114/145791645-34db8b56-e3b2-4969-923a-953594171dd1.jpg"/>
-								</div>
-								<div class="card-body">
-									<span class="badge badge-pill badge-secondary" style="width:60px; height:25px; font-size:15px;">New</span>
-								</div>
-							</div>
-						</li>
-					</ul>
+							</li>
+						</ul>
+					</form>
 				</div>
 				<div class="d-flex flex-row-reverse mr-4">
-					<button class="btn btn-sm btn-dark" th:onClick="testOrder()">적용</button>
+					<button class="btn btn-sm btn-dark" th:onClick="makeOrder()">적용</button>
 				</div>
 			</div>
 			
