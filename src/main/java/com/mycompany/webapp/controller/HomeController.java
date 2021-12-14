@@ -22,7 +22,9 @@ public class HomeController {
 	public String home(HttpSession session) {
 		log.info("실행");
 
-		if (session.getAttribute("auth") == null) {
+		Auth auth = (Auth) session.getAttribute("auth");
+
+		if (auth == null || auth.getResult().equals("fail")) {
 			return "redirect:/loginform";
 		}
 
@@ -47,8 +49,6 @@ public class HomeController {
 
 		Auth auth = webClient.post().uri("http://localhost:82/login").body(BodyInserters.fromFormData(map)).retrieve()
 				.bodyToMono(Auth.class).block();
-
-		log.info(auth.toString());
 
 		session.setAttribute("auth", auth);
 		model.addAttribute("auth", auth);

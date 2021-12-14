@@ -5,39 +5,42 @@
 		<div>
 			<h5 class="mb-3 text-gray-800">회원 정보 관리</h5>
 			<div class="card card-body">
-				<table class="table text-center">
-					<thead>
-						<tr>
-							<th scope="col">No.</th>
-							<th scope="col">등급</th>
-							<th scope="col">이름</th>
-							<th scope="col">아이디</th>
-							<th scope="col">누적결제금액</th>
-							<th scope="col">권한</th>
-							<th scope="col">가입일자</th>
-							<th scope="col">계정상태</th>
-							<th scope="col">탈퇴여부</th>
-							<th scope="col">삭제</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="member, status: ${members}">
-							<th scope="row">[[${status.count}]]</th>
-							<td>[[${member.mgrade}]]</td>
-							<td><a href="/grade">[[${member.mname}]]</a></td>
-							<td>[[${member.mid}]]</td>
-							<td>[[${#numbers.formatInteger(member.mtotalpayment, 3,
-								'COMMA')}]]</td>
-							<td>[[${member.mrole}]]</td>
-							<td>[[${#calendars.format(member.mdate, 'yyyy-MM-dd')}]]</td>
-							<td>일반</td>
-							<td>X</td>
-							<td><button class="btn btn-danger btn-sm">삭제</button></td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="table-responsive">
+					<table class="table table-hover table-bordered mb-3 text-center">
+						<thead>
+							<tr>
+								<th scope="col">No.</th>
+								<th scope="col">등급</th>
+								<th scope="col">이름</th>
+								<th scope="col">아이디</th>
+								<th scope="col">누적결제금액</th>
+								<th scope="col">권한</th>
+								<th scope="col">가입일자</th>
+								<th scope="col">계정상태</th>
+								<th scope="col">탈퇴여부</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="member, status: ${members}"
+								th:onclick="'location.href=\'' + @{/member/detail(mid=${member.mid})} + '\''">
+								<th scope="row" class="align-middle">[[${status.count}]]</th>
+								<td class="align-middle">[[${member.mgrade}]]</td>
+								<td class="align-middle">[[${member.mname}]]</td>
+								<td class="align-middle">[[${member.mid}]]</td>
+								<td class="align-middle">[[${#numbers.formatInteger(member.mtotalpayment,
+									3, 'COMMA')}]]</td>
+								<td class="align-middle">[[${member.mrole.equals("ROLE_USER")
+									? "사용자" : "관리자"}]]</td>
+								<td class="align-middle">[[${#calendars.format(member.mdate,
+									'yyyy-MM-dd')}]]</td>
+								<td class="align-middle">일반</td>
+								<td class="align-middle">X</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 				<div>
-					<button class="btn btn-success btn-sm" type="button"
+					<button class="btn btn-outline-success btn-sm" type="button"
 						data-toggle="collapse" data-target="#collapseAddMember"
 						aria-expanded="false" aria-controls="collapseAddMember">계정
 						추가</button>
@@ -184,7 +187,7 @@
 											입력하세요.</small>
 									</div>
 								</div>
-								<button type="submit" class="btn btn-primary">저장</button>
+								<button type="submit" class="btn btn-outline-primary">저장</button>
 							</form>
 						</div>
 					</div>
