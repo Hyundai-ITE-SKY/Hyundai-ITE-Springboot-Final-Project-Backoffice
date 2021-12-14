@@ -3,68 +3,81 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
-		<div style="margin: 50px;">
+		<div>
+			<div>
+				<h5 class="mb-3 text-gray-800">이벤트 검색</h5>
+			</div>
 			<div class="my-4 p-4 rounded bg-gray-300 border border-dark">
-				<h4 class="font-weight-bolder mb-2">이벤트 검색</h4>
 				<form class="container">
 					<div class="row">
 						<label class="col-1 font-weight-bolder">검색</label>
 						<div class="col-11">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-									<select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+									<select class="custom-select" id="inputGroupSelect04"
+										aria-label="Example select with button addon">
 										<option selected>이벤트 아이디</option>
 										<option value="1">이벤트 이름</option>
 									</select>
 								</div>
-								<input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+								<input type="text" class="form-control"
+									aria-label="Text input with segmented dropdown button">
 							</div>
 						</div>
 						<div class="col-11"></div>
 						<div class="col-1">
-							<button class="btn text-white" style="background-color: #2D3134" type="submit">검색</button>
+							<button class="btn text-white" style="background-color: #2D3134"
+								type="submit">검색</button>
 						</div>
 					</div>
 				</form>
 			</div>
+			<div>
+				<h5 class="mb-3 text-gray-800">이벤트 목록</h5>
+			</div>
+			<div class="card-body shadow mb-4" style="font-size: 0.75rem">
+				<div class="table-responsive">
+					<table class="table table-hover table-bordered mb-0 text-center">
+						<thead>
+							<tr>
+								<th>이벤트 아이디</th>
+								<th>이벤트 이름</th>
+								<th>이벤트 시작일</th>
+								<th>이벤트 종료일</th>
+								<th>남은 수량</th>
+								<th>제한 인원</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center" th:each="event : ${events}"
+								th:onclick="'location.href=\'' + @{/event/detail/{eid}(eid=${event.eid})}+'\''">
+								<td>[[${event.eid}]]</td>
+								<td>[[${event.ename}]]</td>
+								<td>[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
+								<td>[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
+								<td>[[${event.eamount}]]</td>
+								<td>[[${event.elimit}]]</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 
-			<h4 class="font-weight-bolder mb-2" style="margin-bottom: 100px;">주문 목록</h4>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><a th:href="@{/order/orderlist/1}"
+						class="page-link">처음</a></li>
 
-			<table class="table table-sm mx-auto">
-				<tr class="row text-white text-center font-weight-bolder" style="background-color: #2D3134;">
-					<th class="col-2">이벤트 아이디</th>
-					<th class="col-2">이벤트 이름</th>
-					<th class="col-2">이벤트 시작일</th>
-					<th class="col-2">이벤트 종료일</th>
-					<th class="col-2">남은 수량</th>
-					<th class="col-2">제한 인원</th>
-				</tr>
-				
-				<tr class="row text-center" th:each="event : ${events}" th:onclick="'location.href=\'' + @{/event/detail/{eid}(eid=${event.eid})}+'\''">
-					<td class="col-2">[[${event.eid}]]</td>
-					<td class="col-2">[[${event.ename}]]</td>
-					<td class="col-2">[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
-					<td class="col-2">[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
-					<td class="col-2">[[${event.eamount}]]</td>
-					<td class="col-2">[[${event.elimit}]]</td>
-				</tr>
-				
-				<tr>
-					<td>
-						<nav aria-label="Page navigation example">
-							<ul class="pagination justify-content-center">
-								<li class="page-item"><a th:href="@{/order/orderlist/1}" class="page-link">처음</a></li>
-								
-								<th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-									<li class="page-item"><a class="page-link" th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
-								</th:block>
-								
-								<li class="page-item"><a class="page-link" th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
-							</ul>
-						</nav>
-					</td>
-				</tr>
-			</table>
+					<th:block
+						th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+						<li class="page-item"><a class="page-link"
+							th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+					</th:block>
+
+					<li class="page-item"><a class="page-link"
+						th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
+				</ul>
+			</nav>
 
 		</div>
 	</th:block>

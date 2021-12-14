@@ -3,16 +3,18 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
-	
-	<script th:inline="javascript">
-	$(window).ready(function(){
-		
-	})
-	</script>
 
-		<div style="margin: 50px;">
+		<script th:inline="javascript">
+			$(window).ready(function() {
+
+			})
+		</script>
+
+		<div>
+			<div>
+				<h5 class="mb-3 text-gray-800">주문 검색</h5>
+			</div>
 			<div class="my-4 p-4 rounded bg-gray-300 border border-dark">
-				<h4 class="font-weight-bolder mb-2">주문 검색</h4>
 				<form class="container">
 					<div class="row">
 						<label class="col-1 font-weight-bolder">검색</label>
@@ -26,7 +28,8 @@
 										<option value="2">주문자 아이디</option>
 									</select>
 								</div>
-								<input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+								<input type="text" class="form-control"
+									aria-label="Text input with segmented dropdown button">
 							</div>
 						</div>
 						<label class="col-1 font-weight-bolder">기간</label>
@@ -36,54 +39,63 @@
 
 						<div class="col-11"></div>
 						<div class="col-1">
-							<button class="btn text-white" style="background-color: #2D3134" type="submit">검색</button>
+							<button class="btn text-white" style="background-color: #2D3134"
+								type="submit">검색</button>
 						</div>
 					</div>
 				</form>
 			</div>
 
-			<h4 class="font-weight-bolder mb-2" style="margin-bottom: 100px;">주문 목록</h4>
+			<div>
+				<h5 class="mb-3 text-gray-800">주문 목록</h5>
+			</div>
+			<div class="card-body shadow mb-2" style="font-size: 0.75rem">
+				<div class="table-responsive">
+					<table class="table table-hover table-bordered mb-0 text-center">
+						<thead>
+							<tr>
+								<th class="col-2">주문번호</th>
+								<th class="col-2">주문자</th>
+								<th class="col-2">주문상태</th>
+								<th class="col-2">상품개수</th>
+								<th class="col-2">결제금액</th>
+								<th class="col-2">주문일자</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="order, status : ${orderLists}" class="text-center"
+								th:onclick="'location.href=\'' + @{/order/orderdetail/{oid}(oid=${order.oid})} + '\''">
+								<td>[[${order.oid}]]</td>
+								<td>[[${order.mid}]]</td>
+								<td th:if="${order.ostatus==1}">결제</td>
+								<td th:if="${order.ostatus==2}">배송</td>
+								<td th:if="${order.ostatus==3}">배송완료</td>
+								<td th:if="${order.ostatus==4}">구매확정</td>
+								<td>[[${order.countitem}]]</td>
+								<td>[[${#numbers.formatInteger(order.ototal, 3,
+									'COMMA')}]]￦</td>
+								<td>[[${#dates.format(order.odate,'yyyy.MM.dd')}]]</td>
+							</tr>
+						</tbody>
+					</table>
 
-			<table class="table table-sm">
-				<tr class="row text-white text-center font-weight-bolder" style="background-color: #2D3134">
-					<td class="col-2">주문일자</td>
-					<td class="col-2">주문번호</td>
-					<td class="col-2">상품 개수</td>
-					<td class="col-2">주문자</td>
-					<td class="col-2">결제금액</td>
-					<td class="col-2">주문상태</td>
-				</tr>
-				
-				<tr th:each="order, status : ${orderLists}" class="row text-center" th:onclick="'location.href=\'' + @{/order/orderdetail/{oid}(oid=${order.oid})} + '\''">
-					<td class="col-2">[[${#dates.format(order.odate,'yyyy.MM.dd')}]]</td>
-					<td class="col-2">[[${order.oid}]]</td>
-					<td class="col-2">[[${order.countitem}]]</td>
-					<td class="col-2">[[${order.mid}]]</td>
-					<td class="col-2">[[${#numbers.formatInteger(order.ototal, 3, 'COMMA')}]]￦</td> 
-					<td class="col-2" th:if="${order.ostatus==1}"> 결제 </td>
-					<td class="col-2" th:if="${order.ostatus==2}"> 배송 </td>
-					<td class="col-2" th:if="${order.ostatus==3}"> 배송완료 </td>
-					<td class="col-2" th:if="${order.ostatus==4}"> 구매확정 </td>
-				</tr>
-				
-				<tr>
-					<td>
-						<nav aria-label="Page navigation example">
-							<ul class="pagination justify-content-center">
-								<li class="page-item"><a th:href="@{/order/orderlist/1}" class="page-link">처음</a></li>
-								
-								<th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-									<li class="page-item"><a class="page-link" th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
-								</th:block>
-								
-								<li class="page-item"><a class="page-link" th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
-							</ul>
-						</nav>
-					</td>
-				</tr>
-				
-			</table>
+					<nav aria-label="Page navigation example" class="mt-4">
+						<ul class="pagination justify-content-center">
+							<li class="page-item"><a th:href="@{/order/orderlist/1}"
+								class="page-link">처음</a></li>
 
+							<th:block
+								th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+								<li class="page-item"><a class="page-link"
+									th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+							</th:block>
+
+							<li class="page-item"><a class="page-link"
+								th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
 		</div>
 	</th:block>
 </th:block>
