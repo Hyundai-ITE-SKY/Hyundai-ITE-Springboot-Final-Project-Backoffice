@@ -7,7 +7,8 @@
 		</div>
 		<form method="post" action="create" id="createProductForm">
 			<div class="card shadow mb-4">
-				<table class="table table-bordered text-center" style="font-size: 14px;">
+				<table class="table table-bordered text-center"
+					style="font-size: 14px;">
 					<tr>
 						<th class="col-2" scope="col">상품 품번</th>
 						<td class="col-auto" scope="col">
@@ -61,31 +62,55 @@
 							<div class="d-flex">
 								<div class="col-auto my-1">
 									<label class="mr-sm-2" for="">대분류</label> <select
-										class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-										<option selected>선택하세요</option>
-										<option value="women">WOMEN</option>
-										<option value="men">MEN</option>
-										<option value="bath">BATH</option>
-										<option value="lifestyle">LIFESTYLE</option>
+										class="custom-select mr-sm-2" id="clargeSelect" onchange="clargeChange(this)">
+										<option value="" selected>선택하세요</option>
+										<option th:each="clarge : ${category}" th:text="${clarge.clarge}"></option>
 									</select>
 								</div>
 								<div class="col-auto my-1">
 									<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label>
-									<select class="custom-select mr-sm-2"
-										id="inlineFormCustomSelect">
+									<select class="custom-select mr-sm-2" id="cmediumSelect">
 										<option selected>선택하세요</option>
-										<option value="outer">Outer</option>
-										<option value="cardigan">Cardigan/Vest</option>
 									</select>
 								</div>
 								<div class="col-auto my-1">
-									<label class="mr-sm-2" for="inlineFormCustomSelect">소분류</label>
-									<select class="custom-select mr-sm-2"
-										id="inlineFormCustomSelect">
+									<label class="mr-sm-2" for="csmallSelect">소분류</label> <select
+										class="custom-select mr-sm-2" id="csmallSelect">
 										<option selected>선택하세요</option>
 									</select>
 								</div>
 							</div>
+							<script th:inline="javascript">
+								let category;
+							
+								function clargeChange(e){
+									let clarge = e.value;
+									$('#cmediumSelect').empty();
+									
+									if (category != null) {
+										for(let i=0; i<category.length; i++){
+											if(clarge === category[i].clarge){
+												for(x in category[i].cmedium){
+													$('<option/>', {
+														'text' : category[i].cmedium[x].cmedium
+													}).appendTo('#cmediumSelect');
+												}
+												for(let j=0; j<$('#cmediumSelect option').length; j++){
+													console.log(category[i].cmedium[j].csmall);
+												}
+											}
+										}
+									}
+								}
+								
+								$.ajax({
+									url: "http://localhost:82/product/category",
+									method: "get",
+								}).done((data) => {
+									category = data["category"];
+									console.log(category);
+								});
+							</script>
 						</td>
 					</tr>
 					<tr>
@@ -102,7 +127,7 @@
 						onclick="deleteColorSize()">색상 삭제</div>
 				</div>
 				<div id="colortables">
-				<!-- 반복되는 부분  -->
+					<!-- 반복되는 부분  -->
 					<div class="card-body border-top" id="colortable0">
 						<table class="table table-bordered text-center"
 							style="font-size: 14px;">
@@ -128,7 +153,8 @@
 										<!--  <img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/">-->
 										<div class="d-flex input-group input-group-sm pa-0">
 											<input class="form-control input-sm" type="text"
-												th:name="colors[0].cimage1" /> <a class="btn btn-dark btn-sm">적용</a>
+												th:name="colors[0].cimage1" /> <a
+												class="btn btn-dark btn-sm">적용</a>
 										</div>
 									</td>
 									<td class="colorTd0 align-middle">
@@ -149,18 +175,21 @@
 										<!--<img style="width: 20px; height: 20px" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_C01.jpg">-->
 										<div class="d-flex input-group input-group-sm pa-0">
 											<input class="form-control input-sm" type="text"
-												name="colors[0].ccolorimage" /> <a class="btn btn-dark btn-sm">적용</a>
+												name="colors[0].ccolorimage" /> <a
+												class="btn btn-dark btn-sm">적용</a>
 										</div>
 									</td>
 									<td class="colorTd0 align-middle">
 										<div class="d-flex input-group input-group-sm pa-0">
 											<input class="form-control input-sm" type="text"
-												name="colors[0].cmatchpid" /> <a class="btn btn-dark btn-sm">적용</a>
+												name="colors[0].cmatchpid" /> <a
+												class="btn btn-dark btn-sm">적용</a>
 										</div>
 									</td>
 									<td class="align-middle">
 										<div class="input-group input-group-sm">
-											<input class="form-control input-sm" type="text" name="colors[0].stocks[0].ssize" />
+											<input class="form-control input-sm" type="text"
+												name="colors[0].stocks[0].ssize" />
 										</div>
 									</td>
 									<td class="align-middle">

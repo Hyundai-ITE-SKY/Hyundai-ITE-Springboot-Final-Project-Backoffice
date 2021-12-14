@@ -16,7 +16,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Brand;
@@ -45,6 +44,8 @@ public class ProductController {
 		WebClient webClient = WebClient.create("http://localhost:82/product");
 		Products products = webClient.get().uri("/allbrand").header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
 		model.addAttribute("brands", products.getBrands());
+		Category category = webClient.get().uri("/category").header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Category.class).block();
+		model.addAttribute("category", category.getCategory());
 		
 		return "product/productCreate";
 	}
@@ -73,10 +74,10 @@ public class ProductController {
 		log.info(jsonInString);
 		
 		WebClient webClient = WebClient.create("http://localhost:82/product");
-		Products updateProducts = webClient.post().uri("/create").header(
+		webClient.post().uri("/create").header(
 				HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.body(BodyInserters.fromValue(jsonInString))
-				.retrieve().bodyToMono(Products.class).block();
+				.retrieve().bodyToMono(Void.class).block();
 		
 		return "redirect:/product/list";
 	}
@@ -152,9 +153,9 @@ public class ProductController {
 		return "product/productUpdate";
 	}
 	
-	//상품 수정 실행
+	//상품 수정 기능
 	@PostMapping("/update")
-	public String updateProduct(Product product, Model model, HttpSession session, RedirectAttributes redirattr) throws Exception {
+	public String productUpdateExec(Product product, Model model, HttpSession session, RedirectAttributes redirattr) throws Exception {
 		log.info("실행");
 		log.info(product.toString());
 		
