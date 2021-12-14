@@ -78,6 +78,40 @@ public class MemberController {
 		return "redirect:/member/list";
 	}
 
+	@RequestMapping("/detail")
+	public String memberDetail(String mid, Model model, HttpSession session) {
+		log.info("실행");
+
+		Auth auth = (Auth) session.getAttribute("auth");
+
+		WebClient webClient = WebClient.create();
+
+		log.info(mid);
+
+		Member member = webClient.get().uri("http://localhost:82/member/detail?mid={mid}", mid)
+				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Member.class).block();
+
+		model.addAttribute("member", member);
+
+		return "member/memberDetail";
+	}
+
+	@RequestMapping("/delete")
+	public String deleteGrade(String mid, Model model, HttpSession session) {
+		log.info("실행");
+
+		Auth auth = (Auth) session.getAttribute("auth");
+
+		WebClient webClient = WebClient.create();
+
+		Result result = webClient.delete().uri("http://localhost:82/member/delete?mid={mid}", mid)
+				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Result.class).block();
+
+		log.info(result.toString());
+
+		return "redirect:/member/list";
+	}
+
 	// 회원 등급 관리
 	@RequestMapping("/grade")
 	public String memberGrade(Model model, HttpSession session) {
@@ -115,7 +149,7 @@ public class MemberController {
 
 		return "redirect:/member/grade";
 	}
-	
+
 	@RequestMapping("/grade/apply")
 	public String applyGrade(Model model, HttpSession session) {
 		log.info("실행");

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+	<th:block th:fragment="content">
+		<div>
+			<h5 class="text-gray-800">멤버 정보</h5>
+		</div>
+		<div class="card shadow">
+			<table class="table table-bordered">
+				<tr>
+					<th class="col-3" scope="col" style="background-color: #eeeeee">이름</th>
+					<td class="col-3" scope="col">[[${member.mname}]]</td>
+					<th class="col-3" scope="col" style="background-color: #eeeeee">권한</th>
+					<td class="col-3" scope="col">[[${member.mrole.equals("ROLE_USER")
+						? "사용자" : "관리자"}]]</td>
+				</tr>
+				<tr>
+					<th style="background-color: #eeeeee">아이디</th>
+					<td>[[${member.mid}]]</td>
+					<th style="background-color: #eeeeee">비밀번호</th>
+					<td>*****</td>
+				</tr>
+				<tr>
+					<th style="background-color: #eeeeee">이메일</th>
+					<td colspan="3">[[${member.memail}]]</td>
+				</tr>
+				<tr>
+					<th style="background-color: #eeeeee">휴대폰 번호</th>
+					<td colspan="3">[[${member.mtel}]]</td>
+				</tr>
+				<tr>
+					<th style="background-color: #eeeeee">우편번호</th>
+					<td colspan="3">[[${member.mzipcode}]]</td>
+				</tr>
+				<tr>
+					<th class="col-3" style="background-color: #eeeeee" scope="col">주소</th>
+					<td scope="col">[[${member.maddress1}]]</td>
+					<th class="col-3" style="background-color: #eeeeee" scope="col">상세주소</th>
+					<td scope="col">[[${member.maddress2}]]</td>
+				</tr>
+				<tr>
+					<th style="background-color: #eeeeee">포인트</th>
+					<td colspan="3">[[${member.mpoint >= 100 ?
+						#numbers.formatInteger(member.mpoint, 3, 'COMMA') :
+						member.mpoint}]]P</td>
+				</tr>
+				<tr>
+					<th class="col-3" scope="col" style="background-color: #eeeeee">누적결제금액</th>
+					<td scope="col">[[${#numbers.formatInteger(member.mtotalpayment,
+						3, 'COMMA')}]]원</td>
+					<th class="col-3" scope="col" style="background-color: #eeeeee">등급</th>
+					<td scope="col">[[${member.mgrade}]]</td>
+				</tr>
+				<tr>
+					<th style="background-color: #eeeeee">가입일자</th>
+					<td colspan="3">[[${#calendars.format(member.mdate,
+						'yyyy-MM-dd')}]]</td>
+				</tr>
+				<tr>
+					<th class="col-3" scope="col" style="background-color: #eeeeee">계정상태</th>
+					<td scope="col">[[${member.menabled == true ? "일반" : "휴면"}]]</td>
+					<th class="col-3" scope="col" style="background-color: #eeeeee">탈퇴여부</th>
+					<td scope="col">X</td>
+				</tr>
+			</table>
+			<div class="ml-auto mr-3 mb-3">
+				<a th:href="@{/member/delete(mid=${member.mid})}"
+					class="btn btn-outline-danger btn-sm">계정 삭제</a>
+			</div>
+		</div>
+	</th:block>
+</th:block>
+</html>

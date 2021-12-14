@@ -1,8 +1,6 @@
 package com.mycompany.webapp.controller;
 
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
