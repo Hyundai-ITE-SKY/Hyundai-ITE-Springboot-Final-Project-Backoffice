@@ -3,87 +3,71 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
-		<div style="margin: 50px;">
-			<div class="my-4 p-4 rounded bg-gray-300 border border-dark">
-				<h4 class="font-weight-bolder mb-2">재고 검색</h4>
+		<div>
+			<div>
+				<h5 class="mb-3 text-gray-800">재고 검색</h5>
+			</div>
+			<div class="mb-4 p-4 rounded bg-gray-300 border border-dark">
 				<form class="container">
 					<div class="row">
 						<label class="col-1 font-weight-bolder">검색</label>
 						<div class="col-11">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-									<select class="custom-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+									<select class="custom-select" id="inputGroupSelect04"
+										aria-label="Example select with button addon">
 										<option selected>상품코드</option>
 										<option value="1">브랜드</option>
 										<option value="2">상품명</option>
 									</select>
 								</div>
-								<input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+								<input type="text" class="form-control"
+									aria-label="Text input with segmented dropdown button">
 							</div>
 						</div>
 						<div class="col-11"></div>
 						<div class="col-1">
-							<button class="btn text-white" style="background-color: #2D3134" type="submit">검색</button>
+							<button class="btn text-white" style="background-color: #2D3134"
+								type="submit">검색</button>
 						</div>
 					</div>
 				</form>
 			</div>
-
-			<h4 class="font-weight-bolder mb-2" style="margin-bottom: 100px;">재고 목록</h4>
-
-			<table class="table table-sm mx-auto" style="width:80%;">
-				<tr class="row text-white text-center font-weight-bolder" style="background-color: #2D3134;">
-					<td class="col-2">브랜드</td>
-					<td class="col-2">상품코드</td>
-					<td class="col-2">상품명</td>
-					<td class="col-2">사이즈</td>
-					<td class="col-2">재고</td>
-					<td class="col-2">판매량</td>
-				</tr>
-				
-				<tr class="row text-center">
-					<td class="col-2">brand</td>
-					<td class="col-2">pid</td>
-					<td class="col-2">pname</td>
-					<td class="col-2">psize</td>
-					<td class="col-2">
-						<div class="input-group mb-3 input-group-sm">
-							<input type="text" class="form-control d-inline-block input-sm">
-							<a class="btn btn-sm btn-secondary">변경</a>
-						</div>
-					</td>
-					<td class="col-2">50</td>
-				</tr>
-				
-				<tr class="row text-center">
-					<td class="col-2">brand</td>
-					<td class="col-2">pid</td>
-					<td class="col-2">pname</td>
-					<td class="col-2">psize</td>
-					<td class="col-2">
-						<div class="input-group input-group-sm mb-3">
-							<input type="text" class="form-control d-inline-block input-sm">
-							<a class="btn btn-sm btn-secondary">변경</a>
-						</div>
-					</td>
-					<td class="col-2">50</td>
-				</tr>
-				
-				<tr class="row text-center">
-					<td class="col-2">brand</td>
-					<td class="col-2">pid</td>
-					<td class="col-2">pname</td>
-					<td class="col-2">psize</td>
-					<td class="col-2">
-						<div class="input-group input-group-sm mb-3">
-							<input type="text" class="form-control d-inline-block input-sm">
-							<a class="btn btn-sm btn-secondary">변경</a>
-						</div>
-					</td>
-					<td class="col-2">50</td>
-				</tr>
-			</table>
-
+			<div>
+				<h5 class="mb-3 text-gray-800">재고 목록</h5>
+			</div>
+			<div class="card-body shadow mb-4" style="font-size: 0.75rem">
+				<div class="table-responsive">
+					<table class="table table-hover table-bordered mb-0 text-center">
+						<thead>
+							<tr class="text-center font-weight-bolder">
+								<th>브랜드</th>
+								<th>상품코드</th>
+								<th>상품명</th>
+								<th>사이즈</th>
+								<th>재고</th>
+								<th>판매량</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center">
+								<td class="align-middle">brand</td>
+								<td class="align-middle">pid</td>
+								<td class="align-middle">pname</td>
+								<td class="align-middle">psize</td>
+								<td class="align-middle">
+									<div class="input-group input-group-sm">
+										<input type="text"
+											class="form-control d-inline-block input-sm"> <a
+											class="btn btn-sm btn-secondary">변경</a>
+									</div>
+								</td>
+								<td class="align-middle">50</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</th:block>
 </th:block>

@@ -3,8 +3,10 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
 		<div>
-			<h5 class="mb-3 text-gray-800">회원 등급 관리</h5>
-			<div class="card card-body">
+			<div>
+				<h5 class="mb-3 text-gray-800">회원 등급 관리</h5>
+			</div>
+			<div class="card-body shadow mb-4" style="font-size: 0.75rem">
 				<div class="table-responsive">
 					<table class="table table-hover table-bordered mb-3 text-center">
 						<thead>
@@ -25,9 +27,9 @@
 								<td class="align-middle" th:id="|gradeMax${status.count}|">결제
 									금액 [[${#numbers.formatInteger(grade.gmax, 3, 'COMMA')}]]원 미만</td>
 								<td class="align-middle" th:id="|gradeSale${status.count}|">[[${grade.gsale}]]%</td>
-								<td><button class="btn btn-outline-primary btn-sm"
+								<td><button style="font-size: 0.75rem" class="btn btn-outline-primary btn-sm"
 										th:onclick="|changeUpdateForm(${grade.gmax}, ${grade.gsale}, ${status.count})|">수정</button></td>
-								<td><a
+								<td><a style="font-size: 0.75rem"
 									th:href="@{/member/grade/delete(gmax=${grade.gmax})}"
 									class="btn btn-outline-danger btn-sm">삭제</a></td>
 							</tr>
@@ -95,11 +97,11 @@
 					}
 				</script>
 				<div>
-					<button class="btn btn-outline-success btn-sm" type="button"
+					<button style="font-size: 0.75rem" class="btn btn-outline-success btn-sm" type="button"
 						data-toggle="collapse" data-target="#collapseAddGrade"
 						aria-expanded="false" aria-controls="collapseAddGrade">등급
 						추가</button>
-					<a href="grade/apply" class="btn btn-outline-success btn-sm">등급
+					<a style="font-size: 0.75rem" href="grade/apply" class="btn btn-outline-success btn-sm">등급
 						부여</a>
 				</div>
 				<div class="mt-3">
@@ -131,7 +133,7 @@
 											class="form-text text-muted">해당 등급에게 적용되는 할인율입니다.</small>
 									</div>
 								</div>
-								<button type="submit" class="btn btn-outline-primary">저장</button>
+								<button type="submit" class="btn btn-outline-primary btn-sm" style="font-size: 0.75rem">저장</button>
 							</form>
 						</div>
 					</div>

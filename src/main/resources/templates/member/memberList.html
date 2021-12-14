@@ -3,9 +3,11 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
 		<div>
-			<h5 class="mb-3 text-gray-800">회원 정보 관리</h5>
-			<div class="card card-body">
-				<div class="table-responsive">
+			<div>
+				<h5 class="mb-3 text-gray-800">회원 정보 관리</h5>
+			</div>
+			<div class="card-body shadow mb-4">
+				<div class="table-responsive" style="font-size: 0.75rem">
 					<table class="table table-hover table-bordered mb-3 text-center">
 						<thead>
 							<tr>
@@ -40,19 +42,20 @@
 					</table>
 				</div>
 				<div>
-					<button class="btn btn-outline-success btn-sm" type="button"
-						data-toggle="collapse" data-target="#collapseAddMember"
-						aria-expanded="false" aria-controls="collapseAddMember">계정
-						추가</button>
+					<button class="btn btn-outline-success btn-sm"
+						style="font-size: 0.75rem" type="button" data-toggle="collapse"
+						data-target="#collapseAddMember" aria-expanded="false"
+						aria-controls="collapseAddMember">계정 추가</button>
 				</div>
-				<div class="mt-3">
+				<div class="mt-3" style="font-size: 0.75rem">
 					<div class="collapse" id="collapseAddMember">
 						<div class="card card-body">
 							<form method="post" action="create" enctype="multipart/form-data">
 								<div class="form-row">
 									<div class="form-group col-md-5">
-										<label for="inputMemberName">이름</label> <input name="mname"
-											type="text" class="form-control" id="inputMemberName"
+										<label for="inputMemberName">이름</label> <input
+											style="font-size: 0.75rem" name="mname" type="text"
+											class="form-control" id="inputMemberName"
 											aria-describedby="helpMemberName"> <small
 											id="helpMemberName" class="form-text text-muted">이름을
 											입력하세요.</small>
@@ -60,8 +63,9 @@
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-5">
-										<label for="inputMemberId">아이디</label> <input name="mid"
-											type="text" class="form-control" id="inputMemberId"
+										<label for="inputMemberId">아이디</label> <input
+											style="font-size: 0.75rem" name="mid" type="text"
+											class="form-control" id="inputMemberId"
 											aria-describedby="helpMemberId"> <small
 											id="helpMemberId" class="form-text text-muted">아이디를
 											입력하세요.</small>
@@ -69,24 +73,27 @@
 									<div class="col-md-1"></div>
 									<div class="form-group col-md-5">
 										<label for="inputPassword">비밀번호</label> <input
-											name="mpassword" type="password" class="form-control"
-											id="inputPassword" aria-describedby="helpPassword"> <small
+											style="font-size: 0.75rem" name="mpassword" type="password"
+											class="form-control" id="inputPassword"
+											aria-describedby="helpPassword"> <small
 											id="helpPassword" class="form-text text-muted">비밀번호를
 											입력하세요.</small>
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-5">
-										<label for="inputMemberTel">휴대폰 번호</label> <input name="mtel"
-											type="tel" class="form-control" id="inputMemberTel"
+										<label for="inputMemberTel">휴대폰 번호</label> <input
+											style="font-size: 0.75rem" name="mtel" type="tel"
+											class="form-control" id="inputMemberTel"
 											aria-describedby="helpMemberTel"> <small
 											id="helpMemberTel" class="form-text text-muted">'010-****-****'의
 											형태로 작성해주세요.</small>
 									</div>
 									<div class="col-md-1"></div>
 									<div class="form-group col-md-5">
-										<label for="inputEmail">이메일</label> <input name="memail"
-											type="email" class="form-control" id="inputEmail"
+										<label for="inputEmail">이메일</label> <input
+											style="font-size: 0.75rem" name="memail" type="email"
+											class="form-control" id="inputEmail"
 											aria-describedby="helpEmail"> <small id="helpEmail"
 											class="form-text text-muted">'abc123@gmail.com'의 형태로
 											입력해주세요.</small>
@@ -97,12 +104,14 @@
 										<label for="inputPostcode">우편번호</label>
 										<div class="form-row align-items-center">
 											<div class="col-md-8">
-												<input type="text" class="form-control" id="inputPostcode"
-													name="mzipcode" readonly aria-describedby="helpPostcode">
+												<input style="font-size: 0.75rem" type="text"
+													class="form-control" id="inputPostcode" name="mzipcode"
+													readonly aria-describedby="helpPostcode">
 											</div>
 											<div class="col-md-4">
 												<button type="button" class="btn btn-dark btn-sm"
-													onclick="execDaumPostcode()">우편번호 조회</button>
+													style="font-size: 0.75rem" onclick="execDaumPostcode()">우편번호
+													조회</button>
 											</div>
 										</div>
 										<small id="helpPostcode" class="form-text text-muted">우편번호를
@@ -112,8 +121,9 @@
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-5">
-										<label for="inputAddress">주소</label> <input type="text"
-											name="maddress1" class="form-control" id="inputAddress"
+										<label for="inputAddress">주소</label> <input
+											style="font-size: 0.75rem" type="text" name="maddress1"
+											class="form-control" id="inputAddress"
 											aria-describedby="helpAddress" readonly> <small
 											id="helpAddress" class="form-text text-muted">주소를
 											입력하세요.</small>
@@ -121,9 +131,10 @@
 									<div class="col-md-1"></div>
 									<div class="form-group col-md-5">
 										<label for="inputDetailAddress">상세주소</label> <input
-											type="text" class="form-control" id="inputDetailAddress"
-											name="maddress2" aria-describedby="helpDetailAddress">
-										<small id="helpDetailAddress" class="form-text text-muted">나머지
+											style="font-size: 0.75rem" type="text" class="form-control"
+											id="inputDetailAddress" name="maddress2"
+											aria-describedby="helpDetailAddress"> <small
+											id="helpDetailAddress" class="form-text text-muted">나머지
 											주소를 입력하세요.</small>
 									</div>
 									<script
@@ -152,8 +163,9 @@
 								</div>
 								<div class="form-row">
 									<div class="form-group col-md-5">
-										<label for="inputMemberDate">가입일자</label> <input type="date"
-											class="form-control" id="inputMemberDate" name="mdate"
+										<label for="inputMemberDate">가입일자</label> <input
+											style="font-size: 0.75rem" type="date" class="form-control"
+											id="inputMemberDate" name="mdate"
 											aria-describedby="helpMemberDate"> <small
 											id="helpMemberDate" class="form-text text-muted">가입일자를
 											선택해주세요.</small>
@@ -162,7 +174,7 @@
 								<div class="form-row">
 									<div class="form-group col-md-5">
 										<label for="inputRole">권한</label> <select id="inputRole"
-											name="mrole" class="custom-select">
+											style="font-size: 0.75rem" name="mrole" class="custom-select">
 											<option value="ROLE_ADMIN">관리자</option>
 											<option value="ROLE_USER" selected>사용자</option>
 										</select> <small id="helpRole" class="form-text text-muted">계정상태를
@@ -171,7 +183,8 @@
 									<div class="col-md-1"></div>
 									<div class="form-group col-md-5">
 										<label for="inputEnabled">계정상태</label> <select name="menabled"
-											id="inputEnabled" class="custom-select">
+											style="font-size: 0.75rem" id="inputEnabled"
+											class="custom-select">
 											<option th:value="true" selected>일반</option>
 											<option th:value="false">휴면</option>
 										</select> <small id="helpEnabled" class="form-text text-muted">계정상태를
@@ -181,13 +194,15 @@
 								<div class="form-row">
 									<div class="form-group col-md-5">
 										<label for="inputTotalPayment">누적사용금액</label> <input
-											name="mtotalpayment" type="number" class="form-control"
-											id="inputTotalPayment" aria-describedby="helpTotalPayment">
-										<small id="helpTotalPayment" class="form-text text-muted">누적사용금액을
+											style="font-size: 0.75rem" name="mtotalpayment" type="number"
+											class="form-control" id="inputTotalPayment"
+											aria-describedby="helpTotalPayment"> <small
+											id="helpTotalPayment" class="form-text text-muted">누적사용금액을
 											입력하세요.</small>
 									</div>
 								</div>
-								<button type="submit" class="btn btn-outline-primary">저장</button>
+								<button type="submit" class="btn btn-outline-primary btn-sm"
+									style="font-size: 0.75rem">저장</button>
 							</form>
 						</div>
 					</div>
