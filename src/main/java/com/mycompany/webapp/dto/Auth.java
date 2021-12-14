@@ -6,4 +6,5 @@ import lombok.Data;
 public class Auth {
 	private String jwt;
 	private String mid;
+	private String result;
 }

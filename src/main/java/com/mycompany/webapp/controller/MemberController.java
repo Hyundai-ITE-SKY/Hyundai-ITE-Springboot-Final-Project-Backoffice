@@ -1,5 +1,7 @@
 package com.mycompany.webapp.controller;
 
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Grade;
 import com.mycompany.webapp.dto.Grades;
+import com.mycompany.webapp.dto.Member;
 import com.mycompany.webapp.dto.Members;
 import com.mycompany.webapp.dto.Result;
 
@@ -27,11 +30,7 @@ public class MemberController {
 	public String memberInfo(Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 
@@ -43,24 +42,90 @@ public class MemberController {
 		return "member/memberList";
 	}
 
+	@RequestMapping("/create")
+	public String createMember(Member member, Model model, HttpSession session) {
+		log.info("실행");
+
+		Auth auth = (Auth) session.getAttribute("auth");
+
+		WebClient webClient = WebClient.create();
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+
+		SimpleDateFormat sDate = new SimpleDateFormat("yyyy-MM-dd");
+
+		map.add("mid", member.getMid());
+		map.add("mpassword", member.getMpassword());
+		map.add("mname", member.getMname());
+		map.add("memail", member.getMemail());
+		map.add("mtel", member.getMtel());
+		map.add("mzipcode", member.getMzipcode());
+		map.add("maddress1", member.getMaddress1());
+		map.add("maddress2", member.getMaddress2());
+		map.add("mgrade", "Level1");
+		map.add("mdate", sDate.format(member.getMdate()));
+		map.add("mpoint", "0");
+		map.add("mrole", member.getMrole());
+		map.add("mtotalpayment", String.valueOf(member.getMtotalpayment()));
+
+		log.info(member.toString());
+
+		Result result = webClient.post().uri("http://localhost:82/member/create")
+				.header("Authorization", "Bearer " + auth.getJwt()).body(BodyInserters.fromFormData(map)).retrieve()
+				.bodyToMono(Result.class).block();
+
+		log.info(result.toString());
+
+		return "redirect:/member/list";
+	}
+
+	@RequestMapping("/detail")
+	public String memberDetail(String mid, Model model, HttpSession session) {
+		log.info("실행");
+
+		Auth auth = (Auth) session.getAttribute("auth");
+
+		WebClient webClient = WebClient.create();
+
+		log.info(mid);
+
+		Member member = webClient.get().uri("http://localhost:82/member/detail?mid={mid}", mid)
+				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Member.class).block();
+
+		model.addAttribute("member", member);
+
+		return "member/memberDetail";
+	}
+
+	@RequestMapping("/delete")
+	public String deleteGrade(String mid, Model model, HttpSession session) {
+		log.info("실행");
+
+		Auth auth = (Auth) session.getAttribute("auth");
+
+		WebClient webClient = WebClient.create();
+
+		Result result = webClient.delete().uri("http://localhost:82/member/delete?mid={mid}", mid)
+				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Result.class).block();
+
+		log.info(result.toString());
+
+		return "redirect:/member/list";
+	}
+
 	// 회원 등급 관리
 	@RequestMapping("/grade")
 	public String memberGrade(Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
-		
+
 		Grades grades = webClient.get().uri("http://localhost:82/member/grade/list")
 				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Grades.class).block();
 
 		model.addAttribute("grades", grades.getGrades());
-		
+
 		return "member/memberGrade";
 	}
 
@@ -68,11 +133,7 @@ public class MemberController {
 	public String createGrade(Grade grade, Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
@@ -89,15 +150,27 @@ public class MemberController {
 		return "redirect:/member/grade";
 	}
 
+	@RequestMapping("/grade/apply")
+	public String applyGrade(Model model, HttpSession session) {
+		log.info("실행");
+
+		Auth auth = (Auth) session.getAttribute("auth");
+
+		WebClient webClient = WebClient.create();
+
+		Result result = webClient.get().uri("http://localhost:82/member/grade/apply")
+				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Result.class).block();
+
+		log.info(result.toString());
+
+		return "redirect:/member/grade";
+	}
+
 	@RequestMapping("/grade/update")
 	public String updateGrade(int beforegmax, Grade grade, Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
@@ -118,11 +191,7 @@ public class MemberController {
 	public String deleteGrade(int gmax, Model model, HttpSession session) {
 		log.info("실행");
 
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjE1NzksIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.vMFp8JTxBqwGWgzHVVswyRv7YPVe8-_q9zo8IXLLT8Y");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 

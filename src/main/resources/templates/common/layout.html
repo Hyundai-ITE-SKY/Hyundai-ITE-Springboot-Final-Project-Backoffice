@@ -8,10 +8,12 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>HANDSOME BACKOFFICE</title>
 <!-- Custom fonts for this template-->
-<link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet"
-	type="text/css">
-
-<!-- Custom styles for this template-->
+<link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/jquery/jquery.min.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
 <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
 
 		<!-- Bootstrap core JavaScript-->
@@ -22,8 +24,8 @@
 		<!-- Page level plugins -->
 		<script th:src="@{/chart.js/Chart.min.js}"></script>
 		<!-- Page level custom scripts -->
-		<script th:src="@{/js/demo/chart-area-demo.js}"></script>
-		<script th:src="@{/js/demo/chart-pie-demo.js}"></script>
+		<script th:src="@{/js/chart-area-demo.js}"></script>
+		<script th:src="@{/js/chart-pie-demo.js}"></script>
 
 	</head>
 	<body id="page-top">
@@ -33,9 +35,7 @@
 			<ul class="navbar-nav sidebar sidebar-dark accordion"
 				id="accordionSidebar" style="background-color: #2D3134">
 				<!-- Sidebar - Brand -->
-				<a
-					class="sidebar-brand d-flex align-items-center justify-content-center"
-					th:href="@{/}">
+				<a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/}">
 					<div class="sidebar-brand-icon">
 						<i class="fas fa-globe"></i>
 					</div>
@@ -161,7 +161,6 @@
 			<!-- End of Content Wrapper -->
 		</div>
 		<!-- End of Page Wrapper -->
-
 	</body>
 </th:block>
 </html>
