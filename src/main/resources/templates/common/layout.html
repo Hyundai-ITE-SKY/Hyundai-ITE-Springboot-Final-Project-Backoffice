@@ -25,6 +25,7 @@
 		<script th:src="@{/js/demo/chart-area-demo.js}"></script>
 		<script th:src="@{/js/demo/chart-pie-demo.js}"></script>
 
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
 	<body id="page-top">
 		<!-- Page Wrapper -->
@@ -95,7 +96,7 @@
 					<div id="collapseDisplay" class="collapse"
 						aria-labelledby="headingDisplay" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" href="utilities-color.html">미정</a>
+							<a class="collapse-item" th:href="@{/exhibition/management}">전시 관리</a>
 						</div>
 					</div></li>
 
