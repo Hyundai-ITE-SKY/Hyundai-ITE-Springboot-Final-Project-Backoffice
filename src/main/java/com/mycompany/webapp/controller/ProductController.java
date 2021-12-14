@@ -16,14 +16,17 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Brand;
 import com.mycompany.webapp.dto.Category;
+import com.mycompany.webapp.dto.Color;
 import com.mycompany.webapp.dto.IntegerVariable;
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Products;
+import com.mycompany.webapp.dto.Stock;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,11 +35,50 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/product")
 public class ProductController {
 	
-	//상품등록
-	@RequestMapping("/create")
-	public String productCreate() {
+	//상품등록 페이지
+	@GetMapping("/create")
+	public String productCreate(Model model, HttpSession session) {
 		log.info("실행");
+		Auth auth = new Auth();
+		auth.setJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
+		auth.setMid("mid1");
+		WebClient webClient = WebClient.create("http://localhost:82/product");
+		Products products = webClient.get().uri("/allbrand").header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+		model.addAttribute("brands", products.getBrands());
+		
 		return "product/productCreate";
+	}
+	
+	//상품등록 기능
+	@PostMapping("/create")
+	public String productCreateExec(Product product) throws Exception {
+		List<Color> colors = product.getColors();
+		String pid = product.getPid();
+		product.setClarge("WOMEN");
+		product.setCmedium("Top");
+		product.setCsmall("Shirts");
+		
+		for(Color color : colors) {
+			color.setPid(pid);
+			List<Stock> stocks = color.getStocks();
+			for(Stock stock: stocks) {
+				stock.setPid(pid);
+				stock.setCcolorcode(color.getCcolorcode());
+			}
+		}
+		log.info(product.toString());
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonInString = mapper.writeValueAsString(product);
+		log.info(jsonInString);
+		
+		WebClient webClient = WebClient.create("http://localhost:82/product");
+		Products updateProducts = webClient.post().uri("/create").header(
+				HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.body(BodyInserters.fromValue(jsonInString))
+				.retrieve().bodyToMono(Products.class).block();
+		
+		return "redirect:/product/list";
 	}
 	
 	//상품조회
