@@ -1,6 +1,8 @@
 package com.mycompany.webapp.controller;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,14 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderController {
 	
 	@RequestMapping("/orderlist/{pageNo}")
-	public String orderInquiry(Model model, @PathVariable int pageNo) {
+	public String orderInquiry(Model model, @PathVariable int pageNo, HttpSession session) {
 		log.info("실행");
 		
-		//Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkwMzE0NzgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.ynK_wUj7ZyiTlFp180FAnnd5KvtlLnlEFgrE7Hr0OVA");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient getRowsWebClient = WebClient.create();
 		IntegerVariable totalRows = getRowsWebClient.get().uri("http://localhost:82/order/totalrows")
@@ -45,14 +43,10 @@ public class OrderController {
 	}
 	
 	@RequestMapping("/orderdetail/{oid}")
-	public String orderDetail(Model model, @PathVariable String oid) {
+	public String orderDetail(Model model, @PathVariable String oid, HttpSession session) {
 		log.info("실행");
 		
-		//Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMDg4NDQsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.K4W_19VvCxl1tXSra6Fz6VHKZEwqAuyEVGyfVYBNuqU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
 		Order order = webClient.get().uri("http://localhost:82/order/detail?oid={oid}", oid)

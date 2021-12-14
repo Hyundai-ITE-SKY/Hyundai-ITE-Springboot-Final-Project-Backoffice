@@ -2,6 +2,8 @@ package com.mycompany.webapp.controller;
 
 import java.text.SimpleDateFormat;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -32,19 +34,15 @@ import lombok.extern.slf4j.Slf4j;
 public class EventController {
 	//이벤트 조회
 	@RequestMapping("/list/{pageNo}")
-	public String eventList(Model model, @PathVariable int pageNo) {
+	public String eventList(Model model, @PathVariable int pageNo, HttpSession session) {
 		log.info("실행");
 		
-		//Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkwMzE0NzgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.ynK_wUj7ZyiTlFp180FAnnd5KvtlLnlEFgrE7Hr0OVA");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient getRowsWebClient = WebClient.create();
 		IntegerVariable totalRows = getRowsWebClient.get().uri("http://localhost:82/event/totalrows")
 										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(IntegerVariable.class).block();
-
+		
 		WebClient webClient = WebClient.create();
 		Events events = webClient.get().uri("http://localhost:82/event/list?pageNo={pageNo}", pageNo)
 										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(Events.class).block();
@@ -56,14 +54,10 @@ public class EventController {
 	}
 	//이벤트 상세 조회
 	@RequestMapping("/detail/{eid}")
-	public String eventDetail(Model model, @PathVariable int eid) {
+	public String eventDetail(Model model, @PathVariable int eid, HttpSession session) {
 		log.info("실행");
 		
-		//Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMDg4NDQsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.K4W_19VvCxl1tXSra6Fz6VHKZEwqAuyEVGyfVYBNuqU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
 		Event event = webClient.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
@@ -76,14 +70,10 @@ public class EventController {
 	
 	//이벤트 수정
 	@GetMapping("/update/{eid}")
-	public String eventUpdateForm(Model model, @PathVariable int eid) {
+	public String eventUpdateForm(Model model, @PathVariable int eid, HttpSession session) {
 		log.info("실행");
 		
-		//Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMDg4NDQsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.K4W_19VvCxl1tXSra6Fz6VHKZEwqAuyEVGyfVYBNuqU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
 		Event event = webClient.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
@@ -95,7 +85,7 @@ public class EventController {
 	}
 	
 	@PostMapping("/update/{eid}")
-	public String eventUpdate(Model model, @PathVariable int eid, Event event) {
+	public String eventUpdate(Model model, @PathVariable int eid, Event event, HttpSession session) {
 		log.info("실행");
 		/*수정*/
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -117,10 +107,7 @@ public class EventController {
 		
 		
 		/* detail로 보낼 event 정보 get */
-		// Auth auth = (Auth) session.getAttribute("auth");
-		Auth auth = new Auth();
-		auth.setJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMDg4NDQsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.K4W_19VvCxl1tXSra6Fz6VHKZEwqAuyEVGyfVYBNuqU");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient2 = WebClient.create();
 		Event newEvent = webClient2.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
@@ -154,7 +141,6 @@ public class EventController {
 		map.add("eimage", event.getEimage()+"");
 		map.add("eamount", event.getEamount()+"");
 		map.add("elimit", event.getElimit()+"");
-		//log.info("estartdate " + simpleDateFormat.format(event.getEstartdate()));
 		
 		IntegerVariable integerVariable = webClient.post().uri("http://localhost:82/event/create")
 											.body(BodyInserters.fromFormData(map))
