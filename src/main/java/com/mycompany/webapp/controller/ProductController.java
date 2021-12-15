@@ -38,9 +38,9 @@ public class ProductController {
 	@GetMapping("/create")
 	public String productCreate(Model model, HttpSession session) {
 		log.info("실행");
-		Auth auth = new Auth();
-		auth.setJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
-		auth.setMid("mid1");
+		
+		Auth auth = (Auth) session.getAttribute("auth");
+		
 		WebClient webClient = WebClient.create("http://localhost:82/product");
 		Products products = webClient.get().uri("/allbrand").header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
 		model.addAttribute("brands", products.getBrands());
@@ -84,10 +84,7 @@ public class ProductController {
 	public String productList(Model model, HttpSession session, @RequestParam(defaultValue="1") int pageNo) {
 		log.info("실행");
 		
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
 
@@ -106,10 +103,7 @@ public class ProductController {
 	public String productDetail(Model model, HttpSession session, @RequestParam("pid")String pid) {
 		log.info("실행");
 		
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
 		
@@ -127,10 +121,7 @@ public class ProductController {
 	public String productUpdate(Model model, HttpSession session, @RequestParam("pid")String pid) {
 		log.info("실행");
 		
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
 		
