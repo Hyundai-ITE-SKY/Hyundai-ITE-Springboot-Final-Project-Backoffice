@@ -154,14 +154,24 @@ public class ProductController {
 	@PostMapping("/update")
 	public String productUpdateExec(Product product, Model model, HttpSession session, RedirectAttributes redirattr) throws Exception {
 		log.info("실행");
-		log.info(product.toString());
 		
-		String clarge = product.getClarge();
-		product.setClarge(clarge.substring(0, clarge.length()-1)); //콤마가 찍히는 부분 제거
+		String pid = product.getPid();
+		
+		for(Color color : product.getColors()) {
+			color.setPid(pid);
+			List<Stock> stocks = color.getStocks();
+			
+			for(Stock stock: stocks) {
+				stock.setPid(pid);
+				stock.setCcolorcode(color.getCcolorcode());
+			}
+		}
+		
 		String pseason = product.getPseason();
 		product.setPseason(pseason.substring(0, pseason.length()-1)); //콤마가 찍히는 부분 제거
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(product);
+		log.info(jsonInString);
 		
 		WebClient webClient = WebClient.create("http://localhost:82/product");
 		Products updateProducts = webClient.post().uri("/update").header(
