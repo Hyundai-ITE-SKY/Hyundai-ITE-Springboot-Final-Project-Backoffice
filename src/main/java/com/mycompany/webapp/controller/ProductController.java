@@ -192,4 +192,30 @@ public class ProductController {
 		return "/product/productStock";
 	}
 	
+	@GetMapping("/search")
+	public String getSearchList(@RequestParam String type,
+								@RequestParam String keyword,
+								@RequestParam(defaultValue="1") int pageNo,
+								HttpSession session,
+								Model model)
+	{
+		log.info("실행");
+		log.info("type : "+ type + ", keyword : " + keyword);
+		WebClient webClient = WebClient.create("http://localhost:82/product");
+		
+		Auth auth = (Auth) session.getAttribute("auth");
+		Products products = webClient.get().uri(builder -> builder.path("/getSearchList").queryParam("type", type).queryParam("keyword", keyword).build())
+				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+		Pager pager = new Pager(12, 5, products.getTotalRows(), pageNo);
+		
+		model.addAttribute("products", products.getProducts());
+		model.addAttribute("pager", pager);
+		
+		for(Product product : products.getProducts()) {
+			log.info(product.toString());
+		}
+		
+		return "/product/productList";
+	}
+	
 }

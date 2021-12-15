@@ -19,4 +19,8 @@ public class Product {
 	private String pseason;
 	private int ptotalamount;
 	private List<Color> colors;
+	
+	//검색필터
+	private String type;
+	private String keyword;
 }
