@@ -35,7 +35,7 @@ public class OrderController {
 		WebClient webClient = WebClient.create();
 		OrderLists orderLists = webClient.get().uri("http://localhost:82/order/list?pageNo={pageNo}", pageNo)
 										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(OrderLists.class).block();
-		Pager pager = new Pager(5, 5, totalRows.getValue(), pageNo);
+		Pager pager = new Pager(12, 5, totalRows.getValue(), pageNo);
 
 		model.addAttribute("orderLists", orderLists.getOrderlists());
 		model.addAttribute("pager", pager);
