@@ -61,22 +61,22 @@
 						<td colspan="3">
 							<div class="d-flex">
 								<div class="col-auto my-1">
-									<label class="mr-sm-2" for="">대분류</label> <select
-										class="custom-select mr-sm-2" id="clargeSelect" onchange="clargeChange(this)">
+									<label class="mr-sm-2" for="">대분류</label>
+									<select class="custom-select mr-sm-2" id="clargeSelect" onchange="clargeChange(this)" name="clarge">
 										<option value="" selected>선택하세요</option>
-										<option th:each="clarge : ${category}" th:text="${clarge.clarge}"></option>
+										<option th:each="clarge : ${category}" th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
 									</select>
 								</div>
 								<div class="col-auto my-1">
-									<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label>
-									<select class="custom-select mr-sm-2" id="cmediumSelect">
-										<option selected>선택하세요</option>
+									<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label> 
+									<select class="custom-select mr-sm-2" id="cmediumSelect" onchange="cmediumChange(this)" name="cmedium">
+										<option value="" selected>선택하세요</option>
 									</select>
 								</div>
 								<div class="col-auto my-1">
-									<label class="mr-sm-2" for="csmallSelect">소분류</label> <select
-										class="custom-select mr-sm-2" id="csmallSelect">
-										<option selected>선택하세요</option>
+									<label class="mr-sm-2" for="csmallSelect">소분류</label>
+									<select class="custom-select mr-sm-2" id="csmallSelect" name="csmall">
+										<option value="" selected>선택하세요</option>
 									</select>
 								</div>
 							</div>
@@ -85,22 +85,45 @@
 							
 								function clargeChange(e){
 									let clarge = e.value;
-									$('#cmediumSelect').empty();
+									$('#cmediumSelect').children('option:not(:first)').remove();
+									$('#csmallSelect').children('option:not(:first)').remove();
 									
 									if (category != null) {
 										for(let i=0; i<category.length; i++){
 											if(clarge === category[i].clarge){
 												for(x in category[i].cmedium){
 													$('<option/>', {
-														'text' : category[i].cmedium[x].cmedium
+														'text' : category[i].cmedium[x].cmedium,
+														'value' : category[i].cmedium[x].cmedium
 													}).appendTo('#cmediumSelect');
-												}
-												for(let j=0; j<$('#cmediumSelect option').length; j++){
-													console.log(category[i].cmedium[j].csmall);
 												}
 											}
 										}
 									}
+								}
+								
+								function cmediumChange(e){
+									let clarge = $('#clargeSelect option:selected').val();
+									let cmedium = e.value;
+									$('#csmallSelect').children('option:not(:first)').remove();
+									
+									if(category!=null){
+										for(let i=0; i<category.length; i++){
+											if(clarge===category[i].clarge){
+												for(x in category[i].cmedium){
+													if(cmedium ===category[i].cmedium[x].cmedium){
+														for(y in category[i].cmedium[x].csmall){
+															$('<option/>', {
+																'text' : category[i].cmedium[x].csmall[y],
+																'value' : category[i].cmedium[x].csmall[y]
+															}).appendTo('#csmallSelect');
+														}
+													}
+												}
+											}
+										}
+									}
+									
 								}
 								
 								$.ajax({

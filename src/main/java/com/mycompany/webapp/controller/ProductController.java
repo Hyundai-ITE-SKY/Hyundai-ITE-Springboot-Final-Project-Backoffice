@@ -55,9 +55,6 @@ public class ProductController {
 	public String productCreateExec(Product product) throws Exception {
 		List<Color> colors = product.getColors();
 		String pid = product.getPid();
-		product.setClarge("WOMEN");
-		product.setCmedium("Top");
-		product.setCsmall("Shirts");
 		
 		for(Color color : colors) {
 			color.setPid(pid);

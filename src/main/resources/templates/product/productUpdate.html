@@ -57,32 +57,92 @@
 					<th>카테고리</th>
 					<td colspan="3">
 						<div class="d-flex">
+						<input type="hidden" id="originClarge" th:value="${product.clarge}"/>
+						<input type="hidden" id="originCmedium" th:value="${product.cmedium}"/>
+						<input type="hidden" id="originCsmall" th:value="${product.csmall}"/>
 							<div class="col-auto my-1">
 								<label class="mr-sm-2" for="">대분류</label>
-								<select th:field="${product.clarge}" class="custom-select mr-sm-2" id="clargeSelect">
+								<select th:field="${product.clarge}" class="custom-select mr-sm-2" id="clargeSelect" name="clarge" onchange="clargeChange(this.value)">
 									<option th:each="clarge : ${categoryList}" th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
 								</select>
-								<input type="hidden" name="clarge"/>
 							</div>
 							<div class="col-auto my-1">
-								<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label>
-								<select class="custom-select mr-sm-2" id="cmediumSelect">
-									<option value="Outer">Outer</option>
-									<option value="Top"selected>Top</option>
+								<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label> 
+								<select th:field="${product.cmedium}" class="custom-select mr-sm-2" id="cmediumSelect" onchange="cmediumChange(this.value)" name="cmedium">
+									<option value="" selected>선택하세요</option>
 								</select>
-								<input type="hidden" name="cmedium"/>
 							</div>
 							<div class="col-auto my-1">
-								<label class="mr-sm-2" for="inlineFormCustomSelect">소분류</label>
-								<select class="custom-select mr-sm-2" id="csmallSelect">
-									<option value="Blouse">Blouse</option>
-									<option value="Knit"selected>Knit</option>
-									<option value="Shirts">Shirts</option>
-									<option value="T-Shirts">T-Shirts</option>
+								<label class="mr-sm-2" for="csmallSelect">소분류</label>
+								<select th:field="${product.csmall}" class="custom-select mr-sm-2" id="csmallSelect" name="csmall">
+									<option value="" selected>선택하세요</option>
 								</select>
-								<input type="hidden" name="csmall"/>
 							</div>
 						</div>
+						<script th:inline="javascript">
+							let category;
+							$(document).ready(function(){
+								$.ajax({
+									url: "http://localhost:82/product/category",
+									method: "get",
+								}).done((data) => {
+									category = data["category"];
+									
+									let clarge = $('#originClarge').val();
+									let cmedium = $('#originCmedium').val();
+									let csmall = $('#originCsmall').val();
+									
+									clargeChange(clarge);
+									$('#cmediumSelect').val(cmedium);
+									
+									cmediumChange(cmedium);
+									$('#csmallSelect').val(csmall);
+								});
+							})
+							
+							function clargeChange(e){
+								let clarge = e;
+								$('#cmediumSelect').children('option:not(:first)').remove();
+								$('#csmallSelect').children('option:not(:first)').remove();
+								
+								if (category != null) {
+									for(let i=0; i<category.length; i++){
+										if(clarge === category[i].clarge){
+											for(x in category[i].cmedium){
+												$('<option/>', {
+													'text' : category[i].cmedium[x].cmedium,
+													'value' : category[i].cmedium[x].cmedium
+												}).appendTo('#cmediumSelect');
+											}
+										}
+									}
+								}
+							}
+							
+							function cmediumChange(e){
+								let clarge = $('#clargeSelect option:selected').val();
+								let cmedium = e;
+								$('#csmallSelect').children('option:not(:first)').remove();
+								
+								if(category!=null){
+									for(let i=0; i<category.length; i++){
+										if(clarge===category[i].clarge){
+											for(x in category[i].cmedium){
+												if(cmedium ===category[i].cmedium[x].cmedium){
+													for(y in category[i].cmedium[x].csmall){
+														$('<option/>', {
+															'text' : category[i].cmedium[x].csmall[y],
+															'value' : category[i].cmedium[x].csmall[y]
+														}).appendTo('#csmallSelect');
+													}
+												}
+											}
+										}
+									}
+								}
+								
+							}
+						</script>
 					</td>
 				</tr>
 				<tr>
@@ -203,14 +263,6 @@
 						var status = [[${status.count}]];
 						var stats = [[${stats.count}]];
 						
-						let cmedium = $('#cmediumSelect option:selected').val();
-						$('input[name=cmedium]').val(cmedium);
-						let csmall = $('#csmallSelect option:selected').val();
-						$('input[name=csmall]').val(csmall);
-						
-						/* let ccolorcode = $('#ccolorcode1').val();
-						$('#stockincolor').val(ccolorcode);
-						console.log($('#stockincolor').val()); */
 						for(let i=0; i<status; i++){
 							let ccolorcode = $('#ccolorcode'+(i+1)).val();
 							for(let j=0; j<stats; j++){
