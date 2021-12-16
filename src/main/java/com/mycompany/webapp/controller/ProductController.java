@@ -1,5 +1,6 @@
 package com.mycompany.webapp.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,7 +9,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +30,8 @@ import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Products;
 import com.mycompany.webapp.dto.Stock;
+import com.mycompany.webapp.dto.StockList;
+import com.mycompany.webapp.dto.StockLists;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -185,10 +191,25 @@ public class ProductController {
 		return "redirect:/product/list";
 	}
 	
-	@RequestMapping("/productstock")
-	public String updateProductStock(Model model) {
+	@RequestMapping("/stock/list/{pageNo}")
+	public String getProductStock(Model model, @PathVariable int pageNo, HttpSession session) {
 		log.info("실행");
 		
+		Auth auth = (Auth) session.getAttribute("auth");
+		
+		WebClient getRowsWebClient = WebClient.create();
+		IntegerVariable totalRows = getRowsWebClient.get().uri("http://localhost:82/product/stock/totalrows")
+				.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(IntegerVariable.class).block();
+
+		WebClient webClient = WebClient.create();
+		StockLists stockLists = webClient.get().uri("http://localhost:82/product/stock/list/{pageNo}", pageNo)
+										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(StockLists.class).block();
+		
+		Pager pager = new Pager(12, 5, totalRows.getValue(), pageNo);
+		model.addAttribute("stocks", stockLists.getStockLists());
+		model.addAttribute("pager",pager);
+		
+		log.info("stockList : "+stockLists.getStockLists());
 		return "/product/productStock";
 	}
 	
@@ -216,6 +237,25 @@ public class ProductController {
 		}
 		
 		return "/product/productList";
+	}
+	
+	@PostMapping("/stock/update")
+	public String stockUpdate(Stock stock, Model model, HttpSession session) throws Exception {
+		log.info("실행");
+		log.info(stock+"ss");
+		
+		WebClient webClient = WebClient.create();
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+		map.add("pid", stock.getPid()+"");
+		map.add("ccolorcode", stock.getCcolorcode()+"");
+		map.add("ssize", stock.getSsize()+"");
+		map.add("samount", stock.getSamount()+"");
+		
+		Stock resultStock = webClient.post().uri("http://localhost:82/product/stock/update")
+				.body(BodyInserters.fromFormData(map))
+				.retrieve().bodyToMono(Stock.class).block();
+
+		return "redirect:/product/stock/list/1";
 	}
 	
 }
