@@ -106,8 +106,7 @@
 					<!-- Card Header - Dropdown -->
 					<div
 						class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">Earnings
-							Overview</h6>
+						<h6 class="m-0 font-weight-bold text-primary">월별 총 매출액</h6>
 					</div>
 					<!-- Card Body -->
 					<div class="card-body">
@@ -127,25 +126,45 @@
 											data : { // 차트에 들어갈 데이터
 												labels : [
 												//x 축
-												'1', '2', '3' ],
-												datasets : [ { //데이터
-													label : 'test1', //차트 제목
-													fill : false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-													data : [ 21, 19, 25 //x축 label에 대응되는 데이터 값
-													],
-													backgroundColor : [
+												'10월', '11월', '12월' ],
+												datasets : [
+														{ //데이터
+															label : '여성', //차트 제목
+															fill : false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+															data : [ 21, 19, 25 //x축 label에 대응되는 데이터 값
+															],
+															backgroundColor : [
 															//색상
-															'rgba(255, 99, 132, 0.2)',
-															'rgba(153, 102, 255, 0.2)',
-															'rgba(255, 159, 64, 0.2)' ],
-													borderColor : [
+															'rgba(255, 99, 132, 0.2)' ],
+															borderColor : [
 															//경계선 색상
-															'rgba(75, 192, 192, 1)',
-															'rgba(153, 102, 255, 1)',
-															'rgba(255, 159, 64, 1)' ],
-													borderWidth : 1
-												//경계선 굵기
-												} ]
+															'rgba(255, 99, 132, 1)' ],
+															borderWidth : 2
+														},/*
+														{
+															label : '남성',
+															fill : false,
+															data : [ 8, 16, 32 ],
+															backgroundColor : 'rgba(54, 185, 204, 0.2)',
+															borderColor : 'rgba(54, 185, 204, 1)',
+															borderWidth : 2
+														},
+														{
+															label : '아동',
+															fill : false,
+															data : [ 18, 34, 15 ],
+															backgroundColor : 'rgba(28, 200, 138, 0.2)',
+															borderColor : 'rgba(28, 200, 138, 1)',
+															borderWidth : 2
+														},
+														{
+															label : '라이프스타일',
+															fill : false,
+															data : [ 26, 13, 29 ],
+															backgroundColor : 'rgba(255, 159, 64, 0.2)',
+															borderColor : 'rgba(255, 159, 64, 1)',
+															borderWidth : 2
+														}*/ ]
 											},
 											options : {
 												scales : {
@@ -370,7 +389,7 @@
 							utility classes.</p>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 
