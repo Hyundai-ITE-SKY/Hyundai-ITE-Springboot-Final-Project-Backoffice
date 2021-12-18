@@ -14,14 +14,25 @@
 							<td class="col-1">검색</td>
 							<td class="input-group">
 								<div class="input-group-prepend">
-									<select class="form-control form-control-sm" name="type">
-										<option value="" selected>검색 분류</option>
-										<option value="pname">상품명</option>
-										<option value="pid">상품 코드</option>
-										<option value="bname">브랜드</option>
-									</select>
+									<th:block th:if="${#strings.isEmpty(type)}">
+										<select class="form-control form-control-sm" name="type">
+											<option value="" selected>검색 분류</option>
+											<option value="pname">상품명</option>
+											<option value="pid">상품 코드</option>
+											<option value="bname">브랜드</option>
+										</select>
+									</th:block>
+									
+									<th:block th:if="${not #strings.isEmpty(type)}">
+										<select class="form-control form-control-sm" name="type">
+											<option value="">검색 분류</option>
+											<option value="pname" th:selected="${type}=='pname'">상품명</option>
+											<option value="pid" th:selected="${type}=='pid'">상품 코드</option>
+											<option value="bname" th:selected="${type}=='bname'">브랜드</option>
+										</select>
+									</th:block>
 								</div>
-								<input type="text" name="keyword" class="form-control form-control-sm" />
+								<input type="text" name="keyword" class="form-control form-control-sm" th:value="${keyword != null}? ${keyword}:''"/>
 							</td>
 						</tr>
 						<tr>
@@ -51,18 +62,6 @@
 				<script th:inline="javascript">
 					function getSearchList(){
 						$('#search-form').submit();
-						/* $.ajax({
-							type : 'GET',
-							url : "http:/localhost:82/product/getSearchList?type=",
-							success : function(result){
-								console.log(result);
-								 //기존 테이블 초기화 
-								//$('#producttable > tbody').empty();
-								//if(result.length>=1){
-									
-								//} 
-							}
-						})  */
 					}
 				</script>
 			</div>
@@ -101,23 +100,45 @@
 						<tr>
 							<td colspan="8">
 							  <ul class="pagination justify-content-center mb-1 mt-1">
-							  	<li class="page-item">
-							  		<a class="page-link" th:href="@{/product/list(pageNo=1)}">처음</a>
-							  	</li>
-							    <li class="page-item" th:if="${pager.groupNo>1}">
-							      <a th:href="@{/product/list(pageNo=${pager.startPageNo-1})}" class="page-link">이전</a>
-							    </li>
-							    <th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-							    	<li class="page-item">
-										<a th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'" th:href="@{/product/list(pageNo=${i})}">[[${i}]]</a>
-									</li>
-								</th:block>
-							    <li class="page-item" th:if="${pager.groupNo<pager.totalGroupNo}">
-							      <a th:href="@{/product/list(pageNo=${pager.endPageNo+1})}" class="page-link">이후</a>
-							    </li>
-							  	<li class="page-item">
-							  		<a class="page-link" th:href="@{/product/list(pageNo=${pager.totalPageNo})}">마지막</a>
-							  	</li>
+						  		<th:block th:if="${#strings.isEmpty(keyword)}">
+								  	<li class="page-item">
+								  		<a class="page-link" th:href="@{/product/list(pageNo=1)}">처음</a>
+								  	</li>
+								    <li class="page-item" th:if="${pager.groupNo>1}">
+								      <a th:href="@{/product/list(pageNo=${pager.startPageNo-1})}" class="page-link">이전</a>
+								    </li>
+								    <th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+								    	<li class="page-item">
+											<a th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'" th:href="@{/product/list(pageNo=${i})}">[[${i}]]</a>
+										</li>
+									</th:block>
+								    <li class="page-item" th:if="${pager.groupNo<pager.totalGroupNo}">
+								      <a th:href="@{/product/list(pageNo=${pager.endPageNo+1})}" class="page-link">이후</a>
+								    </li>
+								  	<li class="page-item">
+								  		<a class="page-link" th:href="@{/product/list(pageNo=${pager.totalPageNo})}">마지막</a>
+								  	</li>
+							  	</th:block>
+							  	
+						  		<th:block th:if="${not #strings.isEmpty(keyword)}">
+								  	<li class="page-item">
+									  		<a class="page-link" th:href="@{/product/search(type=${type},keyword=${keyword},pageNo=1)}">처음</a>
+								  	</li>
+								    <li class="page-item" th:if="${pager.groupNo>1}">
+								      <a th:href="@{/product/search(type=${type},keyword=${keyword},pageNo=${pager.startPageNo-1})}" class="page-link">이전</a>
+								    </li>
+								    <th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+								    	<li class="page-item">
+											<a th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'" th:href="@{/product/search(type=${type},keyword=${keyword},pageNo=${i})}">[[${i}]]</a>
+										</li>
+									</th:block>
+								    <li class="page-item" th:if="${pager.groupNo<pager.totalGroupNo}">
+								      <a th:href="@{/product/search(type=${type},keyword=${keyword}, pageNo=${pager.endPageNo+1})}" class="page-link">이후</a>
+								    </li>
+								  	<li class="page-item">
+								  		<a class="page-link" th:href="@{/product/search(type=${type},keyword=${keyword}, pageNo=${pager.totalPageNo})}">마지막</a>
+								  	</li>
+							  	</th:block>
 							  </ul>
 							</td>	
 						</tr>						

@@ -225,16 +225,19 @@ public class ProductController {
 		WebClient webClient = WebClient.create("http://localhost:82/product");
 		
 		Auth auth = (Auth) session.getAttribute("auth");
-		Products products = webClient.get().uri(builder -> builder.path("/getSearchList").queryParam("type", type).queryParam("keyword", keyword).build())
+		Products products = webClient.get().uri(builder -> builder.path("/getSearchList").queryParam("type", type).queryParam("w", keyword).queryParam("pageNo", pageNo).build())
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
 		Pager pager = new Pager(12, 5, products.getTotalRows(), pageNo);
-		
+
 		model.addAttribute("products", products.getProducts());
 		model.addAttribute("pager", pager);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("type", type);
 		
-		for(Product product : products.getProducts()) {
-			log.info(product.toString());
-		}
+		log.info(type);
+//		for(Product product : products.getProducts()) {
+//			log.info(product.toString());
+//		}
 		
 		return "/product/productList";
 	}
