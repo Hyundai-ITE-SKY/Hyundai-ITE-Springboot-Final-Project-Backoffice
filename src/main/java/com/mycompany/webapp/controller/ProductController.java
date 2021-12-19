@@ -44,9 +44,9 @@ public class ProductController {
 	@GetMapping("/create")
 	public String productCreate(Model model, HttpSession session) {
 		log.info("실행");
-		Auth auth = new Auth();
-		auth.setJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
-		auth.setMid("mid1");
+		
+		Auth auth = (Auth) session.getAttribute("auth");
+		
 		WebClient webClient = WebClient.create("http://localhost:82/product");
 		Products products = webClient.get().uri("/allbrand").header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
 		model.addAttribute("brands", products.getBrands());
@@ -90,10 +90,7 @@ public class ProductController {
 	public String productList(Model model, HttpSession session, @RequestParam(defaultValue="1") int pageNo) {
 		log.info("실행");
 		
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
 
@@ -112,10 +109,7 @@ public class ProductController {
 	public String productDetail(Model model, HttpSession session, @RequestParam("pid")String pid) {
 		log.info("실행");
 		
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
 		
@@ -133,10 +127,7 @@ public class ProductController {
 	public String productUpdate(Model model, HttpSession session, @RequestParam("pid")String pid) {
 		log.info("실행");
 		
-		Auth auth = new Auth();
-		auth.setJwt(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzkxMjYwMDgsIm1pZCI6Im1pZDEiLCJhdXRob3JpdHkiOiJST0xFX1VTRVIifQ.lW5znR6F9Zdl8G20TRWeVi33n-EiX6eJ6-RHIOSn7Gk");
-		auth.setMid("mid1");
+		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
 		
@@ -220,6 +211,35 @@ public class ProductController {
 		
 		log.info("stockList : "+stockLists.getStockLists());
 		return "/product/productStock";
+	}
+	
+	@GetMapping("/search")
+	public String getSearchList(@RequestParam String type,
+								@RequestParam String keyword,
+								@RequestParam(defaultValue="1") int pageNo,
+								HttpSession session,
+								Model model)
+	{
+		log.info("실행");
+		log.info("type : "+ type + ", keyword : " + keyword);
+		WebClient webClient = WebClient.create("http://localhost:82/product");
+		
+		Auth auth = (Auth) session.getAttribute("auth");
+		Products products = webClient.get().uri(builder -> builder.path("/getSearchList").queryParam("type", type).queryParam("w", keyword).queryParam("pageNo", pageNo).build())
+				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+		Pager pager = new Pager(12, 5, products.getTotalRows(), pageNo);
+
+		model.addAttribute("products", products.getProducts());
+		model.addAttribute("pager", pager);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("type", type);
+		
+		log.info(type);
+//		for(Product product : products.getProducts()) {
+//			log.info(product.toString());
+//		}
+		
+		return "/product/productList";
 	}
 	
 	@PostMapping("/stock/update")
