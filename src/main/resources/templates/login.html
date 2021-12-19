@@ -1,56 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="">
-<meta name="author" content="">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+	<link rel="icon" type="image/png" th:href="@{/images/icon/favicon.png}"/>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <style>
+      .login,
+      .image {
+        min-height: 100vh;
+      }
 
-<title>Admin Login</title>
+      .bg-image {
+        background-image: url("/images/hyundai_login_img.jpg");
+        background-size: cover;
+        background-position: center center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row no-gutter">
+        <!-- The image half -->
+        <div class="col-md-6 d-none d-md-flex bg-image"></div>
 
-<link th:href="@{css/sb-admin-2.min.css}" rel="stylesheet">
-</head>
-
-<body class="bg-gradient-dark">
-	<div class="container">
-		<!-- Outer Row -->
-		<div class="row justify-content-center">
-			<div class="col-xl-6 col-lg-6">
-
-				<div class="card o-hidden border-0 shadow-lg my-5">
-					<div class="card-body p-0">
-						<!-- Nested Row within Card Body -->
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="p-5">
-									<div class="text-center">
-										<h1 class="h4 text-gray-900 mb-4">HANDSOME 백오피스</h1>
-									</div>
-									<form class="user" method="post" action="login">
-										<div class="form-group">
-											<input type="text" name="mid"
-												class="form-control form-control-user"
-												id="exampleInputEmail" aria-describedby="emailHelp"
-												placeholder="아이디를 입력해주세요.">
-										</div>
-										<div class="form-group">
-											<input type="password" name="mpassword"
-												class="form-control form-control-user"
-												id="exampleInputPassword" placeholder="바밀번호를 입력해주세요.">
-										</div>
-										<button type="submit" class="btn btn-dark btn-user btn-block">
-											로그인</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</body>
-
+        <!-- The content half -->
+        <div class="col-md-6 bg-light">
+          <div class="login d-flex align-items-center py-5">
+            <!-- Demo content-->
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-10 col-xl-7 mx-auto">
+                  <img class="mb-2" th:src="@{/images/hyundai_logo.png}" style="width: 100px" />
+                  <h3 class="display-4">HANDSOME BACKOFFICE</h3>
+                  <p class="text-muted mb-4">관리자 페이지 로그인 화면입니다.</p>
+                  <form class="user" method="post" action="login">
+                    <div class="form-group mb-3">
+                      <input
+                        id="inputId"
+                        type="text"
+                        name="mid"
+                        placeholder="아이디를 입력해주세요."
+                        required=""
+                        autofocus=""
+                        class="form-control rounded-pill border-0 shadow-sm px-4"
+                      />
+                    </div>
+                    <div class="form-group mb-3">
+                      <input
+                        id="inputPassword"
+                        type="password"
+                        name="mpassword"
+                        placeholder="비밀번호를 입력해주세요."
+                        required=""
+                        class="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      class="btn btn-block text-uppercase mb-2 rounded-pill shadow-sm text-white"
+                      style="background-color: black"
+                    >
+                      Sign in
+                    </button>
+                    <div class="text-center d-flex justify-content-between mt-5">
+                      <p style="font-size:12px">
+                        현대 IT&E 채용확정형 SW개발자 양성과정 2기 
+                        TEAM SKY
+                      </p>
+                    </div> 
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- End -->
+          </div>
+        </div>
+        <!-- End -->
+      </div>
+    </div>
+  </body>
 </html>
