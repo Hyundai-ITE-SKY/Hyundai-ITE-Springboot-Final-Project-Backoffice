@@ -1,7 +1,5 @@
 package com.mycompany.webapp.controller;
 
-import java.io.Console;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +21,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Exhibitions;
-import com.mycompany.webapp.dto.IntegerVariable;
 
 import lombok.extern.slf4j.Slf4j;
 
