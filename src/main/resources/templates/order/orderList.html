@@ -67,6 +67,7 @@
 								th:onclick="'location.href=\'' + @{/order/orderdetail/{oid}(oid=${order.oid})} + '\''">
 								<td>[[${order.oid}]]</td>
 								<td>[[${order.mid}]]</td>
+								<td th:if="${order.ostatus==0}">결제승인</td>
 								<td th:if="${order.ostatus==1}">결제</td>
 								<td th:if="${order.ostatus==2}">배송</td>
 								<td th:if="${order.ostatus==3}">배송완료</td>
