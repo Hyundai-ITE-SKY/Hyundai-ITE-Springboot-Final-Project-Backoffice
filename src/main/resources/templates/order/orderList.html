@@ -14,36 +14,73 @@
 			<div>
 				<h5 class="mb-3 text-gray-800">주문 검색</h5>
 			</div>
-			<div class="my-4 p-4 rounded bg-gray-300 border border-dark">
-				<form class="container">
-					<div class="row">
-						<label class="col-1 font-weight-bolder">검색</label>
-						<div class="col-11">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<select class="custom-select" id="inputGroupSelect04"
-										aria-label="Example select with button addon">
-										<option selected>주문 번호</option>
-										<option value="1">수령인 이름</option>
-										<option value="2">주문자 아이디</option>
-									</select>
-								</div>
-								<input type="text" class="form-control"
-									aria-label="Text input with segmented dropdown button">
-							</div>
+			<div class="card shadow mb-4">
+				<div class="card-body table-responsive"
+					style="padding-top: 0px; padding-bottom: 0px;">
+					<form name="search-form" id="search-form" action="/order/search" autocomplete="off">
+						<table class="table table-borderless mt-2" style="font-size: 14px;">
+							<tr>
+								<td class="col-1">검색</td>
+								<td class="input-group">
+									<div class="input-group-prepend">
+										<select class="form-control form-control-sm" name="type">
+											<th:block th:if="${#strings.isEmpty(type)}">
+												<option value="" selected>검색 분류</option>
+												<option value="mid">주문자 아이디</option>
+												<option value="oreceiver">수령인 이름</option>
+											</th:block>
+											<th:block th:if="${not #strings.isEmpty(type)}">
+												<option value="">검색 분류</option>
+												<option value="mid" th:selected="${type}=='mid'">주문자 아이디</option>
+												<option value="oreceiver" th:selected="${type}=='oreceiver'">수령인 이름</option>
+											</th:block>
+										</select>
+									</div>
+									<th:block th:if="${#strings.isEmpty(keyword)}">
+										<input type="text" name="keyword" class="form-control form-control-sm"/>
+									</th:block>
+									
+									<th:block th:if="${not #strings.isEmpty(keyword)}">
+										<input type="text" name="keyword" class="form-control form-control-sm" th:value="${keyword}"/>
+									</th:block>
+								</td>
+							</tr>
+							<tr>
+								<td scope="row">기간</td>
+								<td class="d-flex justify-space-between">
+									<th:block th:if="${#strings.isEmpty(startdate)}">
+										<div class="md-form md-outline input-with-post-icon datepicker mr-3">
+											<input type="date" name="startdate" class="form-control form-control-sm">
+										</div>
+										<span>~</span>
+										<div class="md-form md-outline input-with-post-icon datepicker ml-3">
+											<input type="date" name="enddate" class="form-control form-control-sm">
+										</div>
+									</th:block>
+									
+									<th:block th:if="${not #strings.isEmpty(startdate)} and ${not #strings.isEmpty(enddate)}">
+										<div class="md-form md-outline input-with-post-icon datepicker mr-3">
+											<input type="date" name="startdate" th:value="${startdate}" class="form-control form-control-sm">
+										</div>
+										<span>~</span>
+										<div class="md-form md-outline input-with-post-icon datepicker ml-3">
+											<input type="date" name="enddate" th:value="${enddate}" class="form-control form-control-sm">
+										</div>
+									</th:block>
+								</td>
+							</tr>
+						</table>
+						<div class="d-flex justify-content-center">
+							<button class="btn btn-sm text-white mb-2"
+								style="background-color: #2D3134" onclick="getSearchList()">검색</button>
 						</div>
-						<label class="col-1 font-weight-bolder">기간</label>
-						<div class="col-10">
-							<input type="date" /> &nbsp;-&nbsp; <input type="date" />
-						</div>
-
-						<div class="col-11"></div>
-						<div class="col-1">
-							<button class="btn text-white" style="background-color: #2D3134"
-								type="submit">검색</button>
-						</div>
-					</div>
-				</form>
+					</form>
+					<script th:inline="javascript">
+						function getSearchList() {
+							$('#search-form').submit();
+						}
+					</script>
+				</div>
 			</div>
 
 			<div>
@@ -72,8 +109,7 @@
 								<td th:if="${order.ostatus==3}">배송완료</td>
 								<td th:if="${order.ostatus==4}">구매확정</td>
 								<td>[[${order.countitem}]]</td>
-								<td>[[${#numbers.formatInteger(order.ototal, 3,
-									'COMMA')}]]￦</td>
+								<td>[[${#numbers.formatInteger(order.ototal, 3, 'COMMA')}]]￦</td>
 								<td>[[${#dates.format(order.odate,'yyyy.MM.dd')}]]</td>
 							</tr>
 						</tbody>
@@ -81,17 +117,36 @@
 
 					<nav aria-label="Page navigation example" class="mt-4">
 						<ul class="pagination justify-content-center">
-							<li class="page-item"><a th:href="@{/order/orderlist/1}"
-								class="page-link">처음</a></li>
-
-							<th:block
-								th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-								<li class="page-item"><a class="page-link"
-									th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+							<th:block th:if="${#strings.isEmpty(keyword)} and ${#strings.isEmpty(startdate)} and ${#strings.isEmpty(enddate)}">
+								<li class="page-item"><a th:href="@{/order/orderlist/1}"
+									class="page-link">처음</a></li>
+	
+								<th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+									<li class="page-item"><a class="page-link" th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+								</th:block>
+	
+								<li class="page-item"><a class="page-link" th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
 							</th:block>
-
-							<li class="page-item"><a class="page-link"
-								th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
+							
+							<th:block th:if="${not #strings.isEmpty(keyword)} or ${not #strings.isEmpty(startdate)} or ${not #strings.isEmpty(enddate)} ">
+							  	<li class="page-item">
+								  		<a class="page-link" th:href="@{/order/search(type=${type},keyword=${keyword},pageNo=1,startdate=${startdate},enddate=${enddate})}">처음</a>
+							  	</li>
+							    <li class="page-item" th:if="${pager.groupNo>1}">
+							      <a th:href="@{/order/search(type=${type},keyword=${keyword},pageNo=${pager.startPageNo-1},startdate=${startdate},enddate=${enddate})}" class="page-link">이전</a>
+							    </li>
+							    <th:block th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+							    	<li class="page-item">
+										<a th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'" th:href="@{/order/search(type=${type},keyword=${keyword},pageNo=${i},startdate=${startdate},enddate=${enddate})}">[[${i}]]</a>
+									</li>
+								</th:block>
+							    <li class="page-item" th:if="${pager.groupNo<pager.totalGroupNo}">
+							      <a th:href="@{/order/search(type=${type},keyword=${keyword}, pageNo=${pager.endPageNo+1},startdate=${startdate},enddate=${enddate})}" class="page-link">이후</a>
+							    </li>
+							  	<li class="page-item">
+							  		<a class="page-link" th:href="@{/order/search(type=${type},keyword=${keyword}, pageNo=${pager.totalPageNo},startdate=${startdate},enddate=${enddate})}">마지막</a>
+							  	</li>
+						  	</th:block>
 						</ul>
 					</nav>
 				</div>
