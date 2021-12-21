@@ -103,6 +103,9 @@ public class ProductController {
 		model.addAttribute("products", productList.getProducts());
 		model.addAttribute("pager",pager);
 		model.addAttribute("categoryList", categoryList.getCategory());
+		model.addAttribute("cl", "");
+		model.addAttribute("cm", "");
+		model.addAttribute("cs", "");
 		
 		return "product/productList";
 	}
@@ -247,12 +250,13 @@ public class ProductController {
 		Pager pager = new Pager(12, 5, products.getTotalRows(), pageNo);
 
 		model.addAttribute("products", products.getProducts());
+		log.info(products.getProducts().size()+"<- 사이즈");
 		model.addAttribute("pager", pager);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("type", type);
-		model.addAttribute("clarge", clarge);
-		model.addAttribute("cmedium", cmedium);
-		model.addAttribute("csmall", csmall);
+		model.addAttribute("cl", clarge);
+		model.addAttribute("cm", cmedium);
+		model.addAttribute("cs", csmall);
 		model.addAttribute("categoryList", categoryList.getCategory());
 		
 		return "/product/productList";
