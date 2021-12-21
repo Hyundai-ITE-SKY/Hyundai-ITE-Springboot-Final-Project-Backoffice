@@ -7,80 +7,92 @@
 		</div>
 		<form method="post" action="create" id="createProductForm">
 			<div class="card shadow mb-4">
-				<table class="table table-bordered text-center"
-					style="font-size: 14px;">
-					<tr>
-						<th class="col-2" scope="col">상품 품번</th>
-						<td class="col-auto" scope="col">
-							<div class="input-group input-group-sm">
-								<input class="form-control input-sm" type="text" name="pid"
-									placeholder="상품 코드를 입력하세요." />
-							</div>
-						</td>
-						<th class="col-2" scope="col">브랜드</th>
-						<td scope="col">
-							<div class="input-group input-group-sm">
-								<select class="custom-select mr-sm-2" id="brandSelect">
-									<option value="" selected>브랜드를 선택하세요.</option>
-									<option th:each="brand : ${brands}" th:value="${brand.bno}"
-										th:text="${brand.bname}"></option>
-								</select> <input type="hidden" name="bno" />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>상품 가격</th>
-						<td>
-							<div class="input-group input-group-sm">
-								<input class="form-control input-sm" type="text" name="pprice"
-									placeholder="상품 가격을 입력하세요." />
-							</div>
-						</td>
-						<th>시즌 정보</th>
-						<td>
-							<div class="input-group input-group-sm">
-								<select class="custom-select mr-sm-2" id="seasonSelect">
-									<option value="" selected>시즌정보를 선택하세요.</option>
-									<option th:value="SS">SS</option>
-									<option th:value="FW">FW</option>
-								</select> <input type="hidden" name="pseason" />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>상품명</th>
-						<td colspan="3">
-							<div class="input-group input-group-sm">
-								<input class="form-control input-sm" type="text" name="pname"
-									placeholder="상품명을 입력하세요." />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th class="align-middle">카테고리</th>
-						<td colspan="3">
-							<div class="d-flex">
-								<div class="col-auto my-1">
-									<label class="mr-sm-2" for="">대분류</label>
-									<select class="custom-select mr-sm-2" id="clargeSelect" onchange="clargeChange(this)" name="clarge">
-										<option value="" selected>선택하세요</option>
-										<option th:each="clarge : ${category}" th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
-									</select>
+				<div class="card-body table-responsive">
+					<table class="table table-bordered text-center"
+						style="font-size: 0.75rem;">
+						<tr>
+							<th class="align-middle col-2" scope="col"
+								style="background-color: #eeeeee">상품 품번</th>
+							<td class="col-auto" scope="col">
+								<div class="input-group input-group-sm">
+									<input class="form-control input-sm" type="text" name="pid"
+										style="font-size: 0.75rem;" placeholder="상품 코드를 입력하세요." />
 								</div>
-								<div class="col-auto my-1">
-									<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label> 
-									<select class="custom-select mr-sm-2" id="cmediumSelect" onchange="cmediumChange(this)" name="cmedium">
-										<option value="" selected>선택하세요</option>
-									</select>
+							</td>
+							<th class="align-middle col-2" scope="col"
+								style="background-color: #eeeeee">브랜드</th>
+							<td scope="col">
+								<div class="input-group input-group-sm">
+									<select class="custom-select mr-sm-2" id="brandSelect"
+										style="font-size: 0.75rem;">
+										<option value="" selected>브랜드를 선택하세요.</option>
+										<option th:each="brand : ${brands}" th:value="${brand.bno}"
+											th:text="${brand.bname}"></option>
+									</select> <input type="hidden" name="bno" />
 								</div>
-								<div class="col-auto my-1">
-									<label class="mr-sm-2" for="csmallSelect">소분류</label>
-									<select class="custom-select mr-sm-2" id="csmallSelect" name="csmall">
-										<option value="" selected>선택하세요</option>
-									</select>
+							</td>
+						</tr>
+						<tr>
+							<th class="align-middle" style="background-color: #eeeeee">상품
+								가격</th>
+							<td>
+								<div class="input-group input-group-sm">
+									<input class="form-control input-sm" type="text" name="pprice"
+										style="font-size: 0.75rem;" placeholder="상품 가격을 입력하세요." />
 								</div>
-							</div>
-							<script th:inline="javascript">
+							</td>
+							<th class="align-middle" style="background-color: #eeeeee">시즌
+								정보</th>
+							<td>
+								<div class="input-group input-group-sm">
+									<select class="custom-select mr-sm-2" id="seasonSelect"
+										style="font-size: 0.75rem;">
+										<option value="" selected>시즌정보를 선택하세요.</option>
+										<option th:value="SS">SS</option>
+										<option th:value="FW">FW</option>
+									</select> <input type="hidden" name="pseason" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="align-middle" style="background-color: #eeeeee">상품명</th>
+							<td colspan="3">
+								<div class="input-group input-group-sm">
+									<input class="form-control input-sm" type="text" name="pname"
+										style="font-size: 0.75rem;" placeholder="상품명을 입력하세요." />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="align-middle" style="background-color: #eeeeee">카테고리</th>
+							<td colspan="3">
+								<div class="d-flex">
+									<div class="col-auto my-1">
+										<label class="mr-sm-2" for="">대분류</label> <select
+											class="custom-select mr-sm-2" id="clargeSelect"
+											onchange="clargeChange(this)" name="clarge"
+											style="font-size: 0.75rem;">
+											<option value="" selected>선택하세요</option>
+											<option th:each="clarge : ${category}"
+												th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
+										</select>
+									</div>
+									<div class="col-auto my-1">
+										<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label>
+										<select class="custom-select mr-sm-2" id="cmediumSelect"
+											onchange="cmediumChange(this)" name="cmedium"
+											style="font-size: 0.75rem;">
+											<option value="" selected>선택하세요</option>
+										</select>
+									</div>
+									<div class="col-auto my-1">
+										<label class="mr-sm-2" for="csmallSelect">소분류</label> <select
+											class="custom-select mr-sm-2" id="csmallSelect" name="csmall"
+											style="font-size: 0.75rem;">
+											<option value="" selected>선택하세요</option>
+										</select>
+									</div>
+								</div> <script th:inline="javascript">
 								let category;
 							
 								function clargeChange(e){
@@ -134,105 +146,114 @@
 									console.log(category);
 								});
 							</script>
-						</td>
-					</tr>
-					<tr>
-						<th>상세 설명</th>
-						<td colspan="3"><textarea class="form-control"
-								aria-label="With textarea" name="pdetail"
-								placeholder="상세 설명을 입력하세요."></textarea></td>
-					</tr>
-				</table>
-				<div class="d-flex justify-content-end mt-5 mb-1 mr-2">
-					<div class="btn btn-dark btn-sm mr-2" onclick="addColorSize()">색상
-						추가</div>
-					<div class="btn btn-outline-dark btn-sm"
-						onclick="deleteColorSize()">색상 삭제</div>
-				</div>
-				<div id="colortables">
-					<!-- 반복되는 부분  -->
-					<div class="card-body border-top" id="colortable0">
-						<table class="table table-bordered text-center"
-							style="font-size: 14px;">
-							<tr>
-								<th class="col-1" scope="col">색상 코드</th>
-								<th scope="col">이미지1</th>
-								<th scope="col">이미지2</th>
-								<th scope="col">이미지3</th>
-								<th scope="col">컬러 이미지</th>
-								<th scope="col">코디한 상품</th>
-								<th class="col-1" scope="col">사이즈</th>
-								<th class="col-1" scope="col">재고</th>
-							</tr>
-							<tbody id="tbody0">
-								<tr id="color0_size1">
-									<td class="colorTd0 align-middle">
-										<div class="input-group input-group-sm">
-											<input class="form-control input-sm" type="text"
-												th:name="colors[0].ccolorcode" />
-										</div>
-									</td>
-									<td class="colorTd0 align-middle">
-										<!--  <img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/">-->
-										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text"
-												th:name="colors[0].cimage1" /> <a
-												class="btn btn-dark btn-sm">적용</a>
-										</div>
-									</td>
-									<td class="colorTd0 align-middle">
-										<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W02.jpg/dims/resize/684x1032/">-->
-										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text"
-												name="colors[0].cimage2" /> <a class="btn btn-dark btn-sm">적용</a>
-										</div>
-									</td>
-									<td class="colorTd0 align-middle">
-										<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W03.jpg/dims/resize/684x1032/">-->
-										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text"
-												name="colors[0].cimage3" /> <a class="btn btn-dark btn-sm">적용</a>
-										</div>
-									</td>
-									<td class="colorTd0 align-middle">
-										<!--<img style="width: 20px; height: 20px" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_C01.jpg">-->
-										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text"
-												name="colors[0].ccolorimage" /> <a
-												class="btn btn-dark btn-sm">적용</a>
-										</div>
-									</td>
-									<td class="colorTd0 align-middle">
-										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text"
-												name="colors[0].cmatchpid" /> <a
-												class="btn btn-dark btn-sm">적용</a>
-										</div>
-									</td>
-									<td class="align-middle">
-										<div class="input-group input-group-sm">
-											<input class="form-control input-sm" type="text"
-												name="colors[0].stocks[0].ssize" />
-										</div>
-									</td>
-									<td class="align-middle">
-										<div class="input-group input-group-sm">
-											<input class="form-control input-sm" type="text"
-												name="colors[0].stocks[0].samount" />
-										</div>
-									</td>
+							</td>
+						</tr>
+						<tr>
+							<th class="align-middle" style="background-color: #eeeeee">상세
+								설명</th>
+							<td colspan="3"><textarea class="form-control"
+									style="font-size: 0.75rem;" aria-label="With textarea"
+									name="pdetail" placeholder="상세 설명을 입력하세요."></textarea></td>
+						</tr>
+					</table>
+					<div class="d-flex justify-content-end mt-2 mb-5">
+						<div class="btn btn-dark btn-sm mr-2" style="font-size: 0.75rem;"
+							onclick="addColorSize()">색상 추가</div>
+						<div class="btn btn-outline-dark btn-sm"
+							style="font-size: 0.75rem;" onclick="deleteColorSize()">색상
+							삭제</div>
+					</div>
+					<div id="colortables">
+						<!-- 반복되는 부분  -->
+						<div id="colortable0">
+							<table class="table table-bordered text-center"
+								style="font-size: 0.75rem;">
+								<tr>
+									<th style="background-color: #eeeeee" class="col-1" scope="col">색상
+										코드</th>
+									<th style="background-color: #eeeeee" scope="col">이미지1</th>
+									<th style="background-color: #eeeeee" scope="col">이미지2</th>
+									<th style="background-color: #eeeeee" scope="col">이미지3</th>
+									<th style="background-color: #eeeeee" scope="col">컬러 이미지</th>
+									<th style="background-color: #eeeeee" scope="col">코디한 상품</th>
+									<th style="background-color: #eeeeee" class="col-1" scope="col">사이즈</th>
+									<th style="background-color: #eeeeee" class="col-1" scope="col">재고</th>
 								</tr>
-							</tbody>
-						</table>
-						<div class="d-flex justify-content-end mt-3">
-							<div class="btn btn-dark btn-sm mr-2" onclick="addSizeTable(0)">사이즈
-								추가</div>
-							<div class="btn btn-outline-dark btn-sm"
-								onclick="deleteSizeTable(0)">사이즈 삭제</div>
+								<tbody id="tbody0">
+									<tr id="color0_size1">
+										<td class="colorTd0 align-middle">
+											<div class="input-group input-group-sm">
+												<input class="form-control input-sm" type="text"
+													style="font-size: 0.75rem;" th:name="colors[0].ccolorcode" />
+											</div>
+										</td>
+										<td class="colorTd0 align-middle">
+											<!--  <img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/">-->
+											<div class="d-flex input-group input-group-sm pa-0">
+												<input class="form-control input-sm" type="text"
+													style="font-size: 0.75rem;" th:name="colors[0].cimage1" />
+												<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+											</div>
+										</td>
+										<td class="colorTd0 align-middle">
+											<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W02.jpg/dims/resize/684x1032/">-->
+											<div class="d-flex input-group input-group-sm pa-0">
+												<input class="form-control input-sm" type="text"
+													style="font-size: 0.75rem;" name="colors[0].cimage2" /> <a
+													class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+											</div>
+										</td>
+										<td class="colorTd0 align-middle">
+											<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W03.jpg/dims/resize/684x1032/">-->
+											<div class="d-flex input-group input-group-sm pa-0">
+												<input class="form-control input-sm" type="text"
+													style="font-size: 0.75rem;" name="colors[0].cimage3" /> <a
+													class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+											</div>
+										</td>
+										<td class="colorTd0 align-middle">
+											<!--<img style="width: 20px; height: 20px" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_C01.jpg">-->
+											<div class="d-flex input-group input-group-sm pa-0">
+												<input class="form-control input-sm" type="text"
+													style="font-size: 0.75rem;" name="colors[0].ccolorimage" />
+												<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+											</div>
+										</td>
+										<td class="colorTd0 align-middle">
+											<div class="d-flex input-group input-group-sm pa-0">
+												<input class="form-control input-sm" type="text"
+													style="font-size: 0.75rem;" name="colors[0].cmatchpid" />
+												<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+											</div>
+										</td>
+										<td class="align-middle">
+											<div class="input-group input-group-sm">
+												<input class="form-control input-sm" type="text"
+													style="font-size: 0.75rem;"
+													name="colors[0].stocks[0].ssize" />
+											</div>
+										</td>
+										<td class="align-middle">
+											<div class="input-group input-group-sm">
+												<input class="form-control input-sm" type="text"
+													style="font-size: 0.75rem;"
+													name="colors[0].stocks[0].samount" />
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="d-flex justify-content-end mt-3 mb-4">
+								<div class="btn btn-dark btn-sm mr-2"
+									style="font-size: 0.75rem;" onclick="addSizeTable(0)">사이즈
+									추가</div>
+								<div class="btn btn-outline-dark btn-sm"
+									style="font-size: 0.75rem;" onclick="deleteSizeTable(0)">사이즈
+									삭제</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<script>
+					<script>
 					let colortableidx = 0;
 					
 					//색상 추가
@@ -240,77 +261,77 @@
 						colortableidx++;
 						rownum.push(1);
 						
-						let template = `<div class="card-body border-top" id="colortable${colortableidx}">
+						let template = `<div id="colortable${colortableidx}">
 							<table class="table table-bordered text-center"
-							style="font-size: 14px;">
+							style="font-size: 0.75rem;">
 							<tr>
-								<th class="col-1" scope="col">색상 코드</th>
-								<th scope="col">이미지1</th>
-								<th scope="col">이미지2</th>
-								<th scope="col">이미지3</th>
-								<th scope="col">컬러 이미지</th>
-								<th scope="col">코디한 상품</th>
-								<th class="col-1" scope="col">사이즈</th>
-								<th class="col-1" scope="col">재고</th>
+								<th style="background-color: #eeeeee" class="col-1" scope="col">색상 코드</th>
+								<th style="background-color: #eeeeee" scope="col">이미지1</th>
+								<th style="background-color: #eeeeee" scope="col">이미지2</th>
+								<th style="background-color: #eeeeee" scope="col">이미지3</th>
+								<th style="background-color: #eeeeee" scope="col">컬러 이미지</th>
+								<th style="background-color: #eeeeee" scope="col">코디한 상품</th>
+								<th style="background-color: #eeeeee" class="col-1" scope="col">사이즈</th>
+								<th style="background-color: #eeeeee" class="col-1" scope="col">재고</th>
 							</tr>
 							<tbody id="tbody${colortableidx}">
 								<tr id="color${colortableidx}_size${rownum[colortableidx]}">
 									<td class="colorTd${colortableidx} align-middle">
 										<div class="input-group input-group-sm">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].ccolorcode"/>
+											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].ccolorcode" style="font-size: 0.75rem;"/>
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
 										<!--  <img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/">-->
 										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cimage1" />
-											<a class="btn btn-dark btn-sm">적용</a>
+											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cimage1" style="font-size: 0.75rem;"/>
+											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
 										<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W02.jpg/dims/resize/684x1032/">-->
 										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cimage2" />
-											<a class="btn btn-dark btn-sm">적용</a>
+											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cimage2" style="font-size: 0.75rem;"/>
+											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
 										<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W03.jpg/dims/resize/684x1032/">-->
 										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cimage3" />
-											<a class="btn btn-dark btn-sm">적용</a>
+											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cimage3" style="font-size: 0.75rem;"/>
+											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
 										<!--<img style="width: 20px; height: 20px" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_C01.jpg">-->
 										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].ccolorimage" />
-											<a class="btn btn-dark btn-sm">적용</a>
+											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].ccolorimage" style="font-size: 0.75rem;"/>
+											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
 										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cmatchpid" />
-											<a class="btn btn-dark btn-sm">적용</a>
+											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cmatchpid" style="font-size: 0.75rem;"/>
+											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="align-middle">
 										<div class="input-group input-group-sm">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].stocks[${rownum[colortableidx]-1}].ssize"/>
+											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].stocks[${rownum[colortableidx]-1}].ssize" style="font-size: 0.75rem;"/>
 										</div>
 									</td>
 									<td class="align-middle"s>
 										<div class="input-group input-group-sm">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].stocks[${rownum[colortableidx]-1}].samount"/>
+											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].stocks[${rownum[colortableidx]-1}].samount" style="font-size: 0.75rem;"/>
 										</div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
-						<div class="d-flex justify-content-end mt-3">
-							<div class="btn btn-dark btn-sm mr-2" onclick="addSizeTable(${colortableidx})">사이즈 추가</div>
+						<div class="d-flex justify-content-end mt-3 mb-4">
+							<div class="btn btn-dark btn-sm mr-2" onclick="addSizeTable(${colortableidx})" style="font-size: 0.75rem;">사이즈 추가</div>
 							<div class="btn btn-outline-dark btn-sm"
-								onclick="deleteSizeTable(${colortableidx})">사이즈 삭제</div>
+								onclick="deleteSizeTable(${colortableidx})" style="font-size: 0.75rem;">사이즈 삭제</div>
 						</div>
 						</div>`;
 						$('#colortables').append(template);
@@ -333,12 +354,12 @@
 						let template = `<tr id="color${coloridx}_size${rownum[coloridx]}">
 						<td>
 						<div class="input-group input-group-sm">
-								<input class="form-control input-sm" type="text" name="colors[${coloridx}].stocks[${rownum[coloridx]-1}].ssize"/>
+								<input class="form-control input-sm" type="text" name="colors[${coloridx}].stocks[${rownum[coloridx]-1}].ssize" style="font-size: 0.75rem;"/>
 							</div>
 						</td>
 						<td>
 							<div class="input-group input-group-sm">
-								<input class="form-control input-sm" type="text" name="colors[${coloridx}].stocks[${rownum[coloridx]-1}].samount" />
+								<input class="form-control input-sm" type="text" name="colors[${coloridx}].stocks[${rownum[coloridx]-1}].samount" style="font-size: 0.75rem;"/>
 							</div>
 						</td>
 						</tr>`;
@@ -363,11 +384,11 @@
 						}
 					}
 				</script>
-				<div class="d-flex justify-content-center mt-3 mb-4">
-					<a class="btn btn-outline-primary btn-sm mr-5" th:href="@{/}">취소</a>
-					<button class="btn btn-primary btn-sm" onclick="createProduct()">저장</button>
-				</div>
-				<script th:inline="javascript">
+					<div class="d-flex justify-content-center mt-3 mb-4">
+						<a class="btn btn-outline-primary btn-sm mr-2" th:href="@{/}" style="font-size: 0.75rem;">취소</a>
+						<button class="btn btn-primary btn-sm" onclick="createProduct()" style="font-size: 0.75rem;">저장</button>
+					</div>
+					<script th:inline="javascript">
 					function createProduct() {
 						$('input[name=bno]').val(
 								$('#brandSelect option:selected').val());
@@ -376,6 +397,7 @@
 						$('#createProductForm').submit();
 					}
 				</script>
+				</div>
 			</div>
 		</form>
 	</th:block>

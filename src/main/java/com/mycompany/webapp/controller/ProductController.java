@@ -1,6 +1,5 @@
 package com.mycompany.webapp.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -30,7 +29,6 @@ import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Products;
 import com.mycompany.webapp.dto.Stock;
-import com.mycompany.webapp.dto.StockList;
 import com.mycompany.webapp.dto.StockLists;
 
 import lombok.extern.slf4j.Slf4j;
@@ -99,7 +97,7 @@ public class ProductController {
 		
 		Pager pager = new Pager(12, 5, productList.getTotalRows(), pageNo);
 		model.addAttribute("products", productList.getProducts());
-		model.addAttribute("pager",pager);
+		model.addAttribute("pager", pager);
 
 		return "product/productList";
 	}
