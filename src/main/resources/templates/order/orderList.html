@@ -73,7 +73,7 @@
 													class="form-control form-control-sm"
 													style="font-size: 0.75rem;">
 											</div>
-											<span>~</span>
+											<span class="align-middle">~</span>
 											<div
 												class="md-form md-outline input-with-post-icon datepicker ml-3">
 												<input type="date" name="enddate" th:value="${enddate}"
@@ -101,17 +101,17 @@
 			<div>
 				<h5 class="mb-3 text-gray-800">주문 목록</h5>
 			</div>
-			<div class="card-body shadow mb-2" style="font-size: 0.75rem">
-				<div class="table-responsive">
+			<div class="card shadow mb-2" style="font-size: 0.75rem">
+				<div class="card-body table-responsive">
 					<table class="table table-hover table-bordered mb-0 text-center">
 						<thead>
 							<tr>
-								<th class="col-2">주문번호</th>
-								<th class="col-2">주문자</th>
-								<th class="col-2">주문상태</th>
-								<th class="col-2">상품개수</th>
-								<th class="col-2">결제금액</th>
-								<th class="col-2">주문일자</th>
+								<th style="background-color: #eeeeee" class="col-2">주문번호</th>
+								<th style="background-color: #eeeeee" class="col-2">주문자</th>
+								<th style="background-color: #eeeeee" class="col-2">주문상태</th>
+								<th style="background-color: #eeeeee" class="col-2">상품개수</th>
+								<th style="background-color: #eeeeee" class="col-2">결제금액</th>
+								<th style="background-color: #eeeeee" class="col-2">주문일자</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -137,38 +137,45 @@
 							<th:block
 								th:if="${#strings.isEmpty(keyword)} and ${#strings.isEmpty(startdate)} and ${#strings.isEmpty(enddate)}">
 								<li class="page-item"><a th:href="@{/order/orderlist/1}"
-									class="page-link">처음</a></li>
+									style="font-size: 0.75rem;" class="page-link">처음</a></li>
 
 								<th:block
 									th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-									<li class="page-item"><a class="page-link"
+									<li class="page-item"><a
+										th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
+										style="font-size: 0.75rem;"
 										th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
 								</th:block>
 
 								<li class="page-item"><a class="page-link"
+									style="font-size: 0.75rem;"
 									th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
 							</th:block>
 
 							<th:block
 								th:if="${not #strings.isEmpty(keyword)} or ${not #strings.isEmpty(startdate)} or ${not #strings.isEmpty(enddate)} ">
 								<li class="page-item"><a class="page-link"
+									style="font-size: 0.75rem;"
 									th:href="@{/order/search(type=${type},keyword=${keyword},pageNo=1,startdate=${startdate},enddate=${enddate})}">처음</a>
 								</li>
 								<li class="page-item" th:if="${pager.groupNo>1}"><a
+									style="font-size: 0.75rem;"
 									th:href="@{/order/search(type=${type},keyword=${keyword},pageNo=${pager.startPageNo-1},startdate=${startdate},enddate=${enddate})}"
 									class="page-link">이전</a></li>
 								<th:block
 									th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-									<li class="page-item"><a
+									<li class="page-item"><a style="font-size: 0.75rem;"
 										th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
 										th:href="@{/order/search(type=${type},keyword=${keyword},pageNo=${i},startdate=${startdate},enddate=${enddate})}">[[${i}]]</a>
 									</li>
 								</th:block>
 								<li class="page-item"
 									th:if="${pager.groupNo<pager.totalGroupNo}"><a
+									style="font-size: 0.75rem;"
 									th:href="@{/order/search(type=${type},keyword=${keyword}, pageNo=${pager.endPageNo+1},startdate=${startdate},enddate=${enddate})}"
 									class="page-link">이후</a></li>
 								<li class="page-item"><a class="page-link"
+									style="font-size: 0.75rem;"
 									th:href="@{/order/search(type=${type},keyword=${keyword}, pageNo=${pager.totalPageNo},startdate=${startdate},enddate=${enddate})}">마지막</a>
 								</li>
 							</th:block>
