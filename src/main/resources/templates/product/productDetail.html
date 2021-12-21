@@ -5,112 +5,126 @@
 		<div>
 			<h5 class="text-gray-800">상품 정보</h5>
 		</div>
-		<div class="d-flex justify-content-end">
-			<button class="btn btn-danger btn-sm" th:attr="onclick=|deleteProduct('${product.pid}', '${product.pname}')|" >상품 삭제</button>
-		</div>
-		<script th:inline="javascript">
-			let timerInterval
-		
-			function deleteProduct(pid, pname){
-				var delPid = pid;
-				var delPname = pname;
-				console.log(pname);
-				Swal.fire({
-					title: delPname,
-					text: "이 상품을 정말 삭제하시겠습니까? 삭제한 상품은 다시 복구할 수 없습니다.",
-					showCancelButton: true,
-					confirmButtonColor: '#ED0000',
-					cancelButtonText : '취소',
-					cancelButtonColor: '#BDBDBD',
-					confirmButtonText: '삭제',
-					icon:"warning",
-				}).then((result)=>{
-					if(result.isConfirmed){
-						setTimeout(function(){
-							location.href="/product/delete?pid="+delPid;
-						},3000);
-						Swal.fire({
-							title:'삭제 성공',
-							html : '<strong></strong> 초 후에 상품 목록으로 이동합니다.',
-							timer : 3000,
-							timerProgressBar: true,
-							icon: "success",
-							didOpen : () => {
-								Swal.showLoading()
-								timerInterval = setInterval(() => {
-							      Swal.getHtmlContainer().querySelector('strong')
-							        .textContent = (Swal.getTimerLeft() / 1000)
-							          .toFixed(0)
-							    }, 100)
-							},
-							willClose : () => {
-								clearInterval(timerInterval)
-							}	
-						})
-					}
-				}); 
-			}
-		</script>
-		<div class="card shadow mb-4">
-			<table class="table table-bordered" style="font-size: 14px;">
-				<tr>
-					<th class="col-2" scope="col">상품 품번</th>
-					<td scope="col">[[${product.pid}]]</td>
-					<th class="col-2" scope="col">브랜드</th>
-					<td scope="col">[[${product.bname}]]</td>
-				</tr>
-				<tr>
-					<th>상품 가격</th>
-					<td>[[${#numbers.formatInteger(product.pprice,3,'COMMA')}]]원</td>
-					<th>시즌 정보</th>
-					<td>[[${product.pseason}]]</td>
-				</tr>
-				<tr>
-					<th>상품명</th>
-					<td colspan="3">[[${product.pname}]]</td>
-				</tr>
-				<tr>
-					<th>카테고리</th>
-					<td colspan="3">[[${product.clarge}]] > [[${product.cmedium}]] > [[${product.csmall}]]</td>
-				</tr>
-				<tr>
-					<th>상세 설명</th>
-					<td colspan="3">[[${product.pdetail}]]</td>
-				</tr>
-			</table>
-			
-			<table class="table table-bordered text-center" style="font-size: 14px;">
-				<tr>
-					<th class="col-2" scope="col">색상 코드</th>
-					<th scope="col">이미지1</th>
-					<th scope="col">이미지2</th>
-					<th scope="col">이미지3</th>
-					<th scope="col">함께 코디한 상품</th>
-					<th scope="col">컬러 이미지</th>
-					<th scope="col">사이즈</th>
-					<th scope="col">재고</th> 
-				</tr>
-				<div th:remove="tag" th:each="color:${colors}" th:with="stockCount=${color.stocks.size()}">
-					<tr>
-						<td th:rowspan="${color.stocks.size()}">[[${color.ccolorcode}]]</td>
-						<td th:rowspan="${color.stocks.size()}"><img style="width:100px;" th:src="@{${color.cimage1}}"></td>
-						<td th:rowspan="${color.stocks.size()}"><img style="width:100px;" th:src="@{${color.cimage2}}"></td>
-						<td th:rowspan="${color.stocks.size()}"><img style="width:100px;" th:src="@{${color.cimage3}}"></td>
-						<td th:rowspan="${color.stocks.size()}">[[${color.cmatchpid}]]</td>
-						<td th:rowspan="${color.stocks.size()}"><img style="width:20px;height:20px" th:src="@{${color.ccolorimage}}"></td>
-						<td th:text="${stockCount>0}?${color.stocks[0].ssize}:''"></td>
-						<td th:text="${stockCount>0}?${color.stocks[0].samount}:''"></td>
-					</tr>
-					<tr th:each="stock, stats:${color.stocks}" th:if="${!stats.first}">
-						<td th:text="${stock.ssize}"></td>
-						<td th:text="${stock.samount}"></td>
-					</tr> 
+		<div class="card shadow mb-4" style="font-size: 0.75rem">
+			<div class="card-body table-responsive">
+				<div class="d-flex">
+					<button class="btn btn-danger btn-sm mb-3 ml-auto"
+						style="font-size: 0.75rem"
+						th:attr="onclick=|deleteProduct('${product.pid}', '${product.pname}')|">상품
+						삭제</button>
 				</div>
+				<script th:inline="javascript">
+					let timerInterval;
 				
-			</table>
-			<div class="d-flex justify-content-center mt-3 mb-4">
-				<div class="btn btn-outline-dark btn-sm mr-5">취소</div>
-				<a th:href="@{/product/update(pid=${product.pid})}" class="btn btn-dark btn-sm">수정</a>
+					function deleteProduct(pid, pname){
+						var delPid = pid;
+						var delPname = pname;
+						console.log(pname);
+						Swal.fire({
+							title: delPname,
+							text: "이 상품을 정말 삭제하시겠습니까? 삭제한 상품은 다시 복구할 수 없습니다.",
+							showCancelButton: true,
+							confirmButtonColor: '#ED0000',
+							cancelButtonText : '취소',
+							cancelButtonColor: '#BDBDBD',
+							confirmButtonText: '삭제',
+							icon:"warning",
+						}).then((result)=>{
+							if(result.isConfirmed){
+								setTimeout(function(){
+									location.href="/product/delete?pid="+delPid;
+								},3000);
+								Swal.fire({
+									title:'삭제 성공',
+									html : '<strong></strong> 초 후에 상품 목록으로 이동합니다.',
+									timer : 3000,
+									timerProgressBar: true,
+									icon: "success",
+									didOpen : () => {
+										Swal.showLoading()
+										timerInterval = setInterval(() => {
+									      Swal.getHtmlContainer().querySelector('strong')
+									        .textContent = (Swal.getTimerLeft() / 1000)
+									          .toFixed(0)
+									    }, 100)
+									},
+									willClose : () => {
+										clearInterval(timerInterval)
+									}	
+								})
+							}
+						}); 
+					}
+				</script>
+				<table class="table table-bordered">
+					<tr>
+						<th class="col-2 text-center align-middle" scope="col" style="background-color: #eeeeee">상품 품번</th>
+						<td scope="col">[[${product.pid}]]</td>
+						<th class="col-2 text-center align-middle" scope="col" style="background-color: #eeeeee">브랜드</th>
+						<td scope="col">[[${product.bname}]]</td>
+					</tr>
+					<tr>
+						<th class=" text-center align-middle" style="background-color: #eeeeee">상품 가격</th>
+						<td>[[${#numbers.formatInteger(product.pprice,3,'COMMA')}]]원</td>
+						<th class=" text-center align-middle" style="background-color: #eeeeee">시즌 정보</th>
+						<td>[[${product.pseason}]]</td>
+					</tr>
+					<tr>
+						<th class=" text-center align-middle" style="background-color: #eeeeee">상품명</th>
+						<td colspan="3">[[${product.pname}]]</td>
+					</tr>
+					<tr>
+						<th class=" text-center align-middle" style="background-color: #eeeeee">카테고리</th>
+						<td colspan="3">[[${product.clarge}]] >
+							[[${product.cmedium}]] > [[${product.csmall}]]</td>
+					</tr>
+					<tr>
+						<th class=" text-center align-middle" style="background-color: #eeeeee">상세 설명</th>
+						<td colspan="3">[[${product.pdetail}]]</td>
+					</tr>
+				</table>
+
+				<table class="table table-bordered text-center">
+					<tr>
+						<th class=" text-center align-middle col-2" scope="col" style="background-color: #eeeeee">색상 코드</th>
+						<th class=" text-center align-middle" scope="col" style="background-color: #eeeeee">이미지1</th>
+						<th class=" text-center align-middle" scope="col" style="background-color: #eeeeee">이미지2</th>
+						<th class=" text-center align-middle" scope="col" style="background-color: #eeeeee">이미지3</th>
+						<th class=" text-center align-middle" scope="col" style="background-color: #eeeeee">함께 코디한 상품</th>
+						<th class=" text-center align-middle" scope="col" style="background-color: #eeeeee">컬러 이미지</th>
+						<th class=" text-center align-middle" scope="col" style="background-color: #eeeeee">사이즈</th>
+						<th class=" text-center align-middle" scope="col" style="background-color: #eeeeee">재고</th>
+					</tr>
+					<div th:remove="tag" th:each="color:${colors}"
+						th:with="stockCount=${color.stocks.size()}">
+						<tr>
+							<td class=" align-middle" th:rowspan="${color.stocks.size()}">[[${color.ccolorcode}]]</td>
+							<td class=" align-middle" th:rowspan="${color.stocks.size()}"><img
+								style="width: 100px;" th:src="@{${color.cimage1}}"></td>
+							<td class=" align-middle" th:rowspan="${color.stocks.size()}"><img
+								style="width: 100px;" th:src="@{${color.cimage2}}"></td>
+							<td class=" align-middle" th:rowspan="${color.stocks.size()}"><img
+								style="width: 100px;" th:src="@{${color.cimage3}}"></td>
+							<td class=" align-middle" th:rowspan="${color.stocks.size()}">[[${color.cmatchpid}]]</td>
+							<td class=" align-middle" th:rowspan="${color.stocks.size()}"><img
+								style="width: 20px; height: 20px"
+								th:src="@{${color.ccolorimage}}"></td>
+							<td class=" align-middle" th:text="${stockCount>0}?${color.stocks[0].ssize}:''"></td>
+							<td class=" align-middle" th:text="${stockCount>0}?${color.stocks[0].samount}:''"></td>
+						</tr>
+						<tr th:each="stock, stats:${color.stocks}" th:if="${!stats.first}">
+							<td class=" align-middle" th:text="${stock.ssize}"></td>
+							<td class=" align-middle" th:text="${stock.samount}"></td>
+						</tr>
+					</div>
+
+				</table>
+				<div class="d-flex justify-content-center mt-3">
+					<div class="btn btn-outline-dark btn-sm mr-2"
+						style="font-size: 0.75rem">취소</div>
+					<a th:href="@{/product/update(pid=${product.pid})}"
+						class="btn btn-dark btn-sm" style="font-size: 0.75rem">수정</a>
+				</div>
 			</div>
 		</div>
 	</th:block>
