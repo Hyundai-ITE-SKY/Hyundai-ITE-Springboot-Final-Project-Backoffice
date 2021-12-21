@@ -6,42 +6,54 @@
 			<h5 class="mb-3 text-gray-800">이벤트 정보</h5>
 		</div>
 		<div class="card shadow mb-4">
-			<table class="table table-bordered" style="font-size: 14px;">
-				<tr>
-					<th class="col-2" scope="col">이벤트 아이디</th>
-					<td scope="col">[[${event.eid}]]</td>
-					<th class="col-2" scope="col">이벤트 이름</th>
-					<td scope="col">[[${event.ename}]]</td>
-				</tr>
-				<tr>
-					<th>이벤트 시작일</th>
-					<td>[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
-					<th>이벤트 종료일</th>
-					<td>[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
-				</tr>
-				<tr>
-					<th>남은 수량</th>
-					<td>[[${event.eamount}]]</td>
-					<th>제한 인원</th>
-					<td>[[${event.elimit}]]</td>
-				</tr>
-				
-			</table>
-			
-			<table class="table table-bordered text-center" style="font-size: 14px;">
-				<tr>
-					<th scope="col">쿠폰 이미지</th>
-					<th>이벤트 정보</th>
-				</tr>
-				<tr>
-					<td><img style="width:150px;" th:src="${event.eimage}"></td>
-					<td>[[${event.edetail}]]</td>
-				</tr>
-			</table>
-			<div class="d-flex justify-content-center mt-3 mb-4">
-				<a class="btn btn-outline-dark btn-sm mr-2" th:href="@{/event/list/1}">이벤트 목록</a>
-				<a th:href="@{/event/update/{eid}(eid=${event.eid})}" class="btn btn-dark btn-sm mr-2">수정</a>
-				<a class="btn btn-dark btn-sm" th:href="@{/event/delete/{eid}(eid=${event.eid})}">삭제</a>
+			<div class="card-body table-responsive">
+				<table class="table table-bordered" style="font-size: 0.75rem;">
+					<tr>
+						<th style="background-color: #eeeeee" class="col-2" scope="col">이벤트
+							아이디</th>
+						<td class="col-4" scope="col">[[${event.eid}]]</td>
+						<th style="background-color: #eeeeee" class="col-2" scope="col">이벤트
+							이름</th>
+						<td class="col-4" scope="col">[[${event.ename}]]</td>
+					</tr>
+					<tr>
+						<th style="background-color: #eeeeee">이벤트 시작일</th>
+						<td>[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
+						<th style="background-color: #eeeeee">이벤트 종료일</th>
+						<td>[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
+					</tr>
+					<tr>
+						<th style="background-color: #eeeeee">남은 수량</th>
+						<td>[[${event.eamount}]]</td>
+						<th style="background-color: #eeeeee">제한 인원</th>
+						<td>[[${event.elimit}]]</td>
+					</tr>
+
+				</table>
+
+				<table class="table table-bordered text-center"
+					style="font-size: 0.75rem;">
+					<tr>
+						<th style="background-color: #eeeeee" class="col-6 align-middle"
+							scope="col">쿠폰 이미지</th>
+						<th style="background-color: #eeeeee" class="col-6 align-middle">이벤트
+							정보</th>
+					</tr>
+					<tr>
+						<td class=" align-middle"><img style="width: 150px;"
+							th:src="${event.eimage}"></td>
+						<td class=" align-middle">[[${event.edetail}]]</td>
+					</tr>
+				</table>
+				<div class="d-flex justify-content-center mt-3">
+					<a class="btn btn-outline-dark btn-sm mr-auto"
+						style="font-size: 0.75rem" th:href="@{/event/list/1}">이벤트 목록</a> <a
+						style="font-size: 0.75rem"
+						th:href="@{/event/update/{eid}(eid=${event.eid})}"
+						class="btn btn-dark btn-sm mr-2">수정</a> <a
+						style="font-size: 0.75rem" class="btn btn-dark btn-sm"
+						th:href="@{/event/delete/{eid}(eid=${event.eid})}">삭제</a>
+				</div>
 			</div>
 		</div>
 	</th:block>

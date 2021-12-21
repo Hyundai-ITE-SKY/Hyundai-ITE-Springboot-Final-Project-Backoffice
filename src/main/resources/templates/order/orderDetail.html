@@ -3,15 +3,13 @@
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
-		<div style="margin: 50px;">
-			<h4 class="font-weight-bolder mb-2" style="margin-bottom: 100px;">주문
-				상세</h4>
-
-			<div class="card rounded border">
-				<h5 class="font-weight-bolder m-2" style="margin-bottom: 100px;">주문
-					정보</h5>
-				<div class="card-body">
-					<table class="table table-bordered" style="font-size: 14px;">
+		<div>
+			<div>
+				<h5 class="mb-3 text-gray-800">주문 상세</h5>
+			</div>
+			<div class="card shadow mb-4">
+				<div class="card-body table-responsive">
+					<table class="table table-bordered" style="font-size: 0.75rem;">
 						<tr>
 							<th style="background-color: #eeeeee" class="col-3 text-center">주문번호</th>
 							<td class="col-3">[[${orderlist.oid}]]</td>
@@ -50,14 +48,15 @@
 						</tr>
 					</table>
 
-					<table class="table table-bordered" style="font-size: 14px;">
+					<table class="table table-bordered" style="font-size: 0.75rem;">
 						<tr>
 							<th style="background-color: #eeeeee" class="col-3 text-center"
 								scope="col">수령인</th>
 							<td scope="col" class="col-3">[[${orderlist.oreceiver}]]</td>
 							<th style="background-color: #eeeeee" class="col-3 text-center"
 								scope="col">주문자 아이디</th>
-							<td scope="col" class="col-3"><a th:href="@{/member/detail(mid=${orderlist.mid})}">[[${orderlist.mid}]]</a></td>
+							<td scope="col" class="col-3"><a
+								th:href="@{/member/detail(mid=${orderlist.mid})}">[[${orderlist.mid}]]</a></td>
 						</tr>
 						<tr>
 							<th style="background-color: #eeeeee" class="text-center"
@@ -88,22 +87,20 @@
 				</div>
 			</div>
 
-			<div class="card rounded my-4">
-				<h5 class="font-weight-bolder m-2" style="margin-bottom: 100px;">주문
-					물품 정보</h5>
-
-				<div class="card-body">
-					<table
-						class="table table-sm table-bordered table-dark text-white mx-auto">
-						<tr style="width: 100%;">
-							<th class="text-center">제품 번호</th>
-							<th class="text-center">컬러 코드</th>
-							<th class="text-center">사이즈</th>
-							<th class="text-center">수량</th>
+			<div>
+				<h5 class="mb-3 text-gray-800">주문 상품</h5>
+			</div>
+			<div class="card shadow mb-4">
+				<div class="card-body table-responsive">
+					<table class="table table-bordered" style="font-size: 0.75rem;">
+						<tr>
+							<th style="background-color: #eeeeee" class="text-center">제품 번호</th>
+							<th style="background-color: #eeeeee" class="text-center">컬러 코드</th>
+							<th style="background-color: #eeeeee" class="text-center">사이즈</th>
+							<th style="background-color: #eeeeee" class="text-center">수량</th>
 						</tr>
 
-						<tr class="bg-light text-dark" style="width: 100%;"
-							th:each="item : ${orderitems}">
+						<tr th:each="item : ${orderitems}">
 							<td class="text-center">[[${item.pid}]]</td>
 							<td class="text-center">[[${item.ccolorcode}]]</td>
 							<td class="text-center">[[${item.psize}]]</td>
@@ -113,7 +110,7 @@
 				</div>
 			</div>
 
-			<a class="btn btn-primary" th:href="@{/order/orderlist/1}">목록으로</a>
+			<a class="btn btn-outline-primary btn-sm" style="font-size: 0.75rem" th:href="@{/order/orderlist/1}">목록으로</a>
 		</div>
 	</th:block>
 </th:block>
