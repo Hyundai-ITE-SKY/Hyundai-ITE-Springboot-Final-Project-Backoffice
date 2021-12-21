@@ -1,6 +1,5 @@
 package com.mycompany.webapp.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -30,7 +29,6 @@ import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Products;
 import com.mycompany.webapp.dto.Stock;
-import com.mycompany.webapp.dto.StockList;
 import com.mycompany.webapp.dto.StockLists;
 
 import lombok.extern.slf4j.Slf4j;
