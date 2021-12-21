@@ -47,19 +47,87 @@
 								style="background-color: #eeeeee; border-right: 1px solid #E3E6F0">카테고리</td>
 							<td class="input-group input-group-sm text-center align-middle">
 								<div class="input-group input-group-sm">
-									<select class="custom-select" style="font-size: 0.75rem;">
+									<!-- 검색시 검색 카테고리에 선택하게 하기 위함  -->
+									<input type="hidden" id="originClarge" th:value="${clarge}"/>
+									<input type="hidden" id="originCmedium" th:value="${cmedium}"/>
+									<input type="hidden" id="originCsmall" th:value="${csmall}"/>
+									<!-- 끝 -->
+									<select class="custom-select" style="font-size: 0.75rem;" id="clargeSelect" onchange="clargeChange(this)" name="clarge">
 										<option value="" selected>대분류</option>
-										<option value="1">상품명</option>
-										<option value="2">상품 코드</option>
-										<option value="3">주문자 아이디</option>
-									</select> <select class="custom-select" id="inputGroupSelect04"
+										<option th:each="clarge : ${categoryList}" th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
+									</select>
+									<select class="custom-select" id="cmediumSelect" onchange="cmediumChange(this)" name="cmedium"
 										style="font-size: 0.75rem;">
 										<option value="" selected>중분류</option>
-									</select> <select class="custom-select" id="inputGroupSelect04"
-										style="font-size: 0.75rem;">
+									</select>
+									<select class="custom-select" id="csmallSelect" name="csmall" style="font-size: 0.75rem;">
 										<option value="" selected>소분류</option>
 									</select>
 								</div>
+								<script th:inline="javascript">
+								let category;
+							
+								function clargeChange(e){
+									let clarge = e.value;
+									$('#cmediumSelect').children('option:not(:first)').remove();
+									$('#csmallSelect').children('option:not(:first)').remove();
+									
+									if (category != null) {
+										for(let i=0; i<category.length; i++){
+											if(clarge === category[i].clarge){
+												for(x in category[i].cmedium){
+													$('<option/>', {
+														'text' : category[i].cmedium[x].cmedium,
+														'value' : category[i].cmedium[x].cmedium
+													}).appendTo('#cmediumSelect');
+												}
+											}
+										}
+									}
+								}
+								
+								function cmediumChange(e){
+									let clarge = $('#clargeSelect option:selected').val();
+									let cmedium = e.value;
+									$('#csmallSelect').children('option:not(:first)').remove();
+									
+									if(category!=null){
+										for(let i=0; i<category.length; i++){
+											if(clarge===category[i].clarge){
+												for(x in category[i].cmedium){
+													if(cmedium ===category[i].cmedium[x].cmedium){
+														for(y in category[i].cmedium[x].csmall){
+															$('<option/>', {
+																'text' : category[i].cmedium[x].csmall[y],
+																'value' : category[i].cmedium[x].csmall[y]
+															}).appendTo('#csmallSelect');
+														}
+													}
+												}
+											}
+										}
+									}
+									
+								}
+								$(document).ready(function(){
+									$.ajax({
+										url: "http://localhost:82/product/category",
+										method: "get",
+									}).done((data) => {
+										category = data["category"];
+										let clarge = $('#originClarge').val();
+										let cmedium = $('#originCmedium').val();
+										let csmall = $('#originCsmall').val();
+										console.log(clarge, cmedium, csmall);
+										
+										clargeChange(clarge);
+										$('#cmediumSelect').val(cmedium);
+										
+										cmediumChange(cmedium);
+										$('#csmallSelect').val(csmall);
+									});
+								})
+							</script>
 							</td>
 						</tr>
 					</table>
