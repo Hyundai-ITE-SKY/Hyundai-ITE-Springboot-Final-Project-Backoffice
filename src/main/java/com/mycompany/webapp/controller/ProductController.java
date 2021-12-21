@@ -96,11 +96,14 @@ public class ProductController {
 
 		Products productList = webClient.get().uri("http://localhost:82/product/list/{pageNo}", pageNo)
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+		Category categoryList = webClient.get().uri("http://localhost:82/product/category")
+				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Category.class).block();
 		
 		Pager pager = new Pager(12, 5, productList.getTotalRows(), pageNo);
 		model.addAttribute("products", productList.getProducts());
 		model.addAttribute("pager",pager);
-
+		model.addAttribute("categoryList", categoryList.getCategory());
+		
 		return "product/productList";
 	}
 	
@@ -217,27 +220,40 @@ public class ProductController {
 	public String getSearchList(@RequestParam String type,
 								@RequestParam String keyword,
 								@RequestParam(defaultValue="1") int pageNo,
+								@RequestParam String clarge,
+								@RequestParam String cmedium,
+								@RequestParam String csmall,
 								HttpSession session,
 								Model model)
 	{
 		log.info("실행");
 		log.info("type : "+ type + ", keyword : " + keyword);
+		log.info(clarge+" : "+ cmedium + " : " + csmall);
 		WebClient webClient = WebClient.create("http://localhost:82/product");
 		
 		Auth auth = (Auth) session.getAttribute("auth");
-		Products products = webClient.get().uri(builder -> builder.path("/getSearchList").queryParam("type", type).queryParam("w", keyword).queryParam("pageNo", pageNo).build())
+		Products products = webClient.get().uri(builder -> builder.path("/getSearchList")
+																  .queryParam("type", type)
+																  .queryParam("w", keyword)
+																  .queryParam("pageNo", pageNo)
+																  .queryParam("clarge", clarge)
+																  .queryParam("cmedium", cmedium)
+																  .queryParam("csmall", csmall)
+																  .build())
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+		Category categoryList = webClient.get().uri("http://localhost:82/product/category")
+				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Category.class).block();
+		
 		Pager pager = new Pager(12, 5, products.getTotalRows(), pageNo);
 
 		model.addAttribute("products", products.getProducts());
 		model.addAttribute("pager", pager);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("type", type);
-		
-		log.info(type);
-//		for(Product product : products.getProducts()) {
-//			log.info(product.toString());
-//		}
+		model.addAttribute("clarge", clarge);
+		model.addAttribute("cmedium", cmedium);
+		model.addAttribute("csmall", csmall);
+		model.addAttribute("categoryList", categoryList.getCategory());
 		
 		return "/product/productList";
 	}
