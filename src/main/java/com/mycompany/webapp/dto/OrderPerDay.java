@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class OrderPerDay {
-	private String odate;
+	private String oodate;
 	private int num;
 }

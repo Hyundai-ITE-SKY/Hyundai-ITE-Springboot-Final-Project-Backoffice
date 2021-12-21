@@ -19,7 +19,7 @@
 		}
 		
 		for (let orderPerDay of [[${orderPerDays}]]){
-			let d = orderPerDay.odate.substr(6, 2);
+			let d = orderPerDay.oodate.substr(6, 2);
 			if (dateOrderDict[`12.${d}.`] !== undefined) {
 				dateOrderDict[`12.${d}.`] += 1;
 			}
@@ -40,11 +40,11 @@
 			$(window).ready(function() {				
 				console.log("orderPerDays:"+[[${orderPerDays}]]);
 				
-				/*for(let orderPerDay of [[${orderPerDays}]]){
-					console.log("orderPerDay odate:"+orderPerDay.odate);
+				for(let orderPerDay of [[${orderPerDays}]]){
+					console.log("orderPerDay odate:"+orderPerDay.oodate);
 					console.log("orderPerDay num:"+orderPerDay.num);
-				}*/
-				
+				}
+				/*
 				console.log("orderPerDayUser:"+[[${orderPerDayUser}]]);
 				/*for(let orderPerDay of [[${orderPerDayUser}]]){
 					console.log("orderPerDayUser odate:"+orderPerDay.odate);

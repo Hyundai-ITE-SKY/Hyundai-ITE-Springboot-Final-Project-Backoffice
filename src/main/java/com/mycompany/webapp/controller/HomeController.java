@@ -52,13 +52,13 @@ public class HomeController {
 		OrderPerDays orderPerDays = webClient.get().uri("http://localhost:82/dash/order/day")
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(OrderPerDays.class).block();
 		model.addAttribute("orderPerDays", orderPerDays.getOrderPerDays());
-		log.info("orderPerDays : "+orderPerDays.getOrderPerDays());
+		log.info("orderPerDays(일자별 결제건수) : "+orderPerDays.getOrderPerDays());
 		
 		//날짜별 주문자수
 		OrderPerDays orderPerDayUser = webClient.get().uri("http://localhost:82/dash/order/dayuser")
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(OrderPerDays.class).block();
 		model.addAttribute("orderPerDayUser", orderPerDayUser.getOrderPerDays());
-		log.info("orderPerDayUser : "+orderPerDayUser.getOrderPerDays());
+		log.info("orderPerDayUser(일자별 결제자수) : "+orderPerDayUser.getOrderPerDays());
 
 		//월별, 카테고리별 매출
 		String MonthTotalPrice = webClient.get().uri("http://localhost:82/dash/monthtotalprice")
