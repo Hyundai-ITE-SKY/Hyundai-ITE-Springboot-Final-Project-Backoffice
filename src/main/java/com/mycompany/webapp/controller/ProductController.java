@@ -29,6 +29,7 @@ import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Products;
 import com.mycompany.webapp.dto.Stock;
+import com.mycompany.webapp.dto.StockList;
 import com.mycompany.webapp.dto.StockLists;
 
 import lombok.extern.slf4j.Slf4j;
@@ -228,8 +229,6 @@ public class ProductController {
 								Model model)
 	{
 		log.info("실행");
-		log.info("type : "+ type + ", keyword : " + keyword);
-		log.info(clarge+" : "+ cmedium + " : " + csmall);
 		WebClient webClient = WebClient.create("http://localhost:82/product");
 		
 		Auth auth = (Auth) session.getAttribute("auth");
@@ -258,6 +257,35 @@ public class ProductController {
 		model.addAttribute("categoryList", categoryList.getCategory());
 		
 		return "/product/productList";
+	}
+	
+	@GetMapping("/searchInStock")
+	public String getSearchStockList(@RequestParam String type,
+								   @RequestParam String keyword,
+								   @RequestParam(defaultValue="1") int pageNo,
+								   HttpSession session,
+								   Model model)
+	{
+		log.info("실행");
+		WebClient webClient = WebClient.create("http://localhost:82/product");
+		
+		Auth auth = (Auth) session.getAttribute("auth");
+		StockLists stocklists = webClient.get().uri(builder -> builder.path("/getSearchStockList")
+									 .queryParam("type", type)
+									 .queryParam("w", keyword)
+									 .queryParam("pageNo", pageNo)
+									 .build())
+									 .header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(StockLists.class).block();
+		
+		Pager pager = new Pager(12, 5, stocklists.getTotalRows(), pageNo);
+		
+		model.addAttribute("pager", pager);
+		model.addAttribute("stocks", stocklists.getStockLists());
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("type", type);
+		
+		return "/product/productStock";
+		
 	}
 	
 	@PostMapping("/stock/update")

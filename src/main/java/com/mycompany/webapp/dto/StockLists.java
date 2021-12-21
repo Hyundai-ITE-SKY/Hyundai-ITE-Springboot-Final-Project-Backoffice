@@ -7,4 +7,5 @@ import lombok.Data;
 @Data
 public class StockLists {
 	private List<StockList> stockLists;
+	private int totalRows;
 }

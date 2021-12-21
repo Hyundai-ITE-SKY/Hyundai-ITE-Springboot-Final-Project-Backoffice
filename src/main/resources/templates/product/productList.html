@@ -162,6 +162,8 @@
 						function getSearchList(){
 							$('input[name=cmedium]').val($('#cmediumSelect option:selected').val());
 							$('input[name=csmall]').val($('#csmallSelect option:selected').val());
+							console.log($('#cmediumSelect option:selected').val());
+							console.log($('#csmallSelect option:selected').val());
 						}
 					</script>
 				</form>
@@ -258,58 +260,6 @@
 						</tr>
 					</tbody>
 				</table>
-				<div>
-					<ul
-						class="pagination justify-content-center align-items-center mb-1 mt-3">
-						<th:block th:if="${#strings.isEmpty(keyword)}">
-							<li class="page-item"><a class="page-link"
-								style="font-size: 0.75rem;" th:href="@{/product/list(pageNo=1)}">처음</a></li>
-							<li class="page-item" th:if="${pager.groupNo>1}"><a
-								style="font-size: 0.75rem;"
-								th:href="@{/product/list(pageNo=${pager.startPageNo-1})}"
-								class="page-link">이전</a></li>
-							<th:block
-								th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-								<li class="page-item"><a style="font-size: 0.75rem;"
-									th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
-									th:href="@{/product/list(pageNo=${i})}">[[${i}]]</a></li>
-							</th:block>
-							<li class="page-item" th:if="${pager.groupNo<pager.totalGroupNo}"><a
-								style="font-size: 0.75rem;"
-								th:href="@{/product/list(pageNo=${pager.endPageNo+1})}"
-								class="page-link">이후</a></li>
-							<li class="page-item"><a class="page-link"
-								style="font-size: 0.75rem;"
-								th:href="@{/product/list(pageNo=${pager.totalPageNo})}">마지막</a>
-							</li>
-						</th:block>
-
-						<th:block th:if="${not #strings.isEmpty(keyword)}">
-							<li class="page-item"><a class="page-link"
-								style="font-size: 0.75rem;"
-								th:href="@{/product/search(type=${type},keyword=${keyword},pageNo=1)}">처음</a>
-							</li>
-							<li class="page-item" th:if="${pager.groupNo>1}"><a
-								th:href="@{/product/search(type=${type},keyword=${keyword},pageNo=${pager.startPageNo-1})}"
-								class="page-link" style="font-size: 0.75rem;">이전</a></li>
-							<th:block
-								th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-								<li class="page-item"><a style="font-size: 0.75rem;"
-									th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
-									th:href="@{/product/search(type=${type},keyword=${keyword},pageNo=${i})}">[[${i}]]</a>
-								</li>
-							</th:block>
-							<li class="page-item" th:if="${pager.groupNo<pager.totalGroupNo}"><a
-								style="font-size: 0.75rem;"
-								th:href="@{/product/search(type=${type},keyword=${keyword}, pageNo=${pager.endPageNo+1})}"
-								class="page-link">이후</a></li>
-							<li class="page-item"><a class="page-link"
-								style="font-size: 0.75rem;"
-								th:href="@{/product/search(type=${type},keyword=${keyword}, pageNo=${pager.totalPageNo})}">마지막</a>
-							</li>
-						</th:block>
-					</ul>
-				</div>
 			</div>
 		</div>
 	</th:block>
