@@ -7,55 +7,75 @@
 			<div>
 				<h5 class="mb-3 text-gray-800">재고 검색</h5>
 			</div>
-			<div class="mb-4 p-4 rounded bg-gray-300 border border-dark">
-				<form class="container">
-					<div class="row">
-						<label class="col-1 font-weight-bolder">검색</label>
-						<div class="col-11">
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<select class="custom-select" id="inputGroupSelect04"
-										aria-label="Example select with button addon">
-										<option selected>상품코드</option>
-										<option value="1">브랜드</option>
-										<option value="2">상품명</option>
-									</select>
-								</div>
-								<input type="text" class="form-control"
-									aria-label="Text input with segmented dropdown button">
-							</div>
+			<div class="card shadow mb-4">
+				<div class="card-body table-responsive">
+					<form name="search-form" id="search-form" th:action="@{/product/searchInStock}" autocomplete="off">
+						<table class="table table-bordered mt-2"
+							style="font-size: 0.75rem;">
+							<tr class="table-borderless">
+								<td class="col-2 text-center align-middle"
+									style="background-color: #eeeeee; border-right: 1px solid #E3E6F0">검색</td>
+								<td class="input-group text-center">
+									<div class="input-group-prepend">
+										<select class="form-control form-control-sm" name="type" style="font-size: 0.75rem;">
+											<option value="" selected>검색분류</option>
+											<option value="pid" th:selected="${type != null}? ${type}=='pid'">상품코드</option>
+											<option value="bname" th:selected="${type != null}? ${type}=='bname'">브랜드</option>
+											<option value="pname" th:selected="${type != null}? ${type}=='pname'">상품명</option>
+										</select>
+									</div>
+									<input type="text" name="keyword" style="font-size: 0.75rem;"
+									class="form-control form-control-sm"
+									th:value="${keyword != null}? ${keyword}:''"
+									/>
+								</td>
+							</tr>
+						</table>
+						<!-- <input type="hidden" name="type"/>
+						<input type="hidden" name="keyword"/> -->
+						<div class="d-flex justify-content-center">
+							<button class="btn btn-sm text-white mb-2"
+								style="background-color: #2D3134; font-size: 0.75rem;"
+								type="submit" >검색</button>
 						</div>
-						<div class="col-11"></div>
-						<div class="col-1">
-							<button class="btn text-white" style="background-color: #2D3134"
-								type="submit">검색</button>
-						</div>
-					</div>
-				</form>
+						<script th:inline="javascript">
+							function debug(){
+								/* console.log($('#word').val());
+								console.log($('#type option:selected').val());
+								$('input[name=keyword]').val($('#word').val());
+								$('input[name=type]').val($('#type option:selected').val()); */
+							}
+						</script>
+					</form>
+				</div>
 			</div>
 			<div>
 				<h5 class="mb-3 text-gray-800">재고 목록</h5>
 			</div>
-			<div class="card-body shadow mb-4" style="font-size: 0.75rem">
-				<div class="table-responsive">
-					<table class="table table-hover table-bordered mb-0 text-center">
+			<div class="card shadow mb-4" style="font-size: 0.75rem;">
+				<div class="card-body table-responsive">
+					<table
+						class="table table-hover table-bordered mb-0 text-center text-truncate"
+						style="background-color: white">
 						<thead>
 							<tr class="text-center font-weight-bolder">
-								<th>브랜드</th>
-								<th>상품코드</th>
-								<th>상품명</th>
-								<th>사이즈</th>
-								<th>색상</th>
-								<th>재고</th>
-								<th>판매량</th>
+								<th style="background-color: #eeeeee" class="col-2">브랜드</th>
+								<th style="background-color: #eeeeee" class="col-2">상품코드</th>
+								<th style="background-color: #eeeeee" class="col-2">상품명</th>
+								<th style="background-color: #eeeeee" class="col-1">사이즈</th>
+								<th style="background-color: #eeeeee" class="col-1">색상</th>
+								<th style="background-color: #eeeeee" class="col-2">재고</th>
+								<th style="background-color: #eeeeee" class="col-2">판매량</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="stock, status: ${stocks}" class="text-center">
-								<form th:id="|stockForm${status.index}|" action="/product/stock/update" method="post" >
+								<form th:id="|stockForm${status.index}|"
+									action="/product/stock/update" method="post">
 									<input type="hidden" name="pid" th:value="${stock.pid}">
-									<input type="hidden" name="ccolorcode" th:value="${stock.ccolorcode}">
-									<input type="hidden" name="ssize" th:value="${stock.ssize}">
+									<input type="hidden" name="ccolorcode"
+										th:value="${stock.ccolorcode}"> <input type="hidden"
+										name="ssize" th:value="${stock.ssize}">
 									<td class="align-middle">[[${stock.bname}]]</td>
 									<td class="align-middle">[[${stock.pid}]]</td>
 									<td class="align-middle">[[${stock.pname}]]</td>
@@ -63,8 +83,11 @@
 									<td class="align-middle">[[${stock.ccolorcode}]]</td>
 									<td class="align-middle">
 										<div class="input-group input-group-sm">
-											<input type="text" name="samount" th:value="${stock.samount}" class="form-control d-inline-block input-sm"> 
-											<button class="btn btn-sm btn-secondary">변경</button>
+											<input type="text" name="samount" th:value="${stock.samount}"
+												class="form-control d-inline-block input-sm"
+												style="font-size: 0.75rem;">
+											<button class="btn btn-sm btn-secondary"
+												style="font-size: 0.75rem;">변경</button>
 										</div>
 									</td>
 									<td class="align-middle">[[${stock.stotalamount}]]</td>
@@ -72,20 +95,40 @@
 							</tr>
 						</tbody>
 					</table>
-					
+
 					<nav aria-label="Page navigation example" class="mt-4">
-						<ul class="pagination justify-content-center">
-							<li class="page-item"><a th:href="@{/product/stock/list/1}"
-								class="page-link">처음</a></li>
-
-							<th:block
-								th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+						<ul class="pagination justify-content-center align-items-center">
+							<th:block th:if="${#strings.isEmpty(keyword)}">
+								<li class="page-item"><a th:href="@{/product/stock/list/1}"
+									style="font-size: 0.75rem;" class="page-link">처음</a></li>
+	
+								<th:block
+									th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+									<li class="page-item"><a style="font-size: 0.75rem;"
+										th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
+										th:href="@{/product/stock/list/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+								</th:block>
+	
 								<li class="page-item"><a class="page-link"
-									th:href="@{/product/stock/list/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+									style="font-size: 0.75rem;"
+									th:href="@{/product/stock/list/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
 							</th:block>
-
-							<li class="page-item"><a class="page-link"
-								th:href="@{/product/stock/list/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
+							
+							<th:block th:if="${not #strings.isEmpty(keyword)}">
+								<li class="page-item"><a th:href="@{/product/searchInStock(type=${type}, keyword=${keyword}, pageNo=1)}"
+									style="font-size: 0.75rem;" class="page-link">처음</a></li>
+	
+								<th:block
+									th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+									<li class="page-item"><a style="font-size: 0.75rem;"
+										th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
+										th:href="@{/product/searchInStock(type=${type}, keyword=${keyword}, pageNo=${i})}">[[${i}]]</a></li>
+								</th:block>
+	
+								<li class="page-item"><a class="page-link"
+									style="font-size: 0.75rem;"
+									th:href="@{/product/searchInStock(type=${type}, keyword=${keyword}, pageNo=${pager.totalPageNo})}">마지막</a></li>
+							</th:block>
 						</ul>
 					</nav>
 				</div>

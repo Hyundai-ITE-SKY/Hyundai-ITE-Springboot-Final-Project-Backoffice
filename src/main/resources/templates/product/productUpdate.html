@@ -5,82 +5,95 @@
 		<div>
 			<h5 class="mb-3 text-gray-800">상품 정보 수정</h5>
 		</div>
-		<div class="card shadow mb-4">
-		<form method="post" action="update" id="updateProductForm">
-			<input type="hidden" name="pno" th:value="${product.pno}"/>
-			<input type="hidden" name="ptotalamount" th:value="${product.ptotalamount}"/>
-			<table class="table table-bordered" style="font-size: 14px;">
-				<tr>
-					<th class="col-2" scope="col">상품 품번</th>
-					<td class="col-auto" scope="col">
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" name="pid"
-								placeholder="상품 코드를 입력하세요." th:value="${product.pid}"/>
-						</div>
-					</td>
-					<th class="col-2" scope="col">브랜드</th>
-					<td scope="col">
-						<div class="input-group input-group-sm">
-							<select th:field="${product.bno}" class="custom-select mr-sm-2" id="brandSelect">
-								<option th:each="brand : ${brands}" th:value="${brand.bno}" th:text="${brand.bname}"></option>
-							</select>
-							<input type='hidden' name="bname"/>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th>상품 가격</th>
-					<td>
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" name="pprice"
-								placeholder="상품 가격을 입력하세요." th:value="${product.pprice}" />
-						</div>
-					</td>
-					<th>시즌 정보</th>
-					<td>
-						<div class="input-group input-group-sm">
-							<select th:field="${product.pseason}" class="custom-select mr-sm-2" id="seasonSelect">
-								<option th:value="SS">SS</option>
-								<option th:value="FW">FW</option>
-							</select>
-							<input type="hidden" name="pseason"/>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th>상품명</th>
-					<td colspan="3">
-						<input class="form-control input-sm" type="text" name="pname"
-								placeholder="상품명을 입력하세요." th:value="${product.pname}" />
-					</td>
-				</tr>
-				<tr>
-					<th>카테고리</th>
-					<td colspan="3">
-						<div class="d-flex">
-						<input type="hidden" id="originClarge" th:value="${product.clarge}"/>
-						<input type="hidden" id="originCmedium" th:value="${product.cmedium}"/>
-						<input type="hidden" id="originCsmall" th:value="${product.csmall}"/>
-							<div class="col-auto my-1">
-								<label class="mr-sm-2" for="">대분류</label>
-								<select th:field="${product.clarge}" class="custom-select mr-sm-2" id="clargeSelect" name="clarge" onchange="clargeChange(this.value)">
-									<option th:each="clarge : ${categoryList}" th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
-								</select>
-							</div>
-							<div class="col-auto my-1">
-								<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label> 
-								<select th:field="${product.cmedium}" class="custom-select mr-sm-2" id="cmediumSelect" onchange="cmediumChange(this.value)" name="cmedium">
-									<option value="" selected>선택하세요</option>
-								</select>
-							</div>
-							<div class="col-auto my-1">
-								<label class="mr-sm-2" for="csmallSelect">소분류</label>
-								<select th:field="${product.csmall}" class="custom-select mr-sm-2" id="csmallSelect" name="csmall">
-									<option value="" selected>선택하세요</option>
-								</select>
-							</div>
-						</div>
-						<script th:inline="javascript">
+		<div class="card shadow mb-4 text-center" style="font-size: 0.75rem">
+			<div class="card-body table-responsive">
+				<form method="post" action="update" id="updateProductForm">
+					<input type="hidden" name="pno" th:value="${product.pno}" /> <input
+						type="hidden" name="ptotalamount" style="font-size: 0.75rem"
+						th:value="${product.ptotalamount}" />
+					<table class="table table-bordered">
+						<tr>
+							<th class="col-2 align-middle" scope="col" style="background-color: #eeeeee">상품 품번</th>
+							<td class="col-auto align-middle" scope="col">
+								<div class="input-group input-group-sm align-middle">
+									<input class="form-control input-sm" type="text" name="pid"
+										style="font-size: 0.75rem" placeholder="상품 코드를 입력하세요."
+										th:value="${product.pid}" />
+								</div>
+							</td>
+							<th class="col-2 align-middle" scope="col" style="background-color: #eeeeee">브랜드</th>
+							<td scope="col">
+								<div class="input-group input-group-sm">
+									<select th:field="${product.bno}" class="custom-select mr-sm-2"
+										style="font-size: 0.75rem" id="brandSelect">
+										<option th:each="brand : ${brands}" th:value="${brand.bno}"
+											th:text="${brand.bname}"></option>
+									</select> <input type='hidden' name="bname" style="font-size: 0.75rem" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class=" align-middle" style="background-color: #eeeeee">상품 가격</th>
+							<td>
+								<div class="input-group input-group-sm">
+									<input class="form-control input-sm" type="text" name="pprice"
+										style="font-size: 0.75rem" placeholder="상품 가격을 입력하세요."
+										th:value="${product.pprice}" />
+								</div>
+							</td>
+							<th class=" align-middle" style="background-color: #eeeeee">시즌 정보</th>
+							<td>
+								<div class="input-group input-group-sm">
+									<select th:field="${product.pseason}"
+										style="font-size: 0.75rem" class="custom-select mr-sm-2"
+										id="seasonSelect">
+										<option th:value="SS">SS</option>
+										<option th:value="FW">FW</option>
+									</select> <input type="hidden" name="pseason" />
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class=" align-middle" style="background-color: #eeeeee">상품명</th>
+							<td colspan="3"><input class="form-control input-sm"
+								style="font-size: 0.75rem" type="text" name="pname"
+								placeholder="상품명을 입력하세요." th:value="${product.pname}" /></td>
+						</tr>
+						<tr>
+							<th class=" align-middle" style="background-color: #eeeeee">카테고리</th>
+							<td colspan="3">
+								<div class="d-flex">
+									<input type="hidden" id="originClarge"
+										style="font-size: 0.75rem" th:value="${product.clarge}" /> <input
+										type="hidden" id="originCmedium" th:value="${product.cmedium}" />
+									<input type="hidden" id="originCsmall"
+										th:value="${product.csmall}" />
+									<div class="col-4 my-1">
+										<label class="mr-sm-2" for="">대분류</label> <select
+											style="font-size: 0.75rem" th:field="${product.clarge}"
+											class="custom-select mr-sm-2" id="clargeSelect" name="clarge"
+											onchange="clargeChange(this.value)">
+											<option th:each="clarge : ${categoryList}"
+												th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
+										</select>
+									</div>
+									<div class="col-4 my-1">
+										<label class="mr-sm-2" for="inlineFormCustomSelect">중분류</label>
+										<select th:field="${product.cmedium}"
+											style="font-size: 0.75rem" class="custom-select mr-sm-2"
+											id="cmediumSelect" onchange="cmediumChange(this.value)"
+											name="cmedium">
+											<option value="" selected>선택하세요</option>
+										</select>
+									</div>
+									<div class="col-4 my-1">
+										<label class="mr-sm-2" for="csmallSelect">소분류</label> <select
+											style="font-size: 0.75rem" th:field="${product.csmall}"
+											class="custom-select mr-sm-2" id="csmallSelect" name="csmall">
+											<option value="" selected>선택하세요</option>
+										</select>
+									</div>
+								</div> <script th:inline="javascript">
 							let category;
 							$(document).ready(function(){
 								$.ajax({
@@ -144,69 +157,96 @@
 								
 							}
 						</script>
-					</td>
-				</tr>
-				<tr>
-					<th>상세 설명</th>
-					<td colspan="3">
-						<textarea class="form-control" aria-label="With textarea" name="pdetail">[[${product.pdetail}]]</textarea>
-					</td>
-				</tr>
-			</table>
+							</td>
+						</tr>
+						<tr>
+							<th class=" align-middle" style="background-color: #eeeeee">상세 설명</th>
+							<td colspan="3"><textarea class="form-control"
+									style="font-size: 0.75rem" aria-label="With textarea"
+									name="pdetail">[[${product.pdetail}]]</textarea></td>
+						</tr>
+					</table>
 
-			<table class="table table-bordered text-center" style="font-size: 14px;">
-				<tr>
-					<th class="col-1" scope="col">색상 코드</th>
-					<th scope="col">이미지1</th>
-					<th scope="col">이미지2</th>
-					<th scope="col">이미지3</th>
-					<th scope="col">함께 코디한 상품</th>
-					<th scope="col">컬러 이미지</th>
-					<th class="col-1" scope="col">사이즈</th>
-					<th class="col-1" scope="col">재고</th>
-				</tr>
-				<div th:remove="tag" th:each="color, status :${colors}" th:with="stockCount=${color.stocks.size()}">
-				<tr>
-					<input type="hidden" th:name="'colors['+ ${status.index} +'].pid'" th:value="${product.pid}" />
-					<!-- 색상 코드 -->
-					<td th:rowspan="${color.stocks.size()}">
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" th:id="'ccolorcode'+${status.count}" th:value="${color.ccolorcode}" th:name="'colors['+ ${status.index} +'].ccolorcode'"/>
-						</div>
-					</td>
-					<td th:rowspan="${color.stocks.size()}">
-						<img style="width: 100px;" th:id="'c1image'+${status.count}" th:src="@{${color.cimage1}}">
-						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" th:id="'cimage1Input'+${status.count}" th:value="${color.cimage1}" th:name="'colors['+ ${status.index} +'].cimage1'"/>
-						</div>
-						<a th:onclick="'updateCimage1('+${status.count}+')'" class="btn btn-dark btn-sm">적용</a>
-					</td>
-					<td th:rowspan="${color.stocks.size()}">
-						<img style="width: 100px;" th:id="'c2image'+${status.count}" th:src="@{${color.cimage2}}">
-						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" th:id="'cimage2Input'+${status.count}" type="text" th:value="${color.cimage2}"  th:name="'colors['+ ${status.index} +'].cimage2'" />
-						</div>
-						<a th:onclick="'updateCimage2('+${status.count}+')'" class="btn btn-dark btn-sm">적용</a>
-					</td>
-					<td th:rowspan="${color.stocks.size()}">
-						<img style="width: 100px;" th:id="'c3image'+${status.count}" th:src="@{${color.cimage3}}">
-						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" th:id="'cimage3Input'+${status.count}" type="text" th:value="${color.cimage3}"  th:name="'colors['+ ${status.index} +'].cimage3'" />
-						</div>
-						<a th:onclick="'updateCimage3('+${status.count}+')'" class="btn btn-dark btn-sm">적용</a>
-					</td>
-					<td th:rowspan="${color.stocks.size()}">
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" th:value="${color.cmatchpid}" th:name="'colors['+ ${status.index} +'].cmatchpid'" />
-						</div>
-					</td>
-					<td th:rowspan="${color.stocks.size()}">
-						<img style="width: 20px; height: 20px" th:id="'colorimage'+${status.count}" th:src="@{${color.ccolorimage}}">
-						<div class="d-flex input-group input-group-sm pa-0">
-							<input class="form-control input-sm mt-3" type="text" th:id="'colorimageInput'+${status.count}" th:value="${color.ccolorimage}"  th:name="'colors['+ ${status.index} +'].ccolorimage'" />
-						</div>
-						<a th:onclick="'updateColorimage('+${status.count}+')'" class="btn btn-dark btn-sm">적용</a>
-						<script th:inline="javascript">
+					<table class="table table-bordered text-center">
+						<tr>
+							<th style="background-color: #eeeeee" class="col-1 align-middle" scope="col">색상 코드</th>
+							<th style="background-color: #eeeeee" class="align-middle" scope="col">이미지1</th>
+							<th style="background-color: #eeeeee" class="align-middle" scope="col">이미지2</th>
+							<th style="background-color: #eeeeee" class="align-middle" scope="col">이미지3</th>
+							<th style="background-color: #eeeeee" class="align-middle" scope="col">함께 코디한 상품</th>
+							<th style="background-color: #eeeeee" class="align-middle" scope="col">컬러 이미지</th>
+							<th style="background-color: #eeeeee" class="col-1 align-middle" scope="col">사이즈</th>
+							<th style="background-color: #eeeeee" class="col-1 align-middle" scope="col">재고</th>
+						</tr>
+						<div th:remove="tag" th:each="color, status :${colors}"
+							th:with="stockCount=${color.stocks.size()}">
+							<tr>
+								<input type="hidden"
+									th:name="'colors['+ ${status.index} +'].pid'"
+									th:value="${product.pid}" />
+								<!-- 색상 코드 -->
+								<td th:rowspan="${color.stocks.size()}" class=" align-middle">
+									<div class="input-group input-group-sm">
+										<input class="form-control input-sm" type="text"
+											style="font-size: 0.75rem"
+											th:id="'ccolorcode'+${status.count}"
+											th:value="${color.ccolorcode}"
+											th:name="'colors['+ ${status.index} +'].ccolorcode'" />
+									</div>
+								</td>
+								<td th:rowspan="${color.stocks.size()}" class=" align-middle"><img
+									style="width: 100px;" th:id="'c1image'+${status.count}"
+									th:src="@{${color.cimage1}}">
+									<div class="d-flex input-group input-group-sm pa-0 mb-2">
+										<input class="form-control input-sm mt-3" type="text"
+											style="font-size: 0.75rem"
+											th:id="'cimage1Input'+${status.count}"
+											th:value="${color.cimage1}"
+											th:name="'colors['+ ${status.index} +'].cimage1'" />
+									</div> <a th:onclick="'updateCimage1('+${status.count}+')'"
+									style="font-size: 0.75rem" class="btn btn-dark btn-sm">적용</a></td>
+								<td th:rowspan="${color.stocks.size()}" class=" align-middle"><img
+									style="width: 100px;" th:id="'c2image'+${status.count}"
+									th:src="@{${color.cimage2}}">
+									<div class="d-flex input-group input-group-sm pa-0 mb-2">
+										<input class="form-control input-sm mt-3"
+											style="font-size: 0.75rem"
+											th:id="'cimage2Input'+${status.count}" type="text"
+											th:value="${color.cimage2}"
+											th:name="'colors['+ ${status.index} +'].cimage2'" />
+									</div> <a th:onclick="'updateCimage2('+${status.count}+')'"
+									style="font-size: 0.75rem" class="btn btn-dark btn-sm">적용</a></td>
+								<td th:rowspan="${color.stocks.size()}" class=" align-middle"><img
+									style="width: 100px;" th:id="'c3image'+${status.count}"
+									th:src="@{${color.cimage3}}">
+									<div class="d-flex input-group input-group-sm pa-0 mb-2">
+										<input class="form-control input-sm mt-3"
+											style="font-size: 0.75rem"
+											th:id="'cimage3Input'+${status.count}" type="text"
+											th:value="${color.cimage3}"
+											th:name="'colors['+ ${status.index} +'].cimage3'" />
+									</div> <a th:onclick="'updateCimage3('+${status.count}+')'"
+									style="font-size: 0.75rem" class="btn btn-dark btn-sm">적용</a></td>
+								<td th:rowspan="${color.stocks.size()}" class=" align-middle">
+									<div class="input-group input-group-sm">
+										<input class="form-control input-sm" type="text"
+											style="font-size: 0.75rem" th:value="${color.cmatchpid}"
+											th:name="'colors['+ ${status.index} +'].cmatchpid'" />
+									</div>
+								</td>
+								<td th:rowspan="${color.stocks.size()}" class=" align-middle"><img
+									style="width: 20px; height: 20px"
+									th:id="'colorimage'+${status.count}"
+									th:src="@{${color.ccolorimage}}">
+									<div class="d-flex input-group input-group-sm pa-0 mb-2">
+										<input class="form-control input-sm mt-3" type="text"
+											style="font-size: 0.75rem"
+											th:id="'colorimageInput'+${status.count}"
+											th:value="${color.ccolorimage}"
+											th:name="'colors['+ ${status.index} +'].ccolorimage'" />
+									</div> <a th:onclick="'updateColorimage('+${status.count}+')'"
+									style="font-size: 0.75rem" class="btn btn-dark btn-sm">적용</a> <script
+										th:inline="javascript">
 							function updateCimage1(idx){
 								var inputid = "#cimage1Input"+idx;
 								var cimageid = "#c1image" +idx;
@@ -231,45 +271,62 @@
 								var input = $(inputid).val();
 								$(cimageid).attr("src", input);
 							}
-						</script>
-					</td>
-					<td>
-						<div class="input-group input-group-sm">
-							<input type="hidden" th:name="'colors['+${status.index}+'].stocks[0].pid'" th:value="${product.pid}"/>
-							<input type="hidden" th:name="'colors['+${status.index}+'].stocks[0].ccolorcode'" th:id="'stock0incolors'+${status.index}"/>
-							<input class="form-control input-sm" type="text" th:value="${stockCount>0}?${color.stocks[0].ssize}:''" th:name="'colors['+${status.index}+'].stocks[0].ssize'" />
+						</script></td>
+								<td class=" align-middle">
+									<div class="input-group input-group-sm">
+										<input type="hidden"
+											th:name="'colors['+${status.index}+'].stocks[0].pid'"
+											th:value="${product.pid}" /> <input type="hidden"
+											th:name="'colors['+${status.index}+'].stocks[0].ccolorcode'"
+											th:id="'stock0incolors'+${status.index}" /> <input
+											style="font-size: 0.75rem" class="form-control input-sm"
+											type="text"
+											th:value="${stockCount>0}?${color.stocks[0].ssize}:''"
+											th:name="'colors['+${status.index}+'].stocks[0].ssize'" />
+									</div>
+								</td>
+								<td class=" align-middle">
+									<div class="input-group input-group-sm">
+										<input class="form-control input-sm" type="text"
+											style="font-size: 0.75rem"
+											th:value="${stockCount>0}?${color.stocks[0].samount}:''"
+											th:name="'colors['+${status.index}+'].stocks[0].samount'" />
+									</div>
+								</td>
+							</tr>
+							<tr th:each="stock, stats:${color.stocks}"
+								th:if="${!stats.first}">
+								<td class=" align-middle">
+									<div class="input-group input-group-sm">
+										<input class="form-control input-sm" type="text"
+											style="font-size: 0.75rem" th:value="${stock.ssize}"
+											th:name="'colors['+${status.index}+'].stocks['+${stats.index}+'].ssize'" />
+									</div>
+								</td>
+								<td class=" align-middle">
+									<div class="input-group input-group-sm">
+										<input class="form-control input-sm" type="text"
+											style="font-size: 0.75rem" th:value="${stock.samount}"
+											th:name="'colors['+${status.index}+'].stocks['+${stats.index}+'].samount'" />
+									</div>
+								</td>
+							</tr>
 						</div>
-					</td>
-					<td>
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" th:value="${stockCount>0}?${color.stocks[0].samount}:''" th:name="'colors['+${status.index}+'].stocks[0].samount'"/>
-						</div>
-					</td>
-				</tr>
-				<tr th:each="stock, stats:${color.stocks}" th:if="${!stats.first}">
-					<td>
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" th:value="${stock.ssize}" th:name="'colors['+${status.index}+'].stocks['+${stats.index}+'].ssize'" />
-						</div>
-					</td>
-					<td>
-						<div class="input-group input-group-sm">
-							<input class="form-control input-sm" type="text" th:value="${stock.samount}" th:name="'colors['+${status.index}+'].stocks['+${stats.index}+'].samount'" />
-						</div>
-					</td>
-				</tr>
-				</div>
-			</table>
-			<div class="d-flex justify-content-center mt-3 mb-4">
-				<a class="btn btn-outline-primary btn-sm mr-5" th:href="@{/product/detail(pid=${product.pid})}">취소</a>
-				<button class="btn btn-primary btn-sm" onclick="updateProduct()">저장</button>
-			</div>
-			<script th:inline="javascript">
+					</table>
+					<div class="d-flex justify-content-center mt-4">
+						<a class="btn btn-outline-primary btn-sm mr-2"
+							style="font-size: 0.75rem"
+							th:href="@{/product/detail(pid=${product.pid})}">취소</a>
+						<button class="btn btn-primary btn-sm" onclick="updateProduct()"
+							style="font-size: 0.75rem">저장</button>
+					</div>
+					<script th:inline="javascript">
 				function updateProduct(){
 					$("#updateProductForm").submit();
 				}
 			</script>
-			</form>
+				</form>
+			</div>
 		</div>
 	</th:block>
 </th:block>

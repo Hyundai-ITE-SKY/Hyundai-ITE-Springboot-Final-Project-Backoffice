@@ -3,10 +3,10 @@
 <th:block th:replace="~{common/layout::setContent(~{this::content})}">
 	<th:block th:fragment="content">
 		<div>
-				<h5 class="mb-3 text-gray-800">멤버 정보</h5>
-			</div>
-		<div class="card-body shadow" style="font-size: 0.75rem">
-			<div class="table-responsive">
+			<h5 class="mb-3 text-gray-800">멤버 정보</h5>
+		</div>
+		<div class="card shadow" style="font-size: 0.75rem">
+			<div class="card-body table-responsive">
 				<table class="table table-bordered">
 					<tr>
 						<th class="col-3" scope="col" style="background-color: #eeeeee">이름</th>
@@ -64,11 +64,18 @@
 						<td scope="col">X</td>
 					</tr>
 				</table>
-			</div>
-			<div class="ml-auto mr-3">
-				<a th:href="@{/member/delete(mid=${member.mid})}"
-					class="btn btn-outline-danger btn-sm" style="font-size: 0.75rem">계정
-					삭제</a>
+				<div class="d-flex">
+					<div>
+						<a th:href="@{/order/search(type=mid, keyword=${member.mid})}"
+							class="btn btn-dark btn-sm" style="font-size: 0.75rem">주문내역
+							확인</a>
+					</div>
+					<div class="ml-auto">
+						<a th:href="@{/member/delete(mid=${member.mid})}"
+							class="btn btn-danger btn-sm" style="font-size: 0.75rem">계정
+							삭제</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</th:block>

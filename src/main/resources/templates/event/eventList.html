@@ -1,57 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	<th:block th:replace="~{common/layout::setContent(~{this::content})}">
-		<th:block th:fragment="content">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+	<th:block th:fragment="content">
+		<div>
 			<div>
-				<div>
-					<h5 class="mb-3 text-gray-800">이벤트 목록</h5>
-				</div>
-				<div class="card-body shadow mb-4" style="font-size: 0.75rem">
-					<div class="table-responsive">
-						<table class="table table-hover table-bordered mb-0 text-center">
-							<thead>
-								<tr>
-									<th>이벤트 아이디</th>
-									<th>이벤트 이름</th>
-									<th>이벤트 시작일</th>
-									<th>이벤트 종료일</th>
-									<th>남은 수량</th>
-									<th>제한 인원</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class="text-center" th:each="event : ${events}"
-									th:onclick="'location.href=\'' + @{/event/detail/{eid}(eid=${event.eid})}+'\''">
-									<td>[[${event.eid}]]</td>
-									<td>[[${event.ename}]]</td>
-									<td>[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
-									<td>[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
-									<td>[[${event.eamount}]]</td>
-									<td>[[${event.elimit}]]</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-	
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<li class="page-item"><a th:href="@{/order/orderlist/1}"
-							class="page-link">처음</a></li>
-	
-						<th:block
-							th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-							<li class="page-item"><a class="page-link"
-								th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
-						</th:block>
-	
-						<li class="page-item"><a class="page-link"
-							th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
-					</ul>
-				</nav>
-	
+				<h5 class="mb-3 text-gray-800">이벤트 목록</h5>
 			</div>
-		</th:block>
+			<div class="card shadow mb-4" style="font-size: 0.75rem">
+				<div class="card-body table-responsive">
+					<table class="table table-hover table-bordered text-center">
+						<thead>
+							<tr>
+								<th style="background-color: #eeeeee" class="col-2 align-middle">이벤트
+									아이디</th>
+								<th style="background-color: #eeeeee" class="col-4 align-middle">이벤트
+									이름</th>
+								<th style="background-color: #eeeeee" class="col-2 align-middle">이벤트
+									시작일</th>
+								<th style="background-color: #eeeeee" class="col-2 align-middle">이벤트
+									종료일</th>
+								<th style="background-color: #eeeeee" class="col-1 align-middle">남은
+									수량</th>
+								<th style="background-color: #eeeeee" class="col-1 align-middle">제한
+									인원</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-center" th:each="event : ${events}"
+								th:onclick="'location.href=\'' + @{/event/detail/{eid}(eid=${event.eid})}+'\''">
+								<td>[[${event.eid}]]</td>
+								<td>[[${event.ename}]]</td>
+								<td>[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
+								<td>[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
+								<td>[[${event.eamount}]]</td>
+								<td>[[${event.elimit}]]</td>
+							</tr>
+						</tbody>
+					</table>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center">
+							<li class="page-item"><a th:href="@{/order/orderlist/1}"
+								class="page-link">처음</a></li>
+
+							<th:block
+								th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
+								<li class="page-item"><a class="page-link"
+									th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+							</th:block>
+
+							<li class="page-item"><a class="page-link"
+								th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
 	</th:block>
+</th:block>
 </html>
