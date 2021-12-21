@@ -138,7 +138,10 @@
 								th:if="${#strings.isEmpty(keyword)} and ${#strings.isEmpty(startdate)} and ${#strings.isEmpty(enddate)}">
 								<li class="page-item"><a th:href="@{/order/orderlist/1}"
 									style="font-size: 0.75rem;" class="page-link">처음</a></li>
-
+								<li class="page-item" th:if="${pager.groupNo>1}"><a
+									style="font-size: 0.75rem;"
+									th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.startPageNo-1})}"
+									class="page-link">이전</a></li>
 								<th:block
 									th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
 									<li class="page-item"><a
@@ -146,7 +149,11 @@
 										style="font-size: 0.75rem;"
 										th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
 								</th:block>
-
+								<li class="page-item"
+									th:if="${pager.groupNo<pager.totalGroupNo}"><a
+									style="font-size: 0.75rem;"
+									th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.endPageNo+1})}"
+									class="page-link">이후</a></li>
 								<li class="page-item"><a class="page-link"
 									style="font-size: 0.75rem;"
 									th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>

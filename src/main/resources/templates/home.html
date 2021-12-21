@@ -21,14 +21,14 @@
 		for (let orderPerDay of [[${orderPerDays}]]){
 			let d = orderPerDay.oodate.substr(6, 2);
 			if (dateOrderDict[`12.${d}.`] !== undefined) {
-				dateOrderDict[`12.${d}.`] += 1;
+				dateOrderDict[`12.${d}.`] += orderPerDay.num;
 			}
 		}
 		
 		for (let userPerDay of [[${orderPerDayUser}]]){
-			let d = userPerDay.odate.substr(6, 2);
+			let d = userPerDay.oodate.substr(6, 2);
 			if (dateUserDict[`12.${d}.`] !== undefined) {
-				dateUserDict[`12.${d}.`] += 1;
+				dateUserDict[`12.${d}.`] += userPerDay.num;
 			}
 		}
 		
@@ -36,23 +36,6 @@
 			dateOrderData.push(dateOrderDict[label]);
 			dateUserData.push(dateUserDict[label]);
 		}
-		
-			$(window).ready(function() {				
-				console.log("orderPerDays:"+[[${orderPerDays}]]);
-				
-				for(let orderPerDay of [[${orderPerDays}]]){
-					console.log("orderPerDay odate:"+orderPerDay.oodate);
-					console.log("orderPerDay num:"+orderPerDay.num);
-				}
-				/*
-				console.log("orderPerDayUser:"+[[${orderPerDayUser}]]);
-				/*for(let orderPerDay of [[${orderPerDayUser}]]){
-					console.log("orderPerDayUser odate:"+orderPerDay.odate);
-					console.log("orderPerDayUser num:"+orderPerDay.num);
-				}*/
-			
-				console.log("monthTotalPrice:"+[[${monthTotalPrice}]]);
-			})
 		</script>
 
 		<!-- Page Heading -->

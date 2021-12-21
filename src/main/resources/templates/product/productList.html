@@ -42,53 +42,65 @@
 								th:value="${keyword != null}? ${keyword}:''" />
 							</td>
 						</tr>
-						<tr>
-							<td class=" text-center align-middle" style="background-color: #eeeeee; border-right: 1px solid #E3E6F0">카테고리</td>
+						<tr class="table-borderless">
+							<td class=" text-center align-middle"
+								style="background-color: #eeeeee; border-right: 1px solid #E3E6F0">카테고리</td>
 							<td class="input-group input-group-sm text-center align-middle">
-								<!-- 검색시 검색 카테고리에 선택하게 하기 위함  -->
-								<input type="hidden" id="originClarge" th:value="${cl}"/>
-								<input type="hidden" id="originCmedium" th:value="${cm}"/>
-								<input type="hidden" id="originCsmall" th:value="${cs}"/>
-								<!-- 끝 -->
+								<!-- 검색시 검색 카테고리에 선택하게 하기 위함  --> <input type="hidden"
+								id="originClarge" th:value="${cl}" /> <input type="hidden"
+								id="originCmedium" th:value="${cm}" /> <input type="hidden"
+								id="originCsmall" th:value="${cs}" /> <!-- 끝 -->
 								<div class="input-group input-group-sm">
 									<th:block th:if="${#strings.isEmpty(cl)}">
-										<select class="custom-select" id="clargeSelect" onchange="clargeChange(this.value)" name="clarge">
+										<select class="custom-select" id="clargeSelect"
+											style="font-size: 0.75rem;"
+											onchange="clargeChange(this.value)" name="clarge">
 											<option value="" selected>대분류</option>
-											<option th:each="clarge : ${categoryList}" th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
+											<option th:each="clarge : ${categoryList}"
+												th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
 										</select>
 									</th:block>
 									<th:block th:if="${not #strings.isEmpty(cl)}">
-										<select class="custom-select" id="clargeSelect" onchange="clargeChange(this.value)" name="clarge">
+										<select class="custom-select" id="clargeSelect"
+											style="font-size: 0.75rem;"
+											onchange="clargeChange(this.value)" name="clarge">
 											<option value="">대분류</option>
-											<option th:selected="${cl}==${clarge.clarge}" th:each="clarge : ${categoryList}" th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
+											<option th:selected="${cl}==${clarge.clarge}"
+												th:each="clarge : ${categoryList}"
+												th:value="${clarge.clarge}" th:text="${clarge.clarge}"></option>
 										</select>
 									</th:block>
-									
+
 									<th:block th:if="${#strings.isEmpty(cm)}">
-										<select class="custom-select" id="cmediumSelect" onchange="cmediumChange(this.value)">
+										<select class="custom-select" id="cmediumSelect"
+											style="font-size: 0.75rem;"
+											onchange="cmediumChange(this.value)">
 											<option value="" selected>중분류</option>
 										</select>
 									</th:block>
 									<th:block th:if="${not #strings.isEmpty(cm)}">
-										<select class="custom-select" id="cmediumSelect" th:field="${cm}" onchange="cmediumChange(this.value)">
+										<select class="custom-select" id="cmediumSelect"
+											style="font-size: 0.75rem;" th:field="${cm}"
+											onchange="cmediumChange(this.value)">
 											<option value="">중분류</option>
 										</select>
 									</th:block>
-									
+
 									<th:block th:if="${#strings.isEmpty(cs)}">
-										<select class="custom-select" id="csmallSelect">
+										<select class="custom-select" id="csmallSelect"
+											style="font-size: 0.75rem;">
 											<option value="" selected>소분류</option>
 										</select>
 									</th:block>
 									<th:block th:if="${not #strings.isEmpty(cs)}">
-										<select class="custom-select" id="csmallSelect" th:field="${cs}">
+										<select class="custom-select" id="csmallSelect"
+											style="font-size: 0.75rem;" th:field="${cs}">
 											<option value="" selected>소분류</option>
 										</select>
 									</th:block>
-									<input type="hidden" name="cmedium"/>
-									<input type="hidden" name="csmall"/>
-								</div>
-								<script th:inline="javascript">
+									<input type="hidden" name="cmedium" /> <input type="hidden"
+										name="csmall" />
+								</div> <script th:inline="javascript">
 									let category;
 									$(document).ready(function(){
 										$.ajax({
@@ -156,7 +168,9 @@
 						</tr>
 					</table>
 					<div class="d-flex justify-content-center">
-						<button class="btn btn-sm text-white mb-2" style="background-color: #2D3134; font-size: 0.75rem;" onclick="getSearchList()">검색</button>
+						<button class="btn btn-sm text-white mb-2"
+							style="background-color: #2D3134; font-size: 0.75rem;"
+							onclick="getSearchList()">검색</button>
 					</div>
 					<script th:inline="javascript">
 						function getSearchList(){
@@ -205,53 +219,63 @@
 							<td class="text-truncate col-2">[[${product.bname}]]</td>
 							<td class="text-truncate col-2">[[${product.pid}]]</td>
 							<td class="text-truncate col-2">[[${product.pname}]]</td>
-							<td class="text-truncate col-2">[[${#numbers.formatInteger(product.pprice, 3,
-								'COMMA')}]]원</td>
+							<td class="text-truncate col-2">[[${#numbers.formatInteger(product.pprice,
+								3, 'COMMA')}]]원</td>
 						</tr>
 
 						<tr>
 							<td colspan="8">
 								<ul class="pagination justify-content-center mb-1 mt-1">
-									<th:block th:if="${#strings.isEmpty(keyword)} and ${#strings.isEmpty(cl)}">
+									<th:block
+										th:if="${#strings.isEmpty(keyword)} and ${#strings.isEmpty(cl)}">
 										<li class="page-item"><a class="page-link"
+											style="font-size: 0.75rem;"
 											th:href="@{/product/list(pageNo=1)}">처음</a></li>
 										<li class="page-item" th:if="${pager.groupNo>1}"><a
+											style="font-size: 0.75rem;"
 											th:href="@{/product/list(pageNo=${pager.startPageNo-1})}"
 											class="page-link">이전</a></li>
 										<th:block
 											th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-											<li class="page-item"><a
+											<li class="page-item"><a style="font-size: 0.75rem;"
 												th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
 												th:href="@{/product/list(pageNo=${i})}">[[${i}]]</a></li>
 										</th:block>
 										<li class="page-item"
 											th:if="${pager.groupNo<pager.totalGroupNo}"><a
+											style="font-size: 0.75rem;"
 											th:href="@{/product/list(pageNo=${pager.endPageNo+1})}"
 											class="page-link">이후</a></li>
 										<li class="page-item"><a class="page-link"
+											style="font-size: 0.75rem;"
 											th:href="@{/product/list(pageNo=${pager.totalPageNo})}">마지막</a>
 										</li>
 									</th:block>
 
-									<th:block th:if="${not #strings.isEmpty(keyword)} or ${not #strings.isEmpty(cl)}">
+									<th:block
+										th:if="${not #strings.isEmpty(keyword)} or ${not #strings.isEmpty(cl)}">
 										<li class="page-item"><a class="page-link"
+											style="font-size: 0.75rem;"
 											th:href="@{/product/search(type=${type},keyword=${keyword},pageNo=1,clarge=${cl},cmedium=${cm},csmall=${cs})}">처음</a>
 										</li>
 										<li class="page-item" th:if="${pager.groupNo>1}"><a
+											style="font-size: 0.75rem;"
 											th:href="@{/product/search(type=${type},keyword=${keyword},pageNo=${pager.startPageNo-1},clarge=${cl},cmedium=${cm},csmall=${cs})}"
 											class="page-link">이전</a></li>
 										<th:block
 											th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
-											<li class="page-item"><a
+											<li class="page-item"><a style="font-size: 0.75rem;"
 												th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
 												th:href="@{/product/search(type=${type},keyword=${keyword},pageNo=${i},clarge=${cl},cmedium=${cm},csmall=${cs})}">[[${i}]]</a>
 											</li>
 										</th:block>
 										<li class="page-item"
 											th:if="${pager.groupNo<pager.totalGroupNo}"><a
+											style="font-size: 0.75rem;"
 											th:href="@{/product/search(type=${type},keyword=${keyword}, pageNo=${pager.endPageNo+1},clarge=${cl},cmedium=${cm},csmall=${cs})}"
 											class="page-link">이후</a></li>
 										<li class="page-item"><a class="page-link"
+											style="font-size: 0.75rem;"
 											th:href="@{/product/search(type=${type},keyword=${keyword}, pageNo=${pager.totalPageNo},clarge=${cl},cmedium=${cm},csmall=${cs})}">마지막</a>
 										</li>
 									</th:block>
