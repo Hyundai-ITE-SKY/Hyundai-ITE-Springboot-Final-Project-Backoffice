@@ -1,7 +1,14 @@
 package com.mycompany.webapp.controller;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.json.*;
+import org.json.JSONObject;
+import org.springframework.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -10,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.IntegerVariable;
 import com.mycompany.webapp.dto.OrderPerDays;
 import com.mycompany.webapp.dto.OrderState;
 
+import ch.qos.logback.core.joran.conditional.IfAction;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -68,7 +77,28 @@ public class HomeController {
 		//월별, 카테고리별 매출
 		String MonthTotalPrice = webClient.get().uri("/monthtotalprice")
 									.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(String.class).block();
-		model.addAttribute("monthTotalPrices", MonthTotalPrice);
+		Map<String, Map<String, Integer>> paramMap;
+
+		JSONObject jsonObject = new JSONObject(MonthTotalPrice);
+		log.info(jsonObject+"");
+		
+		Map<String, Map<String, Integer>> monthTotalPriceMap = new HashMap<>();
+		Iterator<String> keysItr = jsonObject.keys();
+		while(keysItr.hasNext()) {
+			String key1 = keysItr.next();
+			Object value1 = jsonObject.get(key1);
+			Map<String, Integer> innerMap = new HashMap<>();
+			monthTotalPriceMap.put(key1, innerMap);
+			
+			JSONObject jsonObject2 = new JSONObject(value1.toString());
+			Iterator<String> keysItr2 = jsonObject2.keys();
+			while(keysItr2.hasNext()) {
+				String key2 = keysItr2.next();
+				String value2 = jsonObject2.get(key2).toString();
+				monthTotalPriceMap.get(key1).put(key2, Integer.parseInt(value2));
+			}
+		}
+		model.addAttribute("monthTotalPrices", monthTotalPriceMap);
 		return "home";
 	}
 
