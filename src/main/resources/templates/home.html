@@ -9,9 +9,10 @@
 		let dateOrderDict = {};
 		let dateUserData = [];
 		let dateUserDict = {};
+		let dataMonthLabel = [];
 		let dataWomen=[];
 		let dataMen=[];
-		let dataKid=[];
+		let dataKids=[];
 		let dataLifestyle=[];
 		
 		for (let i = 13; i >= 0; i--) {
@@ -39,6 +40,15 @@
 		for(let label of dateLabel) {
 			dateOrderData.push(dateOrderDict[label]);
 			dateUserData.push(dateUserDict[label]);
+		}
+		
+		for(let i=1; i>=-1; i--){
+			dataMonthLabel.push(today.getMonth()-i+"월");
+			let m = today.getMonth()-i+"";
+			dataWomen.push([[${monthTotalPrices}]][m]["WOMEN"]);
+			dataMen.push([[${monthTotalPrices}]][m]["MEN"]);
+			dataKids.push([[${monthTotalPrices}]][m]["KIDS"]);
+			dataLifestyle.push([[${monthTotalPrices}]][m]["LIFESTYLE"]);
 		}
 		
 		</script>
@@ -253,17 +263,12 @@
 										{
 											type : 'bar', // 차트의 형태
 											data : { // 차트에 들어갈 데이터
-												labels : [
-												//x 축
-												'10월', '11월', '12월' ],
+												labels : dataMonthLabel, //x 축
 												datasets : [
 														{ //데이터
 															label : '여성', //차트 제목
 															fill : false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-															data : [ 3100000,
-																	3900000,
-																	3500000 //x축 label에 대응되는 데이터 값
-															],
+															data : dataWomen, //x축 label에 대응되는 데이터 값
 															backgroundColor : [
 															//색상
 															'rgba(255, 99, 132, 0.2)' ],
@@ -275,9 +280,7 @@
 														{
 															label : '남성',
 															fill : false,
-															data : [ 2800000,
-																	2600000,
-																	3200000 ],
+															data : dataMen,
 															backgroundColor : 'rgba(54, 185, 204, 0.2)',
 															borderColor : 'rgba(54, 185, 204, 1)',
 															borderWidth : 2
@@ -285,9 +288,7 @@
 														{
 															label : '아동',
 															fill : false,
-															data : [ 800000,
-																	1400000,
-																	1500000 ],
+															data : dataKids,
 															backgroundColor : 'rgba(28, 200, 138, 0.2)',
 															borderColor : 'rgba(28, 200, 138, 1)',
 															borderWidth : 2
@@ -295,9 +296,7 @@
 														{
 															label : '라이프스타일',
 															fill : false,
-															data : [ 300000,
-																	420000,
-																	390000 ],
+															data : dataLifestyle,
 															backgroundColor : 'rgba(255, 159, 64, 0.2)',
 															borderColor : 'rgba(255, 159, 64, 1)',
 															borderWidth : 2
