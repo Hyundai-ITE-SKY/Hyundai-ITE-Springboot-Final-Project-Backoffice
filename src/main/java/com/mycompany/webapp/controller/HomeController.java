@@ -68,7 +68,7 @@ public class HomeController {
 		//월별, 카테고리별 매출
 		String MonthTotalPrice = webClient.get().uri("/monthtotalprice")
 									.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(String.class).block();
-		model.addAttribute("monthTotalPrices", monthTotalPrices);
+		model.addAttribute("monthTotalPrices", MonthTotalPrice);
 		return "home";
 	}
 
