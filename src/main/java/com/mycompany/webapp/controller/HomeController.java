@@ -61,9 +61,9 @@ public class HomeController {
 		log.info("orderPerDayUser(일자별 결제자수) : "+orderPerDayUser.getOrderPerDays());
 
 		//월별, 카테고리별 매출
-		String MonthTotalPrice = webClient.get().uri("http://localhost:82/dash/monthtotalprice")
+		String monthTotalPrices = webClient.get().uri("http://localhost:82/dash/monthtotalprice")
 									.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(String.class).block();
-		model.addAttribute("monthTotalPrice", MonthTotalPrice);
+		model.addAttribute("monthTotalPrices", monthTotalPrices);
 		return "home";
 	}
 
