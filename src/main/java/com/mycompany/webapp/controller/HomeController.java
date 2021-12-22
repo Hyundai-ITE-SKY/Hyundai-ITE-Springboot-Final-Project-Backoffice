@@ -66,7 +66,7 @@ public class HomeController {
 		log.info("orderPerDayUser(일자별 결제자수) : "+orderPerDayUser.getOrderPerDays());
 
 		//월별, 카테고리별 매출
-		String MonthTotalPrice = webClient.get().uri("/monthtotalprice")
+		String monthTotalPrices = webClient.get().uri("/monthtotalprice")
 									.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(String.class).block();
 		model.addAttribute("monthTotalPrices", monthTotalPrices);
 		return "home";
