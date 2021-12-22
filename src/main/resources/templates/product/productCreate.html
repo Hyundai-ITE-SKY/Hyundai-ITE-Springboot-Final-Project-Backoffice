@@ -188,42 +188,41 @@
 											</div>
 										</td>
 										<td class="colorTd0 align-middle">
-											<!--  <img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/">-->
+											<img style="width: 100px;" id="c1image0"/>
 											<div class="d-flex input-group input-group-sm pa-0">
-												<input class="form-control input-sm" type="text"
+												<input class="form-control input-sm" type="text" id="cimage1Input0"
 													style="font-size: 0.75rem;" th:name="colors[0].cimage1" />
-												<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+												<a class="btn btn-dark btn-sm" onclick="updateCimage1(0)" style="font-size: 0.75rem;">적용</a>
 											</div>
 										</td>
 										<td class="colorTd0 align-middle">
-											<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W02.jpg/dims/resize/684x1032/">-->
+											<img style="width: 100px;" id="c2image0"/>
 											<div class="d-flex input-group input-group-sm pa-0">
-												<input class="form-control input-sm" type="text"
+												<input class="form-control input-sm" type="text" id="cimage2Input0"
 													style="font-size: 0.75rem;" name="colors[0].cimage2" /> <a
-													class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+													class="btn btn-dark btn-sm" onclick="updateCimage2(0)" style="font-size: 0.75rem;">적용</a>
 											</div>
 										</td>
 										<td class="colorTd0 align-middle">
-											<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W03.jpg/dims/resize/684x1032/">-->
+											<img style="width: 100px;" id="c3image0"/>
 											<div class="d-flex input-group input-group-sm pa-0">
-												<input class="form-control input-sm" type="text"
+												<input class="form-control input-sm" type="text" id="cimage3Input0"
 													style="font-size: 0.75rem;" name="colors[0].cimage3" /> <a
-													class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+													class="btn btn-dark btn-sm"  onclick="updateCimage3(0)"style="font-size: 0.75rem;">적용</a>
 											</div>
 										</td>
 										<td class="colorTd0 align-middle">
-											<!--<img style="width: 20px; height: 20px" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_C01.jpg">-->
+											<img style="width: 30px" id="colorimage0"/>
 											<div class="d-flex input-group input-group-sm pa-0">
-												<input class="form-control input-sm" type="text"
+												<input class="form-control input-sm" type="text" id="colorimageInput0"
 													style="font-size: 0.75rem;" name="colors[0].ccolorimage" />
-												<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+												<a class="btn btn-dark btn-sm" onclick="updateColorimage(0)" style="font-size: 0.75rem;">적용</a>
 											</div>
 										</td>
 										<td class="colorTd0 align-middle">
 											<div class="d-flex input-group input-group-sm pa-0">
 												<input class="form-control input-sm" type="text"
 													style="font-size: 0.75rem;" name="colors[0].cmatchpid" />
-												<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
 											</div>
 										</td>
 										<td class="align-middle">
@@ -253,9 +252,33 @@
 							</div>
 						</div>
 					</div>
-					<script>
+					<script th:inline="javascript">
 					let colortableidx = 0;
 					
+					function updateCimage1(idx){
+						var inputid = "#cimage1Input"+idx;
+						var cimageid = "#c1image" +idx;
+						var input = $(inputid).val();
+						$(cimageid).attr("src", input);
+					}
+					function updateCimage2(idx){
+						var inputid = "#cimage2Input"+idx;
+						var cimageid = "#c2image" +idx;
+						var input = $(inputid).val();
+						$(cimageid).attr("src", input);
+					}
+					function updateCimage3(idx){
+						var inputid = "#cimage3Input"+idx;
+						var cimageid = "#c3image" +idx;
+						var input = $(inputid).val();
+						$(cimageid).attr("src", input);
+					}
+					function updateColorimage(idx){
+						var inputid = "#colorimageInput"+idx;
+						var cimageid = "#colorimage" +idx;
+						var input = $(inputid).val();
+						$(cimageid).attr("src", input);
+					}
 					//색상 추가
 					function addColorSize() {
 						colortableidx++;
@@ -282,37 +305,36 @@
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
-										<!--  <img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W01.jpg/dims/resize/684x1032/">-->
+										<img style="width: 100px;" id="c1image${colortableidx}"/>	
 										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cimage1" style="font-size: 0.75rem;"/>
-											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+											<input class="form-control input-sm" type="text" id="cimage1Input${colortableidx}" name="colors[${colortableidx}].cimage1" style="font-size: 0.75rem;"/>
+											<a class="btn btn-dark btn-sm" onclick="updateCimage1(${colortableidx})" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
-										<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W02.jpg/dims/resize/684x1032/">-->
+										<img style="width: 100px;" id="c2image${colortableidx}"/>	
 										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cimage2" style="font-size: 0.75rem;"/>
-											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+											<input class="form-control input-sm" type="text" id="cimage2Input${colortableidx}" name="colors[${colortableidx}].cimage2" style="font-size: 0.75rem;"/>
+											<a class="btn btn-dark btn-sm" onclick="updateCimage2(${colortableidx})" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
-										<!--<img style="width: 100px;" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_W03.jpg/dims/resize/684x1032/">-->
+										<img style="width: 100px;" id="c3image${colortableidx}"/>	
 										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cimage3" style="font-size: 0.75rem;"/>
-											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+											<input class="form-control input-sm" type="text" id="cimage3Input${colortableidx}" name="colors[${colortableidx}].cimage3" style="font-size: 0.75rem;"/>
+											<a class="btn btn-dark btn-sm" onclick="updateCimage3(${colortableidx})" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
-										<!--<img style="width: 20px; height: 20px" src="http://newmedia.thehandsome.com/CM/2B/SS/CM2B0KSC104W_OW_C01.jpg">-->
+										<img style="width: 30px;" id="colorimage${colortableidx}"/>	
 										<div class="d-flex input-group input-group-sm pa-0">
-											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].ccolorimage" style="font-size: 0.75rem;"/>
-											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
+											<input class="form-control input-sm" type="text" id="colorimageInput${colortableidx}" name="colors[${colortableidx}].ccolorimage" style="font-size: 0.75rem;"/>
+											<a class="btn btn-dark btn-sm" onclick="updateColorimage(${colortableidx})" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="colorTd${colortableidx} align-middle">
 										<div class="d-flex input-group input-group-sm pa-0">
 											<input class="form-control input-sm" type="text" name="colors[${colortableidx}].cmatchpid" style="font-size: 0.75rem;"/>
-											<a class="btn btn-dark btn-sm" style="font-size: 0.75rem;">적용</a>
 										</div>
 									</td>
 									<td class="align-middle">
