@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/event")
+@RequestMapping("/admin/event")
 public class EventController {
 	//이벤트 조회
 	@RequestMapping("/list/{pageNo}")
@@ -41,11 +41,11 @@ public class EventController {
 		
 		WebClient getRowsWebClient = WebClient.create();
 		IntegerVariable totalRows = getRowsWebClient.get().uri("http://localhost:82/event/totalrows")
-										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(IntegerVariable.class).block();
+										.retrieve().bodyToMono(IntegerVariable.class).block();
 		
 		WebClient webClient = WebClient.create();
 		Events events = webClient.get().uri("http://localhost:82/event/list?pageNo={pageNo}", pageNo)
-										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(Events.class).block();
+										.retrieve().bodyToMono(Events.class).block();
 		Pager pager = new Pager(5, 5, totalRows.getValue(), pageNo);
 		
 		model.addAttribute("events", events.getEvents());
@@ -61,7 +61,7 @@ public class EventController {
 		
 		WebClient webClient = WebClient.create();
 		Event event = webClient.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
-				.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(Event.class).block();
+				.retrieve().bodyToMono(Event.class).block();
 		
 		model.addAttribute("event", event);
 		
@@ -77,7 +77,7 @@ public class EventController {
 		
 		WebClient webClient = WebClient.create();
 		Event event = webClient.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
-				.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(Event.class).block();
+				.retrieve().bodyToMono(Event.class).block();
 		
 		model.addAttribute("event", event);
 		
@@ -111,7 +111,7 @@ public class EventController {
 		
 		WebClient webClient2 = WebClient.create();
 		Event newEvent = webClient2.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
-				.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(Event.class).block();
+				.retrieve().bodyToMono(Event.class).block();
 		
 		model.addAttribute("event", newEvent);
 		

@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/exhibition")
+@RequestMapping("/admin/exhibition")
 public class ExhibitionController {
 	
 	@GetMapping("/management")
@@ -37,7 +37,7 @@ public class ExhibitionController {
 		
 		WebClient getRowsWebClient = WebClient.create();
 		Exhibitions exhibitions = getRowsWebClient.get().uri("http://localhost:82/product/exhibition/list")
-										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(Exhibitions.class).block();
+										.retrieve().bodyToMono(Exhibitions.class).block();
 		
 		log.info(exhibitions.getExhibitions()+"");
 		model.addAttribute("exhibitions", exhibitions.getExhibitions());

@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.mycompany.webapp.dao.MemberDao;
 import com.mycompany.webapp.dto.Member;
+import com.mycompany.webapp.service.AdminService;
 
 import lombok.extern.java.Log;
 
@@ -21,12 +21,12 @@ import lombok.extern.java.Log;
 @Log
 public class CustomUserDetailsService implements UserDetailsService {
 	@Resource
-	private MemberDao memberDao;	
+	private AdminService adminService;	
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("실행");
-		Member member = memberDao.selectByMid(username); 
+		Member member = adminService.selectAdminInfo(username); 
 		if(member == null) {
 			throw new UsernameNotFoundException(username);
 		}
@@ -37,8 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 				member.getMid(), 
 				member.getMpassword(),
 				member.isMenabled(),
-				authorities,
-				member.getMemail());
+				authorities);
 		return userDetails;
 	}
 }

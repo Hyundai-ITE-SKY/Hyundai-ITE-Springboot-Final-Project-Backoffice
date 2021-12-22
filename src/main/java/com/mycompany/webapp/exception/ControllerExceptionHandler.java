@@ -39,7 +39,7 @@ public class ControllerExceptionHandler {
 	public String handleBadCredentialsException(BadCredentialsException e, HttpServletResponse response)
 			throws IOException {
 		log.info(e.getMessage());
-		response.sendError(401);
-		return "error/401";
+		response.sendError(403);
+		return "error/403";
 	}
 }

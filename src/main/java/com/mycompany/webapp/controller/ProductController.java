@@ -36,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/product")
+@RequestMapping("/admin/product")
 public class ProductController {
 	
 	//상품등록 페이지
@@ -47,9 +47,9 @@ public class ProductController {
 		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create("http://localhost:82/product");
-		Products products = webClient.get().uri("/allbrand").header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+		Products products = webClient.get().uri("/allbrand").retrieve().bodyToMono(Products.class).block();
 		model.addAttribute("brands", products.getBrands());
-		Category category = webClient.get().uri("/category").header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Category.class).block();
+		Category category = webClient.get().uri("/category").retrieve().bodyToMono(Category.class).block();
 		model.addAttribute("category", category.getCategory());
 		
 		return "product/productCreate";
@@ -94,9 +94,9 @@ public class ProductController {
 		WebClient webClient = WebClient.create();
 
 		Products productList = webClient.get().uri("http://localhost:82/product/list/{pageNo}", pageNo)
-				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+				.retrieve().bodyToMono(Products.class).block();
 		Category categoryList = webClient.get().uri("http://localhost:82/product/category")
-				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Category.class).block();
+				.retrieve().bodyToMono(Category.class).block();
 		
 		Pager pager = new Pager(12, 5, productList.getTotalRows(), pageNo);
 		model.addAttribute("products", productList.getProducts());
@@ -119,7 +119,7 @@ public class ProductController {
 		WebClient webClient = WebClient.create();
 		
 		Products products = webClient.get().uri("http://localhost:82/product/{pid}", pid)
-				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+				.retrieve().bodyToMono(Products.class).block();
 		
 		Product product = products.getProduct();
 		model.addAttribute("product", product);
@@ -137,9 +137,9 @@ public class ProductController {
 		WebClient webClient = WebClient.create();
 		
 		Products products = webClient.get().uri("http://localhost:82/product/{pid}", pid)
-				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+				.retrieve().bodyToMono(Products.class).block();
 		Category categoryList = webClient.get().uri("http://localhost:82/product/category")
-				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Category.class).block();
+				.retrieve().bodyToMono(Category.class).block();
 		
 		Product product = products.getProduct();
 
@@ -204,11 +204,11 @@ public class ProductController {
 		
 		WebClient getRowsWebClient = WebClient.create();
 		IntegerVariable totalRows = getRowsWebClient.get().uri("http://localhost:82/product/stock/totalrows")
-				.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(IntegerVariable.class).block();
+				.retrieve().bodyToMono(IntegerVariable.class).block();
 
 		WebClient webClient = WebClient.create();
 		StockLists stockLists = webClient.get().uri("http://localhost:82/product/stock/list/{pageNo}", pageNo)
-										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(StockLists.class).block();
+										.retrieve().bodyToMono(StockLists.class).block();
 		
 		Pager pager = new Pager(12, 5, totalRows.getValue(), pageNo);
 		model.addAttribute("stocks", stockLists.getStockLists());
@@ -240,9 +240,9 @@ public class ProductController {
 																  .queryParam("cmedium", cmedium)
 																  .queryParam("csmall", csmall)
 																  .build())
-				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Products.class).block();
+				.retrieve().bodyToMono(Products.class).block();
 		Category categoryList = webClient.get().uri("http://localhost:82/product/category")
-				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(Category.class).block();
+				.retrieve().bodyToMono(Category.class).block();
 		
 		Pager pager = new Pager(12, 5, products.getTotalRows(), pageNo);
 
@@ -275,7 +275,7 @@ public class ProductController {
 									 .queryParam("w", keyword)
 									 .queryParam("pageNo", pageNo)
 									 .build())
-									 .header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(StockLists.class).block();
+									 .retrieve().bodyToMono(StockLists.class).block();
 		
 		Pager pager = new Pager(12, 5, stocklists.getTotalRows(), pageNo);
 		
