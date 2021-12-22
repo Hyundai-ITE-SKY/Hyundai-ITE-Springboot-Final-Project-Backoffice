@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/order")
+@RequestMapping("/admin/order")
 public class OrderController {
 	
 	@RequestMapping("/orderlist/{pageNo}")
@@ -35,11 +35,11 @@ public class OrderController {
 		
 		WebClient getRowsWebClient = WebClient.create();
 		IntegerVariable totalRows = getRowsWebClient.get().uri("http://localhost:82/order/totalrows")
-										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(IntegerVariable.class).block();
+										.retrieve().bodyToMono(IntegerVariable.class).block();
 		
 		WebClient webClient = WebClient.create();
 		OrderLists orderLists = webClient.get().uri("http://localhost:82/order/list?pageNo={pageNo}", pageNo)
-										.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(OrderLists.class).block();
+										.retrieve().bodyToMono(OrderLists.class).block();
 		Pager pager = new Pager(12, 5, totalRows.getValue(), pageNo);
 
 		model.addAttribute("orderLists", orderLists.getOrderlists());
@@ -55,7 +55,7 @@ public class OrderController {
 		
 		WebClient webClient = WebClient.create();
 		Order order = webClient.get().uri("http://localhost:82/order/detail?oid={oid}", oid)
-				.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(Order.class).block();
+				.retrieve().bodyToMono(Order.class).block();
 		
 		model.addAttribute("orderlist", order.getOrderlist());
 		model.addAttribute("orderitems", order.getOrderitem());
@@ -81,7 +81,7 @@ public class OrderController {
 				.queryParam("startdate", startdate)
 				.queryParam("enddate", enddate)
 				.build())
-				.header("Authorization", "Bearer" + auth.getJwt()).retrieve().bodyToMono(OrderLists.class).block();
+				.retrieve().bodyToMono(OrderLists.class).block();
 		
 		Pager pager = new Pager(12, 5, orderlists.getTotalRows(), pageNo);
 		

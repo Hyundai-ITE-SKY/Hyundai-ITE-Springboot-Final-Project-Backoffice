@@ -34,25 +34,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		log.info("configure(HttpSecurity http) 실행");
-		// 폼 로그인 비활성화
-		http.formLogin().disable();
-
-		// 사이트간 요청 위조 방지 비활성화
+		//로그인 방식 설정
+		http.formLogin() 								//폼을 통해서 아이디와 비밀번호를 입력해서 인증을 하겠다.
+			.loginPage("/loginform")			 			//요청 경로 default: /login(GET)
+			.usernameParameter("mid")					//default: username
+			.passwordParameter("mpassword")				//default: password
+			.loginProcessingUrl("/login")   			//default: /login(POST)
+			.defaultSuccessUrl("/admin")
+			.failureUrl("/loginError"); 		//default: /login?error
+		
+		//로그아웃 설정
+		http.logout()
+			.logoutUrl("/logout") 					//default: /logout
+			.logoutSuccessUrl("/loginform");
+		
+		//사이트간 요청 위조 방지 비활성화
 		http.csrf().disable();
-
-		// 요청 경로 권한 설정
-		http.authorizeRequests().antMatchers("/board/**").authenticated().antMatchers("/**").permitAll();
-
-		// 세션 비활성화
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-		// JwtCheckFiler 추가
-		JwtCheckFilter jwtCheckFilter = new JwtCheckFilter();
-		http.addFilterBefore(jwtCheckFilter, UsernamePasswordAuthenticationFilter.class);
-
-		// CORS 설정 활성화
-		http.cors();
+		
+		//요청 경로 권한 설정
+		http.authorizeRequests()
+			.antMatchers("/admin/**").hasAuthority("ROLE_ADMIN");
+		
+		//권한 없음(403)일 경우 이동할 경로 설정
+		http.exceptionHandling().accessDeniedPage("/accessDenied");
+	
+		//CSRF 비활성화
+		http.csrf().disable();
 	}
 
 	@Override

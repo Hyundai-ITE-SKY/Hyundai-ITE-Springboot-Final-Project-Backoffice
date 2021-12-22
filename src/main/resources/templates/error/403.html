@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>HANDSOME BACKOFFICE</title>
+
+<link rel="icon" type="image/png" th:href="@{/images/icon/favicon.png}" />
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+</head>
+<body>
+	<div>
+		<div class="container-fluid">
+			<div class="text-center">
+				<div class="error mx-auto" data-text="403">403</div>
+				<p class="lead text-gray-800 mb-5">Unauthorized</p>
+				<p class="text-gray-500 mb-0">
+					권한이 없습니다.</br> 관리자 권한으로 로그인 해주세요.
+				</p>
+				<a class="btn btn-outline-dark mt-2" th:href="@{/loginform}">&larr;
+					로그인 페이지로</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

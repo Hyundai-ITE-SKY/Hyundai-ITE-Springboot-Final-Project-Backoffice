@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/member")
+@RequestMapping("/admin/member")
 public class MemberController {
 	// 회원 정보 관리
 	@RequestMapping("/list")
@@ -35,7 +35,7 @@ public class MemberController {
 		WebClient webClient = WebClient.create();
 
 		Members members = webClient.get().uri("http://localhost:82/member/list")
-				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Members.class).block();
+				.retrieve().bodyToMono(Members.class).block();
 
 		model.addAttribute("members", members.getMembers());
 
@@ -70,7 +70,7 @@ public class MemberController {
 		log.info(member.toString());
 
 		Result result = webClient.post().uri("http://localhost:82/member/create")
-				.header("Authorization", "Bearer " + auth.getJwt()).body(BodyInserters.fromFormData(map)).retrieve()
+				.body(BodyInserters.fromFormData(map)).retrieve()
 				.bodyToMono(Result.class).block();
 
 		log.info(result.toString());
@@ -89,7 +89,7 @@ public class MemberController {
 		log.info(mid);
 
 		Member member = webClient.get().uri("http://localhost:82/member/detail?mid={mid}", mid)
-				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Member.class).block();
+				.retrieve().bodyToMono(Member.class).block();
 
 		model.addAttribute("member", member);
 
@@ -105,7 +105,7 @@ public class MemberController {
 		WebClient webClient = WebClient.create();
 
 		Result result = webClient.delete().uri("http://localhost:82/member/delete?mid={mid}", mid)
-				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Result.class).block();
+				.retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());
 
@@ -117,13 +117,8 @@ public class MemberController {
 	public String memberGrade(Model model, HttpSession session) {
 		log.info("실행");
 
-		Auth auth = (Auth) session.getAttribute("auth");
-
 		WebClient webClient = WebClient.create();
-
-		Grades grades = webClient.get().uri("http://localhost:82/member/grade/list")
-				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Grades.class).block();
-
+		Grades grades = webClient.get().uri("http://localhost:82/member/grade/list").retrieve().bodyToMono(Grades.class).block();
 		model.addAttribute("grades", grades.getGrades());
 
 		return "member/memberGrade";
@@ -133,8 +128,6 @@ public class MemberController {
 	public String createGrade(Grade grade, Model model, HttpSession session) {
 		log.info("실행");
 
-		Auth auth = (Auth) session.getAttribute("auth");
-
 		WebClient webClient = WebClient.create();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("gname", grade.getGname());
@@ -142,7 +135,7 @@ public class MemberController {
 		map.add("gsale", String.valueOf(grade.getGsale()));
 
 		Result result = webClient.post().uri("http://localhost:82/member/grade/create")
-				.header("Authorization", "Bearer " + auth.getJwt()).body(BodyInserters.fromFormData(map)).retrieve()
+				.body(BodyInserters.fromFormData(map)).retrieve()
 				.bodyToMono(Result.class).block();
 
 		log.info(result.toString());
@@ -154,12 +147,10 @@ public class MemberController {
 	public String applyGrade(Model model, HttpSession session) {
 		log.info("실행");
 
-		Auth auth = (Auth) session.getAttribute("auth");
-
 		WebClient webClient = WebClient.create();
 
 		Result result = webClient.get().uri("http://localhost:82/member/grade/apply")
-				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Result.class).block();
+				.retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());
 
@@ -170,8 +161,6 @@ public class MemberController {
 	public String updateGrade(int beforegmax, Grade grade, Model model, HttpSession session) {
 		log.info("실행");
 
-		Auth auth = (Auth) session.getAttribute("auth");
-
 		WebClient webClient = WebClient.create();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("gname", grade.getGname());
@@ -179,7 +168,7 @@ public class MemberController {
 		map.add("gsale", String.valueOf(grade.getGsale()));
 
 		Result result = webClient.post().uri("http://localhost:82/member/grade/update/" + beforegmax)
-				.header("Authorization", "Bearer " + auth.getJwt()).body(BodyInserters.fromFormData(map)).retrieve()
+				.body(BodyInserters.fromFormData(map)).retrieve()
 				.bodyToMono(Result.class).block();
 
 		log.info(result.toString());
@@ -196,7 +185,7 @@ public class MemberController {
 		WebClient webClient = WebClient.create();
 
 		Result result = webClient.delete().uri("http://localhost:82/member/grade/delete?gmax={gmax}", gmax)
-				.header("Authorization", "Bearer " + auth.getJwt()).retrieve().bodyToMono(Result.class).block();
+				.retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());
 
