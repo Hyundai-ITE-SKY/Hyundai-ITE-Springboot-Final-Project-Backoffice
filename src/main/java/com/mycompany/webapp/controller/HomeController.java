@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.IntegerVariable;
 import com.mycompany.webapp.dto.OrderPerDays;
-import com.mycompany.webapp.dto.Products;
+import com.mycompany.webapp.dto.OrderState;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,36 +31,42 @@ public class HomeController {
 			return "redirect:/loginform";
 		}
 		
-		WebClient webClient = WebClient.create();
+		WebClient webClient = WebClient.create("http://localhost:82/dash");
+		
+		//주문/배송상태
+		OrderState orderState = webClient.get().uri("/orderState")
+				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(OrderState.class).block();
+		model.addAttribute("orderState", orderState);
+		
 		//총 매출액
-		IntegerVariable totalPrice = webClient.get().uri("http://localhost:82/dash/totalprice")
+		IntegerVariable totalPrice = webClient.get().uri("/totalprice")
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(IntegerVariable.class).block();
 		model.addAttribute("totalPrice", totalPrice.getValue());
 		
 		//이번달 매출액
-		IntegerVariable monthPrice = webClient.get().uri("http://localhost:82/dash/monthprice")
+		IntegerVariable monthPrice = webClient.get().uri("/monthprice")
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(IntegerVariable.class).block();
 		model.addAttribute("monthPrice", monthPrice.getValue());
 		
 		//금일 매출액
-		IntegerVariable todayPrice = webClient.get().uri("http://localhost:82/dash/todayprice")
+		IntegerVariable todayPrice = webClient.get().uri("/todayprice")
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(IntegerVariable.class).block();
 		model.addAttribute("todayPrice", todayPrice.getValue());
 		
 		//날짜별 주문수
-		OrderPerDays orderPerDays = webClient.get().uri("http://localhost:82/dash/order/day")
+		OrderPerDays orderPerDays = webClient.get().uri("/order/day")
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(OrderPerDays.class).block();
 		model.addAttribute("orderPerDays", orderPerDays.getOrderPerDays());
 		log.info("orderPerDays(일자별 결제건수) : "+orderPerDays.getOrderPerDays());
 		
 		//날짜별 주문자수
-		OrderPerDays orderPerDayUser = webClient.get().uri("http://localhost:82/dash/order/dayuser")
+		OrderPerDays orderPerDayUser = webClient.get().uri("/order/dayuser")
 				.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(OrderPerDays.class).block();
 		model.addAttribute("orderPerDayUser", orderPerDayUser.getOrderPerDays());
 		log.info("orderPerDayUser(일자별 결제자수) : "+orderPerDayUser.getOrderPerDays());
 
 		//월별, 카테고리별 매출
-		String monthTotalPrices = webClient.get().uri("http://localhost:82/dash/monthtotalprice")
+		String MonthTotalPrice = webClient.get().uri("/monthtotalprice")
 									.header("Authorization", "Bearer "+ auth.getJwt()).retrieve().bodyToMono(String.class).block();
 		model.addAttribute("monthTotalPrices", monthTotalPrices);
 		return "home";
