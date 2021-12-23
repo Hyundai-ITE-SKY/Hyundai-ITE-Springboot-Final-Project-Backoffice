@@ -33,7 +33,7 @@
 										class="btn btn-outline-dark btn-sm"
 										th:onclick="|changeUpdateForm(${grade.gmax}, ${grade.gsale}, ${status.count})|">수정</button></td>
 								<td><a style="font-size: 0.75rem"
-									th:href="@{/member/grade/delete(gmax=${grade.gmax})}"
+									th:href="@{/admin/member/grade/delete(gmax=${grade.gmax})}"
 									class="btn btn-outline-danger btn-sm">삭제</a></td>
 							</tr>
 						</tbody>
@@ -74,7 +74,7 @@
 						tmp += `<td class='align-middle' style='font-size:0.75rem' id="gradeMax${id}">결제 금액 ${gmax.toLocaleString()}원 미만</td>`;
 						tmp += `<td class='align-middle' style='font-size:0.75rem' id="gradeSale${id}">${gsale}%</td>`;
 						tmp += `<td class='align-middle' style='font-size:0.75rem'><button  style='font-size:0.75rem' class="btn btn-outline-dark btn-sm" onclick="changeUpdateForm(${gmax}, ${gsale}, ${id})">수정</button></td>`;
-						tmp += `<td class='align-middle' style='font-size:0.75rem'><a style='font-size:0.75rem' href="/member/grade/delete?gmax=${gmax}" class="btn btn-outline-danger btn-sm">삭제</a></td>`;
+						tmp += `<td class='align-middle' style='font-size:0.75rem'><a style='font-size:0.75rem' href="/admin/member/grade/delete?gmax=${gmax}" class="btn btn-outline-danger btn-sm">삭제</a></td>`;
 
 						$(th_id).html(tmp);
 					}

@@ -149,13 +149,11 @@ public class MemberController {
 	@Scheduled(cron="0 0 1 * * *")
 	public void updateGradePerDay() {
 		log.info("새벽 1시마다 실행" + new Date());
-		Model model = null;
-		HttpSession session = null;
-		applyGrade(model, session);
+		applyGrade();
 	}
 	
 	@RequestMapping("/grade/apply")
-	public String applyGrade(Model model, HttpSession session) {
+	public String applyGrade() {
 		log.info("실행");
 
 		WebClient webClient = WebClient.create();

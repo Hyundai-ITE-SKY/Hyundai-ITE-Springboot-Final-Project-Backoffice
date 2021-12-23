@@ -70,18 +70,15 @@ public class ProductController {
 				stock.setCcolorcode(color.getCcolorcode());
 			}
 		}
-		log.info(product.toString());
 
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(product);
 		log.info(jsonInString);
 
 		WebClient webClient = WebClient.create("http://localhost:82/product");
-		webClient.post().uri("/create").header(
-				HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-				.body(BodyInserters.fromValue(jsonInString))
-				.retrieve().bodyToMono(Void.class).block();
-		
+		webClient.post().uri("/create").header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.body(BodyInserters.fromValue(jsonInString)).retrieve().bodyToMono(Void.class).block();
+
 		return "redirect:/admin/product/list";
 	}
 
@@ -98,6 +95,7 @@ public class ProductController {
 				.bodyToMono(Category.class).block();
 
 		Pager pager = new Pager(12, 5, productList.getTotalRows(), pageNo);
+
 		model.addAttribute("products", productList.getProducts());
 		model.addAttribute("pager", pager);
 		model.addAttribute("categoryList", categoryList.getCategory());
@@ -119,8 +117,10 @@ public class ProductController {
 				.bodyToMono(Products.class).block();
 
 		Product product = products.getProduct();
+
 		model.addAttribute("product", product);
 		model.addAttribute("colors", product.getColors());
+
 		return "product/productDetail";
 	}
 
@@ -144,6 +144,7 @@ public class ProductController {
 
 		List<Brand> brands = products.getBrands();
 		model.addAttribute("brands", brands);
+
 		return "product/productUpdate";
 	}
 
@@ -167,9 +168,9 @@ public class ProductController {
 
 		String pseason = product.getPseason();
 		product.setPseason(pseason.substring(0, pseason.length() - 1)); // 콤마가 찍히는 부분 제거
+
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(product);
-		log.info(jsonInString);
 
 		WebClient webClient = WebClient.create("http://localhost:82/product");
 		Products updateProducts = webClient.post().uri("/update")
@@ -178,7 +179,7 @@ public class ProductController {
 
 		Product updateProduct = updateProducts.getProduct();
 		redirattr.addAttribute("pid", updateProduct.getPid());
-		
+
 		return "redirect:/admin/product/detail";
 	}
 
@@ -187,7 +188,8 @@ public class ProductController {
 	public String deleteProduct(@RequestParam String pid) {
 		log.info("실행");
 		WebClient webClient = WebClient.create("http://localhost:82/product");
-		IntegerVariable integerVariable = webClient.delete().uri("/{pid}", pid).retrieve().bodyToMono(IntegerVariable.class).block();
+		IntegerVariable integerVariable = webClient.delete().uri("/{pid}", pid).retrieve()
+				.bodyToMono(IntegerVariable.class).block();
 		return "redirect:/admin/product/list";
 	}
 
@@ -204,6 +206,7 @@ public class ProductController {
 				.retrieve().bodyToMono(StockLists.class).block();
 
 		Pager pager = new Pager(12, 5, totalRows.getValue(), pageNo);
+
 		model.addAttribute("stocks", stockLists.getStockLists());
 		model.addAttribute("pager", pager);
 
@@ -267,6 +270,7 @@ public class ProductController {
 
 		WebClient webClient = WebClient.create();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+
 		map.add("pid", stock.getPid() + "");
 		map.add("ccolorcode", stock.getCcolorcode() + "");
 		map.add("ssize", stock.getSsize() + "");
@@ -307,10 +311,11 @@ public class ProductController {
 	@PostMapping("/review/answer/update")
 	public String updateReviewAnswer(int rno, String content) {
 		log.info("실행");
-		
+
 		WebClient webClient = WebClient.create();
 
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+
 		map.add("rno", String.valueOf(rno));
 		map.add("content", content);
 
