@@ -77,10 +77,12 @@ public class ProductController {
 		log.info(jsonInString);
 
 		WebClient webClient = WebClient.create("http://localhost:82/product");
-		webClient.post().uri("/create").header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-				.body(BodyInserters.fromValue(jsonInString)).retrieve().bodyToMono(Void.class).block();
-
-		return "redirect:/product/list";
+		webClient.post().uri("/create").header(
+				HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.body(BodyInserters.fromValue(jsonInString))
+				.retrieve().bodyToMono(Void.class).block();
+		
+		return "redirect:/admin/product/list";
 	}
 
 	// 상품조회
@@ -176,8 +178,8 @@ public class ProductController {
 
 		Product updateProduct = updateProducts.getProduct();
 		redirattr.addAttribute("pid", updateProduct.getPid());
-
-		return "redirect:/product/detail";
+		
+		return "redirect:/admin/product/detail";
 	}
 
 	// 상품삭제
@@ -185,9 +187,8 @@ public class ProductController {
 	public String deleteProduct(@RequestParam String pid) {
 		log.info("실행");
 		WebClient webClient = WebClient.create("http://localhost:82/product");
-		IntegerVariable integerVariable = webClient.delete().uri("/{pid}", pid).retrieve()
-				.bodyToMono(IntegerVariable.class).block();
-		return "redirect:/product/list";
+		IntegerVariable integerVariable = webClient.delete().uri("/{pid}", pid).retrieve().bodyToMono(IntegerVariable.class).block();
+		return "redirect:/admin/product/list";
 	}
 
 	@RequestMapping("/stock/list/{pageNo}")
@@ -274,7 +275,7 @@ public class ProductController {
 		Stock resultStock = webClient.post().uri("http://localhost:82/product/stock/update")
 				.body(BodyInserters.fromFormData(map)).retrieve().bodyToMono(Stock.class).block();
 
-		return "redirect:/product/stock/list/1";
+		return "redirect:/admin/product/stock/list/1";
 	}
 
 	@GetMapping("/review")

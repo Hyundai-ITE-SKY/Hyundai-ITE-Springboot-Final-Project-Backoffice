@@ -32,7 +32,7 @@
 						}).then((result)=>{
 							if(result.isConfirmed){
 								setTimeout(function(){
-									location.href="/product/delete?pid="+delPid;
+									location.href="/admin/product/delete?pid="+delPid;
 								},3000);
 								Swal.fire({
 									title:'삭제 성공',
@@ -122,7 +122,7 @@
 				<div class="d-flex justify-content-center mt-3">
 					<div class="btn btn-outline-dark btn-sm mr-2"
 						style="font-size: 0.75rem">취소</div>
-					<a th:href="@{/product/update(pid=${product.pid})}"
+					<a th:href="@{/admin/product/update(pid=${product.pid})}"
 						class="btn btn-dark btn-sm" style="font-size: 0.75rem">수정</a>
 				</div>
 			</div>

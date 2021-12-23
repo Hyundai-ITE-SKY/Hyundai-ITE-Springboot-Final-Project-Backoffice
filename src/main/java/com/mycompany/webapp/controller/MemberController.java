@@ -1,9 +1,11 @@
 package com.mycompany.webapp.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -75,7 +77,7 @@ public class MemberController {
 
 		log.info(result.toString());
 
-		return "redirect:/member/list";
+		return "redirect:/admin/member/list";
 	}
 
 	@RequestMapping("/detail")
@@ -109,7 +111,7 @@ public class MemberController {
 
 		log.info(result.toString());
 
-		return "redirect:/member/list";
+		return "redirect:/admin/member/list";
 	}
 
 	// 회원 등급 관리
@@ -140,9 +142,18 @@ public class MemberController {
 
 		log.info(result.toString());
 
-		return "redirect:/member/grade";
+		return "redirect:/admin/member/grade";
 	}
-
+	
+	//스케줄러 
+	@Scheduled(cron="0 0 1 * * *")
+	public void updateGradePerDay() {
+		log.info("새벽 1시마다 실행" + new Date());
+		Model model = null;
+		HttpSession session = null;
+		applyGrade(model, session);
+	}
+	
 	@RequestMapping("/grade/apply")
 	public String applyGrade(Model model, HttpSession session) {
 		log.info("실행");
@@ -154,7 +165,7 @@ public class MemberController {
 
 		log.info(result.toString());
 
-		return "redirect:/member/grade";
+		return "redirect:/admin/member/list";
 	}
 
 	@RequestMapping("/grade/update")
@@ -173,7 +184,7 @@ public class MemberController {
 
 		log.info(result.toString());
 
-		return "redirect:/member/grade";
+		return "redirect:/admin/member/grade";
 	}
 
 	@RequestMapping("/grade/delete")
@@ -189,6 +200,6 @@ public class MemberController {
 
 		log.info(result.toString());
 
-		return "redirect:/member/grade";
+		return "redirect:/admin/member/grade";
 	}
 }
