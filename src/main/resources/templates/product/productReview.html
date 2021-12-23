@@ -22,7 +22,7 @@
 										<option value="pid"
 											th:selected="${type != null}? ${type}=='pid'">상품코드</option>
 										<option value="bname"
-											th:selected="${type != null}? ${type}=='bname'">브랜드</option>
+											th:selected="${type != null}? ${type}=='bname'">사용자ID</option>
 										<option value="pname"
 											th:selected="${type != null}? ${type}=='pname'">상품명</option>
 									</select>
@@ -66,7 +66,8 @@
 							<th style="background-color: #eeeeee;" class="col-1">사용자</th>
 							<th style="background-color: #eeeeee;" class="col-3">제목</th>
 							<th style="background-color: #eeeeee;" class="col-1">평점</th>
-							<th style="background-color: #eeeeee;" class="col-2">등록날짜</th>
+							<th style="background-color: #eeeeee;" class="col-1">등록날짜</th>
+							<th style="background-color: #eeeeee;" class="col-1">답변여부</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -79,6 +80,7 @@
 							<td>[[${review.rtitle}]]</td>
 							<td>[[${review.rrate}]]</td>
 							<td>[[${#dates.format(review.rdate,'yyyy.MM.dd')}]]</td>
+							<td>[[${review.ranswer == null ? "X" : "O"}]]</td>
 						</tr>
 					</tbody>
 				</table>

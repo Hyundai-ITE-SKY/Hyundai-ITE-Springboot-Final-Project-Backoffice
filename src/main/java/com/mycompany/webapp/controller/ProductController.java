@@ -29,6 +29,7 @@ import com.mycompany.webapp.dto.IntegerVariable;
 import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.Product;
 import com.mycompany.webapp.dto.Products;
+import com.mycompany.webapp.dto.Result;
 import com.mycompany.webapp.dto.Review;
 import com.mycompany.webapp.dto.ReviewList;
 import com.mycompany.webapp.dto.Stock;
@@ -300,5 +301,23 @@ public class ProductController {
 		model.addAttribute("review", review);
 
 		return "/product/productReviewDetail";
+	}
+
+	@PostMapping("/review/answer/update")
+	public String updateReviewAnswer(int rno, String content) {
+		log.info("실행");
+		
+		WebClient webClient = WebClient.create();
+
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+		map.add("rno", String.valueOf(rno));
+		map.add("content", content);
+
+		Result result = webClient.post().uri("http://localhost:82/product/review/answer/update")
+				.body(BodyInserters.fromFormData(map)).retrieve().bodyToMono(Result.class).block();
+
+		log.info(result.toString());
+
+		return "redirect:/admin/product/review/detail?rno=" + String.valueOf(rno);
 	}
 }
