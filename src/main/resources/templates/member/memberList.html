@@ -24,7 +24,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="member, status: ${members}"
-								th:onclick="'location.href=\'' + @{/member/detail(mid=${member.mid})} + '\''">
+								th:onclick="'location.href=\'' + @{/admin/member/detail(mid=${member.mid})} + '\''">
 								<th scope="row" class="align-middle">[[${status.count}]]</th>
 								<td class="align-middle">[[${member.mgrade}]]</td>
 								<td class="align-middle">[[${member.mname}]]</td>
