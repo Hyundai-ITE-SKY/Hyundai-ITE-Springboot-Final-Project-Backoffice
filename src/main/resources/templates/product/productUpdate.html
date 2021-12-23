@@ -215,7 +215,8 @@
 											th:value="${color.cimage2}"
 											th:name="'colors['+ ${status.index} +'].cimage2'" />
 									</div> <a th:onclick="'updateCimage2('+${status.count}+')'"
-									style="font-size: 0.75rem" class="btn btn-dark btn-sm">적용</a></td>
+									style="font-size: 0.75rem" class="btn btn-dark btn-sm">적용</a>
+								</td>
 								<td th:rowspan="${color.stocks.size()}" class=" align-middle"><img
 									style="width: 100px;" th:id="'c3image'+${status.count}"
 									th:src="@{${color.cimage3}}">
@@ -226,7 +227,8 @@
 											th:value="${color.cimage3}"
 											th:name="'colors['+ ${status.index} +'].cimage3'" />
 									</div> <a th:onclick="'updateCimage3('+${status.count}+')'"
-									style="font-size: 0.75rem" class="btn btn-dark btn-sm">적용</a></td>
+									style="font-size: 0.75rem" class="btn btn-dark btn-sm">적용</a>
+								</td>
 								<td th:rowspan="${color.stocks.size()}" class=" align-middle">
 									<div class="input-group input-group-sm">
 										<input class="form-control input-sm" type="text"
