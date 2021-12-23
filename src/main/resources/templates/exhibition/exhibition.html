@@ -6,20 +6,20 @@
 
 		<script>
 			//초기 orderObj 세팅
-			var orderObj = {'event' : 0, 'best' : 1 , 'new' : 2};
+			var orderObj = {'EVENT' : 0, 'BEST' : 1 , 'NEW' : 2};
 		
 			$(function() {
 				let startVal="";
 				let endVal="";
 				let startN;
 				let endN;				
-				let eventN = Number($('#event').val());
-				let bestN = Number($('#best').val());
-				let newN = Number($('#new').val());
+				let eventN = Number($('#EVENT').val());
+				let bestN = Number($('#BEST').val());
+				let newN = Number($('#NEW').val());
 				
-				orderObj.event = eventN;
-				orderObj.best = bestN;
-				orderObj.new = newN;
+				orderObj.EVENT = eventN;
+				orderObj.BEST = bestN;
+				orderObj.NEW = newN;
 				
 				console.log("eventN"+eventN);
 				console.log("bestN"+bestN);
@@ -29,14 +29,14 @@
 					start: function(event, ui) {
 						startN = ui.item.index();
 
-						if(startN === orderObj.event){
-							startVal='event';
+						if(startN === orderObj.EVENT){
+							startVal='EVENT';
 						}
-						if(startN === orderObj.best){
-							startVal='best';
+						if(startN === orderObj.BEST){
+							startVal='BEST';
 						}
-						if(startN === orderObj.new){
-							startVal='new';
+						if(startN === orderObj.NEW){
+							startVal='NEW';
 						}
 						console.log("start : "+ui.item.index());
 			        },
@@ -46,14 +46,14 @@
 			        stop: function(event, ui){
 			        	endN = ui.item.index();
 			        	
-			        	if(endN === orderObj.event){
-							endVal='event';
+			        	if(endN === orderObj.EVENT){
+							endVal='EVENT';
 						}
-						if(endN === orderObj.best){
-							endVal='best';
+						if(endN === orderObj.BEST){
+							endVal='BEST';
 						}
-						if(endN === orderObj.new){
-							endVal='new';
+						if(endN === orderObj.NEW){
+							endVal='NEW';
 						}
 			        	
 						if(Math.abs(startN-endN) === 2){
@@ -80,9 +80,9 @@
 							orderObj[endVal] = startN;
 						}
 						
-						$('#event').val(orderObj.event);
-						$('#best').val(orderObj.best);
-						$('#new').val(orderObj.new);
+						$('#EVENT').val(orderObj.EVENT);
+						$('#BEST').val(orderObj.BEST);
+						$('#NEW').val(orderObj.NEW);
 						
 			        	console.log("end : "+ui.item.index());
 			        }
@@ -91,9 +91,9 @@
 			});
 			
 			function makeOrder(){
-				let eventN = orderObj.event;
-				let bestN = orderObj.best;
-				let newN = orderObj.new;
+				let eventN = orderObj.EVENT;
+				let bestN = orderObj.BEST;
+				let newN = orderObj.NEW;
 				
 				console.log(eventN);
 				console.log(bestN);
