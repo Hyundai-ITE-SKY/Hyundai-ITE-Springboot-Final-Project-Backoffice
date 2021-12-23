@@ -19,4 +19,5 @@ public class Review {
 	private int rcomfortable;
 	private String rtitle;
 	private String rcontent;
+	private String ranswer;
 }
