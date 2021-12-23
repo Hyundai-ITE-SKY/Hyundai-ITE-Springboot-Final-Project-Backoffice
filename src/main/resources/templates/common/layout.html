@@ -8,9 +8,10 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>HANDSOME BACKOFFICE</title>
 
-<link rel="icon" type="image/png" th:href="@{/images/icon/favicon.png}"/>
-<link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+<link rel="icon" type="image/png" th:href="@{/images/icon/favicon.png}" />
+<link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet"
+	type="text/css">
+<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" />
 <!-- Bootstrap core JavaScript-->
 <script th:src="@{/jquery/jquery.min.js}"></script>
 <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -70,10 +71,12 @@
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
 						data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" th:href="@{/admin/product/create}">상품 등록</a> <a
-								class="collapse-item" th:href="@{/admin/product/list}">상품 조회 및 수정</a>
-							<a class="collapse-item" th:href="@{/admin/product/stock/list/1}">상품
-								재고 관리 </a>
+							<a class="collapse-item" th:href="@{/admin/product/create}">상품
+								등록</a> <a class="collapse-item" th:href="@{/admin/product/list}">상품
+								조회 및 수정</a> <a class="collapse-item"
+								th:href="@{/admin/product/stock/list/1}">상품 재고 관리</a> <a
+								class="collapse-item" th:href="@{/admin/product/review}">상품 리뷰
+								관리</a>
 						</div>
 					</div></li>
 
@@ -98,8 +101,8 @@
 					<div id="collapseDisplay" class="collapse"
 						aria-labelledby="headingDisplay" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" th:href="@{/admin/exhibition/management}">전시
-								관리</a>
+							<a class="collapse-item"
+								th:href="@{/admin/exhibition/management}">전시 관리</a>
 						</div>
 					</div></li>
 
@@ -111,8 +114,9 @@
 					<div id="collapseCustomer" class="collapse"
 						aria-labelledby="headingCustomer" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" th:href="@{/admin/member/grade}">회원 등급 관리</a>
-							<a class="collapse-item" th:href="@{/admin/member/list}">회원 정보 관리</a>
+							<a class="collapse-item" th:href="@{/admin/member/grade}">회원
+								등급 관리</a> <a class="collapse-item" th:href="@{/admin/member/list}">회원
+								정보 관리</a>
 						</div>
 					</div></li>
 
@@ -124,8 +128,9 @@
 					<div id="collapseEvent" class="collapse"
 						aria-labelledby="collapseEvent" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<a class="collapse-item" th:href="@{/admin/event/create}">이벤트 등록</a> <a
-								class="collapse-item" th:href="@{/admin/event/list/1}">이벤트 조회 및 수정</a>
+							<a class="collapse-item" th:href="@{/admin/event/create}">이벤트
+								등록</a> <a class="collapse-item" th:href="@{/admin/event/list/1}">이벤트
+								조회 및 수정</a>
 						</div>
 					</div></li>
 
@@ -142,24 +147,26 @@
 			<div id="content-wrapper" class="d-flex flex-column">
 				<!-- Main Content -->
 				<div id="content">
-                <nav class="navbar navbar-expand static-top shadow bg-light">
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline small" style="color:grey">[[${#authentication.name}]]님 안녕하세요!</span>
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" th:href="@{/logout}">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
+					<nav class="navbar navbar-expand static-top shadow bg-light">
+						<ul class="navbar-nav ml-auto">
+							<!-- Nav Item - User Information -->
+							<li class="nav-item dropdown no-arrow"><a
+								class="nav-link dropdown-toggle" href="#" id="userDropdown"
+								role="button" data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false"> <span
+									class="mr-2 d-none d-lg-inline small" style="color: grey">[[${#authentication.name}]]님
+										안녕하세요!</span>
+							</a> <!-- Dropdown - User Information -->
+								<div
+									class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+									aria-labelledby="userDropdown">
+									<a class="dropdown-item" th:href="@{/logout}"> <i
+										class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+										Logout
+									</a>
+								</div></li>
+						</ul>
+					</nav>
 					<!-- Begin Page Content -->
 					<div class="container-fluid" style="padding-top: 24px;">
 						<th:block th:replace="${content}"></th:block>

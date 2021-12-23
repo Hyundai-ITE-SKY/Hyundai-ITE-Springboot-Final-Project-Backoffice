@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+	<th:block th:fragment="content">
+		<div>
+			<h5 class="mb-3 text-gray-800">상품 리뷰 검색</h5>
+		</div>
+		<div class="card shadow mb-4">
+			<div class="card-body table-responsive">
+				<form name="search-form" id="search-form"
+					th:action="@{/admin/product/searchInStock}" autocomplete="off">
+					<table class="table table-bordered mt-2"
+						style="font-size: 0.75rem;">
+						<tr class="table-borderless">
+							<td class="col-2 text-center align-middle"
+								style="background-color: #eeeeee; border-right: 1px solid #E3E6F0">검색</td>
+							<td class="input-group text-center">
+								<div class="input-group-prepend">
+									<select class="form-control form-control-sm" name="type"
+										style="font-size: 0.75rem;">
+										<option value="" selected>검색분류</option>
+										<option value="pid"
+											th:selected="${type != null}? ${type}=='pid'">상품코드</option>
+										<option value="bname"
+											th:selected="${type != null}? ${type}=='bname'">브랜드</option>
+										<option value="pname"
+											th:selected="${type != null}? ${type}=='pname'">상품명</option>
+									</select>
+								</div> <input type="text" name="keyword" style="font-size: 0.75rem;"
+								class="form-control form-control-sm"
+								th:value="${keyword != null}? ${keyword}:''" />
+							</td>
+						</tr>
+					</table>
+					<!-- <input type="hidden" name="type"/>
+						<input type="hidden" name="keyword"/> -->
+					<div class="d-flex justify-content-center">
+						<button class="btn btn-sm text-white mb-2"
+							style="background-color: #2D3134; font-size: 0.75rem;"
+							type="submit">검색</button>
+					</div>
+					<script th:inline="javascript">
+							function debug() {
+								/* console.log($('#word').val());
+								console.log($('#type option:selected').val());
+								$('input[name=keyword]').val($('#word').val());
+								$('input[name=type]').val($('#type option:selected').val()); */
+							}
+						</script>
+				</form>
+			</div>
+		</div>
+		<div>
+			<h5 class="mb-3 text-gray-800">상품 리뷰 목록</h5>
+		</div>
+		<div class="card shadow mb-4">
+			<div class="card-body table-responsive">
+				<table class="table table-hover table-bordered mb-0 text-center"
+					id="producttable"
+					style="font-size: 0.75rem; background-color: white;">
+					<thead>
+						<tr>
+							<th style="background-color: #eeeeee;" class="col-1">번호</th>
+							<th style="background-color: #eeeeee;" class="col-2">상품명</th>
+							<th style="background-color: #eeeeee;" class="col-2">품번</th>
+							<th style="background-color: #eeeeee;" class="col-1">사용자</th>
+							<th style="background-color: #eeeeee;" class="col-3">제목</th>
+							<th style="background-color: #eeeeee;" class="col-1">평점</th>
+							<th style="background-color: #eeeeee;" class="col-2">등록날짜</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-truncate" th:each="review : ${reviewList}"
+							th:onclick="'location.href=\'' + @{/admin/product/review/detail(rno=${review.rno})} + '\''">
+							<td>[[${review.rno}]]</td>
+							<td>[[${review.pname}]]</td>
+							<td>[[${review.pid}]]</td>
+							<td>[[${review.mid}]]</td>
+							<td>[[${review.rtitle}]]</td>
+							<td>[[${review.rrate}]]</td>
+							<td>[[${#dates.format(review.rdate,'yyyy.MM.dd')}]]</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</th:block>
+</th:block>
+</html>

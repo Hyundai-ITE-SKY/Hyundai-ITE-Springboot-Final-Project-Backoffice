@@ -16,7 +16,7 @@
 			</div>
 			<div class="card shadow mb-4">
 				<div class="card-body table-responsive">
-					<form name="search-form" id="search-form" action="/order/search"
+					<form name="search-form" id="search-form" action="/admin/order/search"
 						autocomplete="off">
 						<table class="table table-bordered mt-2"
 							style="font-size: 0.75rem;">
@@ -116,7 +116,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="order, status : ${orderLists}" class="text-center"
-								th:onclick="'location.href=\'' + @{/order/orderdetail/{oid}(oid=${order.oid})} + '\''">
+								th:onclick="'location.href=\'' + @{/admin/order/orderdetail/{oid}(oid=${order.oid})} + '\''">
 								<td>[[${order.oid}]]</td>
 								<td>[[${order.mid}]]</td>
 								<td th:if="${order.ostatus==0}">결제승인</td>
@@ -136,54 +136,54 @@
 						<ul class="pagination justify-content-center align-items-center">
 							<th:block
 								th:if="${#strings.isEmpty(keyword)} and ${#strings.isEmpty(startdate)} and ${#strings.isEmpty(enddate)}">
-								<li class="page-item"><a th:href="@{/order/orderlist/1}"
+								<li class="page-item"><a th:href="@{/admin/order/orderlist/1}"
 									style="font-size: 0.75rem;" class="page-link">처음</a></li>
 								<li class="page-item" th:if="${pager.groupNo>1}"><a
 									style="font-size: 0.75rem;"
-									th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.startPageNo-1})}"
+									th:href="@{/admin/order/orderlist/{pageNo}(pageNo=${pager.startPageNo-1})}"
 									class="page-link">이전</a></li>
 								<th:block
 									th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
 									<li class="page-item"><a
 										th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
 										style="font-size: 0.75rem;"
-										th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+										th:href="@{/admin/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
 								</th:block>
 								<li class="page-item"
 									th:if="${pager.groupNo<pager.totalGroupNo}"><a
 									style="font-size: 0.75rem;"
-									th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.endPageNo+1})}"
+									th:href="@{/admin/order/orderlist/{pageNo}(pageNo=${pager.endPageNo+1})}"
 									class="page-link">이후</a></li>
 								<li class="page-item"><a class="page-link"
 									style="font-size: 0.75rem;"
-									th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
+									th:href="@{/admin/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
 							</th:block>
 
 							<th:block
 								th:if="${not #strings.isEmpty(keyword)} or ${not #strings.isEmpty(startdate)} or ${not #strings.isEmpty(enddate)} ">
 								<li class="page-item"><a class="page-link"
 									style="font-size: 0.75rem;"
-									th:href="@{/order/search(type=${type},keyword=${keyword},pageNo=1,startdate=${startdate},enddate=${enddate})}">처음</a>
+									th:href="@{/admin/order/search(type=${type},keyword=${keyword},pageNo=1,startdate=${startdate},enddate=${enddate})}">처음</a>
 								</li>
 								<li class="page-item" th:if="${pager.groupNo>1}"><a
 									style="font-size: 0.75rem;"
-									th:href="@{/order/search(type=${type},keyword=${keyword},pageNo=${pager.startPageNo-1},startdate=${startdate},enddate=${enddate})}"
+									th:href="@{/admin/order/search(type=${type},keyword=${keyword},pageNo=${pager.startPageNo-1},startdate=${startdate},enddate=${enddate})}"
 									class="page-link">이전</a></li>
 								<th:block
 									th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
 									<li class="page-item"><a style="font-size: 0.75rem;"
 										th:classappend="(${pager.pageNo != i})?'page-link':'btn btn-primary'"
-										th:href="@{/order/search(type=${type},keyword=${keyword},pageNo=${i},startdate=${startdate},enddate=${enddate})}">[[${i}]]</a>
+										th:href="@{/admin/order/search(type=${type},keyword=${keyword},pageNo=${i},startdate=${startdate},enddate=${enddate})}">[[${i}]]</a>
 									</li>
 								</th:block>
 								<li class="page-item"
 									th:if="${pager.groupNo<pager.totalGroupNo}"><a
 									style="font-size: 0.75rem;"
-									th:href="@{/order/search(type=${type},keyword=${keyword}, pageNo=${pager.endPageNo+1},startdate=${startdate},enddate=${enddate})}"
+									th:href="@{/admin/order/search(type=${type},keyword=${keyword}, pageNo=${pager.endPageNo+1},startdate=${startdate},enddate=${enddate})}"
 									class="page-link">이후</a></li>
 								<li class="page-item"><a class="page-link"
 									style="font-size: 0.75rem;"
-									th:href="@{/order/search(type=${type},keyword=${keyword}, pageNo=${pager.totalPageNo},startdate=${startdate},enddate=${enddate})}">마지막</a>
+									th:href="@{/admin/order/search(type=${type},keyword=${keyword}, pageNo=${pager.totalPageNo},startdate=${startdate},enddate=${enddate})}">마지막</a>
 								</li>
 							</th:block>
 						</ul>
