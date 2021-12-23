@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{common/layout::setContent(~{this::content})}">
+	<th:block th:fragment="content">
+		<div>
+			<div>
+				<h5 class="text-gray-800">리뷰 정보</h5>
+			</div>
+			<div class="card shadow mb-4" style="font-size: 0.75rem">
+				<div class="card-body table-responsive">
+					<table class="table table-bordered">
+						<tr>
+							<th class="col-2 text-center align-middle" scope="col"
+								style="background-color: #eeeeee">번호</th>
+							<td class="col-4" scope="col">[[${review.rno}]]</td>
+							<th class="col-2 text-center align-middle" scope="col"
+								style="background-color: #eeeeee">등록날짜</th>
+							<td class="col-4" scope="col">[[${#dates.format(review.rdate,'yyyy.MM.dd
+								hh:mm:ss')}]]</td>
+						</tr>
+						<tr>
+							<th class=" text-center align-middle"
+								style="background-color: #eeeeee">사용자 ID</th>
+							<td>[[${review.mid}]]</td>
+							<th class=" text-center align-middle"
+								style="background-color: #eeeeee">사용자명</th>
+							<td>[[${review.mname}]]</td>
+						</tr>
+						<tr>
+							<th class=" text-center align-middle"
+								style="background-color: #eeeeee">품번</th>
+							<td>[[${review.pid}]]</td>
+							<th class=" text-center align-middle"
+								style="background-color: #eeeeee">상품명</th>
+							<td>[[${review.pname}]], [[${review.pcolor}]],
+								[[${review.psize}]]</td>
+						</tr>
+						<tr>
+							<th class=" text-center align-middle"
+								style="background-color: #eeeeee">평점</th>
+							<td colspan="3">[[${review.rrate}]] / 5</td>
+						</tr>
+						<tr>
+							<th class=" text-center align-middle"
+								style="background-color: #eeeeee">제목</th>
+							<td colspan="3">[[${review.rtitle}]]</td>
+						</tr>
+						<tr>
+							<th class=" text-center align-middle"
+								style="background-color: #eeeeee">내용</th>
+							<td colspan="3">[[${review.rcontent}]]</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</th:block>
+</html>
