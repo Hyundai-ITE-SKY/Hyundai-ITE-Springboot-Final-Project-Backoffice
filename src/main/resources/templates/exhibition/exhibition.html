@@ -90,7 +90,7 @@
 				$("#sortable").disableSelection();
 			});
 			
-			function makeOrder(){
+			function makeExhibitionOrder(){
 				let eventN = orderObj.EVENT;
 				let bestN = orderObj.BEST;
 				let newN = orderObj.NEW;
@@ -102,16 +102,43 @@
 				$('#exhibitionForm').submit();
 			}
 			
+			function up(element){
+				let tr = $(element).parent().parent();
+				tr.prev().before(tr);
+			}
+			
+			function down(element){
+				let tr = $(element).parent().parent();
+				tr.next().after(tr);
+			}
+			
+			function makeEventOrder(){
+				//eid와 eorderno를 구한다.
+				console.log("test");
+				var len = $("#eventTable > tr").length;
+				let eventOrder = [];
+
+				for(var i=0; i <len; i++){
+					let id = $(`#eventTable > tr:eq(${i}) > td:eq(1)`).html();
+					let obj = {eid: id, order: i};
+					console.log(obj);
+					console.log("id"+id);
+					console.log("i"+i);
+					
+					console.log($(`#eventsOrder${id}`).val(i));
+					$('#eventForm').submit();
+				}
+			}
 		</script>
 
 		<div>
-			<h5 class="mb-3 text-gray-800">주문 상세</h5>
+			<h5 class="mb-3 text-gray-800">홈화면 전시</h5>
 		</div>
 		<div class="page-content page-container" id="page-content">
 			<div class="padding">
 				<div class=" d-flex justify-content-center mb-2">
 					<form id="exhibitionForm" method="post"
-						th:action="@{/exhibition/update}" th:object="${exhibitions}">
+						th:action="@{/admin/exhibition/update}" th:object="${exhibitions}">
 						<ul
 							class="list list-group list-group-horizontal card list-unstyled"
 							id="sortable" data-sortable-id="0" aria-dropeffect="move">
@@ -127,9 +154,11 @@
 											style="width: 60px; height: 25px; font-size: 15px;">[[${exhibition.exid}]]</span>
 										<input type="hidden"
 											th:name="|exhibitions[${status.index}].exid|"
-											th:value="${exhibition.exid}" /> <input type="hidden"
+											th:value="${exhibition.exid}" /> 
+										<input type="hidden"
 											th:name="|exhibitions[${status.index}].eximg|"
-											th:value="${exhibition.eximg}" /> <input type="hidden"
+											th:value="${exhibition.eximg}" /> 
+										<input type="hidden"
 											th:id="${exhibition.exid}"
 											th:name="|exhibitions[${status.index}].orderno|"
 											th:value="${exhibition.orderno}" />
@@ -140,14 +169,56 @@
 					</form>
 				</div>
 				<div class="d-flex flex-row-reverse mr-4">
-					<button class="btn btn-sm btn-dark" th:onClick="makeOrder()">적용</button>
+					<button class="btn btn-sm btn-dark" th:onClick="makeExhibitionOrder()">적용</button>
 				</div>
 			</div>
-
 		</div>
-
+		
+		<div>
+			<h5 class="mb-3 text-gray-800">이벤트 전시</h5>
+		</div>
+			<table class="table table-hover table-bordered text-center">
+				<thead>
+					<tr>
+						<th style="background-color: #eeeeee" class=" align-middle">이벤트
+							버튼</th>
+						<th style="background-color: #eeeeee" class=" align-middle">이벤트
+							아이디</th>
+						<th style="background-color: #eeeeee" class=" align-middle">이벤트
+							이름</th>
+						<th style="background-color: #eeeeee" class=" align-middle">이벤트
+							시작일</th>
+						<th style="background-color: #eeeeee" class=" align-middle">이벤트
+							종료일</th>
+					</tr>
+				</thead>
+				
+				<tbody id="eventTable">
+					<tr id="eventExhibition" class="text-center" th:each="event : ${events}">
+						<td>
+							<button class="btn btn-sm btn-dark" th:onClick="up(this)">위</button>
+							<button class="btn btn-sm btn-dark" th:onClick="down(this)">아래</button>
+						</td>
+						<td th:onclick="'location.href=\'' + @{/admin/event/detail/{eid}(eid=${event.eid})}+'\''">[[${event.eid}]]</td>
+						<td th:onclick="'location.href=\'' + @{/admin/event/detail/{eid}(eid=${event.eid})}+'\''">[[${event.ename}]]</td>
+						<td th:onclick="'location.href=\'' + @{/admin/event/detail/{eid}(eid=${event.eid})}+'\''">[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
+						<td th:onclick="'location.href=\'' + @{/admin/event/detail/{eid}(eid=${event.eid})}+'\''">[[${#dates.format(event.eenddate, 'yy.MM.dd')}]]</td>
+					</tr>
+				</tbody>
+			</table>
+		<div class="d-flex flex-row-reverse mr-4">
+			<button class="btn btn-sm btn-dark" th:onClick="makeEventOrder()">적용</button>
+		</div>
+		
+		<form id="eventForm" method="post" th:action="@{/admin/exhibition/updateevent}" th:object="${events}">
+			<ul class="list-unstyled">
+				<li th:each="event, status : ${events}">
+					<input type="hidden" th:id="|eventsId${event.eid}|" th:name="|events[${status.index}].eid|" th:value="${event.eid}"/>
+					<input type="hidden" th:id="|eventsOrder${event.eid}|" th:name="|events[${status.index}].eorder|" th:value="${event.eorder}"/>
+				</li>
+			</ul>
+		</form>
 	</th:block>
 </th:block>
 
 </html>
-

@@ -14,4 +14,5 @@ public class Event {
 	private String eimage;
 	private int eamount;
 	private int elimit;
+	private int eorder;
 }

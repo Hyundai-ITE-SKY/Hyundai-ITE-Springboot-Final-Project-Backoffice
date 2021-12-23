@@ -20,7 +20,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.webapp.dto.Auth;
+import com.mycompany.webapp.dto.Event;
+import com.mycompany.webapp.dto.Events;
 import com.mycompany.webapp.dto.Exhibitions;
+import com.mycompany.webapp.dto.Pager;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,6 +45,12 @@ public class ExhibitionController {
 		log.info(exhibitions.getExhibitions()+"");
 		model.addAttribute("exhibitions", exhibitions.getExhibitions());
 		
+		WebClient webClient = WebClient.create();
+		Events events = webClient.get().uri("http://localhost:82/event/list?pageNo={pageNo}", 1)
+										.retrieve().bodyToMono(Events.class).block();
+		
+		model.addAttribute("events", events.getEvents());
+		log.info("event"+events.getEvents());
 		return "exhibition/exhibition";
 	}
 	
@@ -65,6 +74,24 @@ public class ExhibitionController {
 				.body(BodyInserters.fromValue(jsonString))
 				.retrieve().bodyToMono(Void.class).block();
 		
-		return "redirect:/exhibition/management";
+		return "redirect:/admin/exhibition/management";
+	}
+	
+	@PostMapping("/updateevent")
+	public String updateEvent(Events events) throws JsonProcessingException {
+		log.info("실행");
+		Map<String, Object> eventMap = new HashMap<>();
+		eventMap.put("events", events.getEvents());
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = mapper.writeValueAsString(eventMap);
+		
+		WebClient webClient = WebClient.create();
+		webClient.post().uri("http://localhost:82/event/updateeorder")
+		.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+		.body(BodyInserters.fromValue(jsonString))
+		.retrieve().bodyToMono(Void.class).block();
+
+		return "redirect:/admin/exhibition/management";
 	}
 }

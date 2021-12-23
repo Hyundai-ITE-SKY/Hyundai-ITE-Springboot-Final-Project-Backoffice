@@ -29,7 +29,7 @@
 		<div class="card shadow mb-4">
 			<div class="card-body table-responsive">
 				<form id="eventUpdateForm" method="post"
-					th:action="@{/event/update/{eid}(eid=${event.eid})}"
+					th:action="@{/admin/event/update/{eid}(eid=${event.eid})}"
 					th:object="${event}">
 					<table class="table table-bordered" style="font-size: 0.75rem;">
 						<tr>
@@ -90,11 +90,11 @@
 					<div class="d-flex justify-content-center mt-3">
 						<a class="btn btn-outline-dark btn-sm mr-auto"
 							style="font-size: 0.75rem"
-							th:href="@{/event/detail/{eid}(eid=${event.eid})}">취소</a>
+							th:href="@{/admin/event/detail/{eid}(eid=${event.eid})}">취소</a>
 						<button th:onclick="makeEventUpdate()" style="font-size: 0.75rem"
 							class="btn btn-dark btn-sm mr-2">수정</button>
 						<a class="btn btn-dark btn-sm" style="font-size: 0.75rem"
-							th:href="@{/event/delete/{eid}(eid=${event.eid})}">삭제</a>
+							th:href="@{/admin/event/delete/{eid}(eid=${event.eid})}">삭제</a>
 					</div>
 				</form>
 			</div>
