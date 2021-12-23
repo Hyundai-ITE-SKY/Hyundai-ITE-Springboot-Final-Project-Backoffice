@@ -124,6 +124,7 @@
 								<td th:if="${order.ostatus==2}">배송</td>
 								<td th:if="${order.ostatus==3}">배송완료</td>
 								<td th:if="${order.ostatus==4}">구매확정</td>
+								<td th:if="${order.ostatus==5}">주문취소</td>
 								<td>[[${order.countitem}]]</td>
 								<td>[[${#numbers.formatInteger(order.ototal, 3,
 									'COMMA')}]]￦</td>
