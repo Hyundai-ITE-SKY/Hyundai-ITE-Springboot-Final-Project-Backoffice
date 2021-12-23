@@ -146,7 +146,7 @@ public class EventController {
 											.body(BodyInserters.fromFormData(map))
 											.retrieve().bodyToMono(IntegerVariable.class).block();
 		
-		return "redirect:/event/list/1";
+		return "redirect:/admin/event/list/1";
 	}
 	
 	@GetMapping("/delete/{eid}")
@@ -160,6 +160,6 @@ public class EventController {
 				.body(BodyInserters.fromFormData(map))
 				.retrieve().bodyToMono(IntegerVariable.class).block();
 		
-		return "redirect:/event/list/1";
+		return "redirect:/admin/event/list/1";
 	}
 }

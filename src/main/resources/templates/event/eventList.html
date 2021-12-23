@@ -28,7 +28,7 @@
 						</thead>
 						<tbody>
 							<tr class="text-center" th:each="event : ${events}"
-								th:onclick="'location.href=\'' + @{/event/detail/{eid}(eid=${event.eid})}+'\''">
+								th:onclick="'location.href=\'' + @{/admin/event/detail/{eid}(eid=${event.eid})}+'\''">
 								<td>[[${event.eid}]]</td>
 								<td>[[${event.ename}]]</td>
 								<td>[[${#dates.format(event.estartdate, 'yy.MM.dd')}]]</td>
@@ -40,17 +40,17 @@
 					</table>
 					<nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center">
-							<li class="page-item"><a th:href="@{/order/orderlist/1}"
+							<li class="page-item"><a th:href="@{/admin/event/list/1}"
 								class="page-link">처음</a></li>
 
 							<th:block
 								th:each="i : ${#numbers.sequence(pager.startPageNo, pager.endPageNo)}">
 								<li class="page-item"><a class="page-link"
-									th:href="@{/order/orderlist/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
+									th:href="@{/admin/event/list/{pageNo}(pageNo=${i})}">[[${i}]]</a></li>
 							</th:block>
 
 							<li class="page-item"><a class="page-link"
-								th:href="@{/order/orderlist/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
+								th:href="@{/admin/event/list/{pageNo}(pageNo=${pager.totalPageNo})}">마지막</a></li>
 						</ul>
 					</nav>
 				</div>
