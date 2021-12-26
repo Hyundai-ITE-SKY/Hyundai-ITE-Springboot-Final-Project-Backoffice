@@ -72,7 +72,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="stock, status: ${stocks}" class="text-center">
+							<tr th:each="stock, status: ${stocks}" class="text-center"
+								th:onclick="'location.href=\'' + @{/admin/product/detail(pid=${stock.pid})} + '\''">
 								<form th:id="|stockForm${status.index}|"
 									action="/admin/product/stock/update" method="post">
 									<input type="hidden" name="pid" th:value="${stock.pid}">
