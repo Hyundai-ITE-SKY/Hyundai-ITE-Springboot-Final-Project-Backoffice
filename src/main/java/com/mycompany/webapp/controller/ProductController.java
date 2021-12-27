@@ -15,13 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Brand;
 import com.mycompany.webapp.dto.Category;
 import com.mycompany.webapp.dto.Color;
@@ -47,7 +45,7 @@ public class ProductController {
 	public String productCreate(Model model, HttpSession session) {
 		log.info("실행");
 
-		WebClient webClient = WebClient.create("http://localhost:82/product");
+		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/product");
 		Products products = webClient.get().uri("/allbrand").retrieve().bodyToMono(Products.class).block();
 		model.addAttribute("brands", products.getBrands());
 		Category category = webClient.get().uri("/category").retrieve().bodyToMono(Category.class).block();
@@ -75,7 +73,7 @@ public class ProductController {
 		String jsonInString = mapper.writeValueAsString(product);
 		log.info(jsonInString);
 
-		WebClient webClient = WebClient.create("http://localhost:82/product");
+		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/product");
 		webClient.post().uri("/create").header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.body(BodyInserters.fromValue(jsonInString)).retrieve().bodyToMono(Void.class).block();
 
@@ -89,9 +87,9 @@ public class ProductController {
 
 		WebClient webClient = WebClient.create();
 
-		Products productList = webClient.get().uri("http://localhost:82/product/list/{pageNo}", pageNo).retrieve()
+		Products productList = webClient.get().uri("http://kosa1.iptime.org:50507/product/list/{pageNo}", pageNo).retrieve()
 				.bodyToMono(Products.class).block();
-		Category categoryList = webClient.get().uri("http://localhost:82/product/category").retrieve()
+		Category categoryList = webClient.get().uri("http://kosa1.iptime.org:50507/product/category").retrieve()
 				.bodyToMono(Category.class).block();
 
 		Pager pager = new Pager(12, 5, productList.getTotalRows(), pageNo);
@@ -113,7 +111,7 @@ public class ProductController {
 
 		WebClient webClient = WebClient.create();
 
-		Products products = webClient.get().uri("http://localhost:82/product/{pid}", pid).retrieve()
+		Products products = webClient.get().uri("http://kosa1.iptime.org:50507/product/{pid}", pid).retrieve()
 				.bodyToMono(Products.class).block();
 
 		Product product = products.getProduct();
@@ -131,9 +129,9 @@ public class ProductController {
 
 		WebClient webClient = WebClient.create();
 
-		Products products = webClient.get().uri("http://localhost:82/product/{pid}", pid).retrieve()
+		Products products = webClient.get().uri("http://kosa1.iptime.org:50507/product/{pid}", pid).retrieve()
 				.bodyToMono(Products.class).block();
-		Category categoryList = webClient.get().uri("http://localhost:82/product/category").retrieve()
+		Category categoryList = webClient.get().uri("http://kosa1.iptime.org:50507/product/category").retrieve()
 				.bodyToMono(Category.class).block();
 
 		Product product = products.getProduct();
@@ -172,7 +170,7 @@ public class ProductController {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(product);
 
-		WebClient webClient = WebClient.create("http://localhost:82/product");
+		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/product");
 		Products updateProducts = webClient.post().uri("/update")
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.body(BodyInserters.fromValue(jsonInString)).retrieve().bodyToMono(Products.class).block();
@@ -187,7 +185,7 @@ public class ProductController {
 	@RequestMapping("/delete")
 	public String deleteProduct(@RequestParam String pid) {
 		log.info("실행");
-		WebClient webClient = WebClient.create("http://localhost:82/product");
+		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/product");
 		IntegerVariable integerVariable = webClient.delete().uri("/{pid}", pid).retrieve()
 				.bodyToMono(IntegerVariable.class).block();
 		return "redirect:/admin/product/list";
@@ -198,11 +196,11 @@ public class ProductController {
 		log.info("실행");
 
 		WebClient getRowsWebClient = WebClient.create();
-		IntegerVariable totalRows = getRowsWebClient.get().uri("http://localhost:82/product/stock/totalrows").retrieve()
+		IntegerVariable totalRows = getRowsWebClient.get().uri("http://kosa1.iptime.org:50507/product/stock/totalrows").retrieve()
 				.bodyToMono(IntegerVariable.class).block();
 
 		WebClient webClient = WebClient.create();
-		StockLists stockLists = webClient.get().uri("http://localhost:82/product/stock/list/{pageNo}", pageNo)
+		StockLists stockLists = webClient.get().uri("http://kosa1.iptime.org:50507/product/stock/list/{pageNo}", pageNo)
 				.retrieve().bodyToMono(StockLists.class).block();
 
 		Pager pager = new Pager(12, 5, totalRows.getValue(), pageNo);
@@ -218,14 +216,14 @@ public class ProductController {
 			@RequestParam(defaultValue = "1") int pageNo, @RequestParam String clarge, @RequestParam String cmedium,
 			@RequestParam String csmall, HttpSession session, Model model) {
 		log.info("실행");
-		WebClient webClient = WebClient.create("http://localhost:82/product");
+		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/product");
 
 		Products products = webClient.get()
 				.uri(builder -> builder.path("/getSearchList").queryParam("type", type).queryParam("w", keyword)
 						.queryParam("pageNo", pageNo).queryParam("clarge", clarge).queryParam("cmedium", cmedium)
 						.queryParam("csmall", csmall).build())
 				.retrieve().bodyToMono(Products.class).block();
-		Category categoryList = webClient.get().uri("http://localhost:82/product/category").retrieve()
+		Category categoryList = webClient.get().uri("http://kosa1.iptime.org:50507/product/category").retrieve()
 				.bodyToMono(Category.class).block();
 
 		Pager pager = new Pager(12, 5, products.getTotalRows(), pageNo);
@@ -246,7 +244,7 @@ public class ProductController {
 	public String getSearchStockList(@RequestParam String type, @RequestParam String keyword,
 			@RequestParam(defaultValue = "1") int pageNo, HttpSession session, Model model) {
 		log.info("실행");
-		WebClient webClient = WebClient.create("http://localhost:82/product");
+		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/product");
 
 		StockLists stocklists = webClient
 				.get().uri(builder -> builder.path("/getSearchStockList").queryParam("type", type)
@@ -276,7 +274,7 @@ public class ProductController {
 		map.add("ssize", stock.getSsize() + "");
 		map.add("samount", stock.getSamount() + "");
 
-		Stock resultStock = webClient.post().uri("http://localhost:82/product/stock/update")
+		Stock resultStock = webClient.post().uri("http://kosa1.iptime.org:50507/product/stock/update")
 				.body(BodyInserters.fromFormData(map)).retrieve().bodyToMono(Stock.class).block();
 
 		return "redirect:/admin/product/stock/list/1";
@@ -287,7 +285,7 @@ public class ProductController {
 		log.info("실행");
 
 		WebClient webClient = WebClient.create();
-		ReviewList reviewList = webClient.get().uri("http://localhost:82/product/reviewlist").retrieve()
+		ReviewList reviewList = webClient.get().uri("http://kosa1.iptime.org:50507/product/reviewlist").retrieve()
 				.bodyToMono(ReviewList.class).block();
 
 		model.addAttribute("reviewList", reviewList.getReviewList());
@@ -300,7 +298,7 @@ public class ProductController {
 		log.info("실행");
 
 		WebClient webClient = WebClient.create();
-		Review review = webClient.get().uri("http://localhost:82/product/review?rno={rno}", rno).retrieve()
+		Review review = webClient.get().uri("http://kosa1.iptime.org:50507/product/review?rno={rno}", rno).retrieve()
 				.bodyToMono(Review.class).block();
 
 		model.addAttribute("review", review);
@@ -319,7 +317,7 @@ public class ProductController {
 		map.add("rno", String.valueOf(rno));
 		map.add("content", content);
 
-		Result result = webClient.post().uri("http://localhost:82/product/review/answer/update")
+		Result result = webClient.post().uri("http://kosa1.iptime.org:50507/product/review/answer/update")
 				.body(BodyInserters.fromFormData(map)).retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());

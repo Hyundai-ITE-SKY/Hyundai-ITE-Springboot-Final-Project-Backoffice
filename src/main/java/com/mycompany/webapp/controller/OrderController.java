@@ -1,9 +1,6 @@
 package com.mycompany.webapp.controller;
 
 
-import java.util.Date;
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -34,11 +31,11 @@ public class OrderController {
 		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient getRowsWebClient = WebClient.create();
-		IntegerVariable totalRows = getRowsWebClient.get().uri("http://localhost:82/order/totalrows")
+		IntegerVariable totalRows = getRowsWebClient.get().uri("http://kosa1.iptime.org:50507/order/totalrows")
 										.retrieve().bodyToMono(IntegerVariable.class).block();
 		
 		WebClient webClient = WebClient.create();
-		OrderLists orderLists = webClient.get().uri("http://localhost:82/order/list?pageNo={pageNo}", pageNo)
+		OrderLists orderLists = webClient.get().uri("http://kosa1.iptime.org:50507/order/list?pageNo={pageNo}", pageNo)
 										.retrieve().bodyToMono(OrderLists.class).block();
 		Pager pager = new Pager(12, 5, totalRows.getValue(), pageNo);
 
@@ -54,7 +51,7 @@ public class OrderController {
 		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
-		Order order = webClient.get().uri("http://localhost:82/order/detail?oid={oid}", oid)
+		Order order = webClient.get().uri("http://kosa1.iptime.org:50507/order/detail?oid={oid}", oid)
 				.retrieve().bodyToMono(Order.class).block();
 		
 		model.addAttribute("orderlist", order.getOrderlist());
@@ -73,7 +70,7 @@ public class OrderController {
 		log.info("type : "+ type+ "keyword : " + keyword);
 		Auth auth = (Auth) session.getAttribute("auth");
 		
-		WebClient webClient = WebClient.create("http://localhost:82/order");
+		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/order");
 		OrderLists orderlists = webClient.get().uri(builder -> builder.path("/getSearchList")
 				.queryParam("type", type)
 				.queryParam("keyword", keyword)

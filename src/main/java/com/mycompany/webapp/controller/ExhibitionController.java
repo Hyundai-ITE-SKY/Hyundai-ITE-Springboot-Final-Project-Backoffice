@@ -39,14 +39,14 @@ public class ExhibitionController {
 		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient getRowsWebClient = WebClient.create();
-		Exhibitions exhibitions = getRowsWebClient.get().uri("http://localhost:82/product/exhibition/list")
+		Exhibitions exhibitions = getRowsWebClient.get().uri("http://kosa1.iptime.org:50507/product/exhibition/list")
 										.retrieve().bodyToMono(Exhibitions.class).block();
 		
 		log.info(exhibitions.getExhibitions()+"");
 		model.addAttribute("exhibitions", exhibitions.getExhibitions());
 		
 		WebClient webClient = WebClient.create();
-		Events events = webClient.get().uri("http://localhost:82/event/list?pageNo={pageNo}", 1)
+		Events events = webClient.get().uri("http://kosa1.iptime.org:50507/event/list?pageNo={pageNo}", 1)
 										.retrieve().bodyToMono(Events.class).block();
 		
 		model.addAttribute("events", events.getEvents());
@@ -69,7 +69,7 @@ public class ExhibitionController {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		exhibitions.getExhibitions();
 		
-		webClient.post().uri("http://localhost:82/product/exhibition/update")
+		webClient.post().uri("http://kosa1.iptime.org:50507/product/exhibition/update")
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.body(BodyInserters.fromValue(jsonString))
 				.retrieve().bodyToMono(Void.class).block();
@@ -87,7 +87,7 @@ public class ExhibitionController {
 		String jsonString = mapper.writeValueAsString(eventMap);
 		
 		WebClient webClient = WebClient.create();
-		webClient.post().uri("http://localhost:82/event/updateeorder")
+		webClient.post().uri("http://kosa1.iptime.org:50507/event/updateeorder")
 		.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 		.body(BodyInserters.fromValue(jsonString))
 		.retrieve().bodyToMono(Void.class).block();
