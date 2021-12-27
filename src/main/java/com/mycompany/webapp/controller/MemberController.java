@@ -36,7 +36,7 @@ public class MemberController {
 
 		WebClient webClient = WebClient.create();
 
-		Members members = webClient.get().uri("http://localhost:82/member/list")
+		Members members = webClient.get().uri("http://kosa1.iptime.org:50507/member/list")
 				.retrieve().bodyToMono(Members.class).block();
 
 		model.addAttribute("members", members.getMembers());
@@ -71,7 +71,7 @@ public class MemberController {
 
 		log.info(member.toString());
 
-		Result result = webClient.post().uri("http://localhost:82/member/create")
+		Result result = webClient.post().uri("http://kosa1.iptime.org:50507/member/create")
 				.body(BodyInserters.fromFormData(map)).retrieve()
 				.bodyToMono(Result.class).block();
 
@@ -90,7 +90,7 @@ public class MemberController {
 
 		log.info(mid);
 
-		Member member = webClient.get().uri("http://localhost:82/member/detail?mid={mid}", mid)
+		Member member = webClient.get().uri("http://kosa1.iptime.org:50507/member/detail?mid={mid}", mid)
 				.retrieve().bodyToMono(Member.class).block();
 
 		model.addAttribute("member", member);
@@ -106,7 +106,7 @@ public class MemberController {
 
 		WebClient webClient = WebClient.create();
 
-		Result result = webClient.delete().uri("http://localhost:82/member/delete?mid={mid}", mid)
+		Result result = webClient.delete().uri("http://kosa1.iptime.org:50507/member/delete?mid={mid}", mid)
 				.retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());
@@ -120,7 +120,7 @@ public class MemberController {
 		log.info("실행");
 
 		WebClient webClient = WebClient.create();
-		Grades grades = webClient.get().uri("http://localhost:82/member/grade/list").retrieve().bodyToMono(Grades.class).block();
+		Grades grades = webClient.get().uri("http://kosa1.iptime.org:50507/member/grade/list").retrieve().bodyToMono(Grades.class).block();
 		model.addAttribute("grades", grades.getGrades());
 
 		return "member/memberGrade";
@@ -136,7 +136,7 @@ public class MemberController {
 		map.add("gmax", String.valueOf(grade.getGmax()));
 		map.add("gsale", String.valueOf(grade.getGsale()));
 
-		Result result = webClient.post().uri("http://localhost:82/member/grade/create")
+		Result result = webClient.post().uri("http://kosa1.iptime.org:50507/member/grade/create")
 				.body(BodyInserters.fromFormData(map)).retrieve()
 				.bodyToMono(Result.class).block();
 
@@ -158,7 +158,7 @@ public class MemberController {
 
 		WebClient webClient = WebClient.create();
 
-		Result result = webClient.get().uri("http://localhost:82/member/grade/apply")
+		Result result = webClient.get().uri("http://kosa1.iptime.org:50507/member/grade/apply")
 				.retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());
@@ -176,7 +176,7 @@ public class MemberController {
 		map.add("gmax", String.valueOf(grade.getGmax()));
 		map.add("gsale", String.valueOf(grade.getGsale()));
 
-		Result result = webClient.post().uri("http://localhost:82/member/grade/update/" + beforegmax)
+		Result result = webClient.post().uri("http://kosa1.iptime.org:50507/member/grade/update/" + beforegmax)
 				.body(BodyInserters.fromFormData(map)).retrieve()
 				.bodyToMono(Result.class).block();
 
@@ -193,7 +193,7 @@ public class MemberController {
 
 		WebClient webClient = WebClient.create();
 
-		Result result = webClient.delete().uri("http://localhost:82/member/grade/delete?gmax={gmax}", gmax)
+		Result result = webClient.delete().uri("http://kosa1.iptime.org:50507/member/grade/delete?gmax={gmax}", gmax)
 				.retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());

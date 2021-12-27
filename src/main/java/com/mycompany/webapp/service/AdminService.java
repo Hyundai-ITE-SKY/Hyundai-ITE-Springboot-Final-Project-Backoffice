@@ -16,7 +16,7 @@ public class AdminService {
 		map.add("mid", mid);
 		
 		WebClient webClient = WebClient.create();
-		Member member = webClient.post().uri("http://localhost:82/login")
+		Member member = webClient.post().uri("http://kosa1.iptime.org:50507/login")
 								 .body(BodyInserters.fromFormData(map))
 								 .retrieve()
 								 .bodyToMono(Member.class).block();

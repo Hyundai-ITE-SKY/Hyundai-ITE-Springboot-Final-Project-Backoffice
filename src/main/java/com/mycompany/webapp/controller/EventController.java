@@ -40,11 +40,11 @@ public class EventController {
 		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient getRowsWebClient = WebClient.create();
-		IntegerVariable totalRows = getRowsWebClient.get().uri("http://localhost:82/event/totalrows")
+		IntegerVariable totalRows = getRowsWebClient.get().uri("http://kosa1.iptime.org:50507/event/totalrows")
 										.retrieve().bodyToMono(IntegerVariable.class).block();
 		
 		WebClient webClient = WebClient.create();
-		Events events = webClient.get().uri("http://localhost:82/event/list?pageNo={pageNo}", pageNo)
+		Events events = webClient.get().uri("http://kosa1.iptime.org:50507/event/list?pageNo={pageNo}", pageNo)
 										.retrieve().bodyToMono(Events.class).block();
 		Pager pager = new Pager(5, 5, totalRows.getValue(), pageNo);
 		
@@ -60,7 +60,7 @@ public class EventController {
 		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
-		Event event = webClient.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
+		Event event = webClient.get().uri("http://kosa1.iptime.org:50507/event/detail?eid={eid}", eid)
 				.retrieve().bodyToMono(Event.class).block();
 		
 		model.addAttribute("event", event);
@@ -76,7 +76,7 @@ public class EventController {
 		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient = WebClient.create();
-		Event event = webClient.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
+		Event event = webClient.get().uri("http://kosa1.iptime.org:50507/event/detail?eid={eid}", eid)
 				.retrieve().bodyToMono(Event.class).block();
 		
 		model.addAttribute("event", event);
@@ -101,7 +101,7 @@ public class EventController {
 		map.add("eamount", event.getEamount()+"");
 		map.add("elimit", event.getElimit()+"");
 		
-		IntegerVariable integerVariable = webClient.post().uri("http://localhost:82/event/update")
+		IntegerVariable integerVariable = webClient.post().uri("http://kosa1.iptime.org:50507/event/update")
 				.body(BodyInserters.fromFormData(map))
 				.retrieve().bodyToMono(IntegerVariable.class).block();
 		
@@ -110,7 +110,7 @@ public class EventController {
 		Auth auth = (Auth) session.getAttribute("auth");
 		
 		WebClient webClient2 = WebClient.create();
-		Event newEvent = webClient2.get().uri("http://localhost:82/event/detail?eid={eid}", eid)
+		Event newEvent = webClient2.get().uri("http://kosa1.iptime.org:50507/event/detail?eid={eid}", eid)
 				.retrieve().bodyToMono(Event.class).block();
 		
 		model.addAttribute("event", newEvent);
@@ -142,7 +142,7 @@ public class EventController {
 		map.add("eamount", event.getEamount()+"");
 		map.add("elimit", event.getElimit()+"");
 		
-		IntegerVariable integerVariable = webClient.post().uri("http://localhost:82/event/create")
+		IntegerVariable integerVariable = webClient.post().uri("http://kosa1.iptime.org:50507/event/create")
 											.body(BodyInserters.fromFormData(map))
 											.retrieve().bodyToMono(IntegerVariable.class).block();
 		
@@ -156,7 +156,7 @@ public class EventController {
 		map.add("eid", eid+"");
 		
 		WebClient webClient = WebClient.create();
-		IntegerVariable integerVariable = ((RequestBodySpec) webClient.delete().uri("http://localhost:82/event/delete"))
+		IntegerVariable integerVariable = ((RequestBodySpec) webClient.delete().uri("http://kosa1.iptime.org:50507/event/delete"))
 				.body(BodyInserters.fromFormData(map))
 				.retrieve().bodyToMono(IntegerVariable.class).block();
 		

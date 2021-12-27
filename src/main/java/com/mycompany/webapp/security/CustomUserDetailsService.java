@@ -26,7 +26,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("실행");
-		Member member = adminService.selectAdminInfo(username); 
+		Member member = adminService.selectAdminInfo(username);
+		
 		if(member == null) {
 			throw new UsernameNotFoundException(username);
 		}

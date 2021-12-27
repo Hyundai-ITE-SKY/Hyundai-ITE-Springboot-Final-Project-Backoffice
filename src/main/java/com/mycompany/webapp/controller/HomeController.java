@@ -45,7 +45,7 @@ public class HomeController {
 //			return "redirect:/loginform";
 //		}
 		
-		WebClient webClient = WebClient.create("http://localhost:82/dash");
+		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/dash");
 		
 		//주문/배송상태
 		OrderState orderState = webClient.get().uri("/orderState").retrieve().bodyToMono(OrderState.class).block();
@@ -128,7 +128,7 @@ public class HomeController {
 //		map.add("mid", mid);
 //		map.add("mpassword", mpassword);
 //
-//		Auth auth = webClient.post().uri("http://localhost:82/login").body(BodyInserters.fromFormData(map)).retrieve()
+//		Auth auth = webClient.post().uri("http://kosa1.iptime.org:50507/login").body(BodyInserters.fromFormData(map)).retrieve()
 //				.bodyToMono(Auth.class).block();
 //
 //		session.setAttribute("auth", auth);
