@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.mycompany.webapp.dto.Auth;
 import com.mycompany.webapp.dto.Grade;
 import com.mycompany.webapp.dto.Grades;
 import com.mycompany.webapp.dto.Member;
@@ -31,13 +30,10 @@ public class MemberController {
 	@RequestMapping("/list")
 	public String memberInfo(Model model, HttpSession session) {
 		log.info("실행");
-
-		Auth auth = (Auth) session.getAttribute("auth");
-
 		WebClient webClient = WebClient.create();
 
-		Members members = webClient.get().uri("http://kosa1.iptime.org:50507/member/list")
-				.retrieve().bodyToMono(Members.class).block();
+		Members members = webClient.get().uri("http://kosa1.iptime.org:50507/member/list").retrieve()
+				.bodyToMono(Members.class).block();
 
 		model.addAttribute("members", members.getMembers());
 
@@ -47,8 +43,6 @@ public class MemberController {
 	@RequestMapping("/create")
 	public String createMember(Member member, Model model, HttpSession session) {
 		log.info("실행");
-
-		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
@@ -72,8 +66,7 @@ public class MemberController {
 		log.info(member.toString());
 
 		Result result = webClient.post().uri("http://kosa1.iptime.org:50507/member/create")
-				.body(BodyInserters.fromFormData(map)).retrieve()
-				.bodyToMono(Result.class).block();
+				.body(BodyInserters.fromFormData(map)).retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());
 
@@ -84,14 +77,12 @@ public class MemberController {
 	public String memberDetail(String mid, Model model, HttpSession session) {
 		log.info("실행");
 
-		Auth auth = (Auth) session.getAttribute("auth");
-
 		WebClient webClient = WebClient.create();
 
 		log.info(mid);
 
-		Member member = webClient.get().uri("http://kosa1.iptime.org:50507/member/detail?mid={mid}", mid)
-				.retrieve().bodyToMono(Member.class).block();
+		Member member = webClient.get().uri("http://kosa1.iptime.org:50507/member/detail?mid={mid}", mid).retrieve()
+				.bodyToMono(Member.class).block();
 
 		model.addAttribute("member", member);
 
@@ -102,12 +93,10 @@ public class MemberController {
 	public String deleteGrade(String mid, Model model, HttpSession session) {
 		log.info("실행");
 
-		Auth auth = (Auth) session.getAttribute("auth");
-
 		WebClient webClient = WebClient.create();
 
-		Result result = webClient.delete().uri("http://kosa1.iptime.org:50507/member/delete?mid={mid}", mid)
-				.retrieve().bodyToMono(Result.class).block();
+		Result result = webClient.delete().uri("http://kosa1.iptime.org:50507/member/delete?mid={mid}", mid).retrieve()
+				.bodyToMono(Result.class).block();
 
 		log.info(result.toString());
 
@@ -120,7 +109,8 @@ public class MemberController {
 		log.info("실행");
 
 		WebClient webClient = WebClient.create();
-		Grades grades = webClient.get().uri("http://kosa1.iptime.org:50507/member/grade/list").retrieve().bodyToMono(Grades.class).block();
+		Grades grades = webClient.get().uri("http://kosa1.iptime.org:50507/member/grade/list").retrieve()
+				.bodyToMono(Grades.class).block();
 		model.addAttribute("grades", grades.getGrades());
 
 		return "member/memberGrade";
@@ -137,29 +127,28 @@ public class MemberController {
 		map.add("gsale", String.valueOf(grade.getGsale()));
 
 		Result result = webClient.post().uri("http://kosa1.iptime.org:50507/member/grade/create")
-				.body(BodyInserters.fromFormData(map)).retrieve()
-				.bodyToMono(Result.class).block();
+				.body(BodyInserters.fromFormData(map)).retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());
 
 		return "redirect:/admin/member/grade";
 	}
-	
-	//스케줄러 
-	@Scheduled(cron="0 0 1 * * *")
+
+	// 스케줄러
+	@Scheduled(cron = "0 0 1 * * *")
 	public void updateGradePerDay() {
 		log.info("새벽 1시마다 실행" + new Date());
 		applyGrade();
 	}
-	
+
 	@RequestMapping("/grade/apply")
 	public String applyGrade() {
 		log.info("실행");
 
 		WebClient webClient = WebClient.create();
 
-		Result result = webClient.get().uri("http://kosa1.iptime.org:50507/member/grade/apply")
-				.retrieve().bodyToMono(Result.class).block();
+		Result result = webClient.get().uri("http://kosa1.iptime.org:50507/member/grade/apply").retrieve()
+				.bodyToMono(Result.class).block();
 
 		log.info(result.toString());
 
@@ -177,8 +166,7 @@ public class MemberController {
 		map.add("gsale", String.valueOf(grade.getGsale()));
 
 		Result result = webClient.post().uri("http://kosa1.iptime.org:50507/member/grade/update/" + beforegmax)
-				.body(BodyInserters.fromFormData(map)).retrieve()
-				.bodyToMono(Result.class).block();
+				.body(BodyInserters.fromFormData(map)).retrieve().bodyToMono(Result.class).block();
 
 		log.info(result.toString());
 
@@ -188,8 +176,6 @@ public class MemberController {
 	@RequestMapping("/grade/delete")
 	public String deleteGrade(int gmax, Model model, HttpSession session) {
 		log.info("실행");
-
-		Auth auth = (Auth) session.getAttribute("auth");
 
 		WebClient webClient = WebClient.create();
 
