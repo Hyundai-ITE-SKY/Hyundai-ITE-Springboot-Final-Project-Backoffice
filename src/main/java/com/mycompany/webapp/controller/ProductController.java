@@ -46,8 +46,10 @@ public class ProductController {
 		log.info("실행");
 
 		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/product");
+
 		Products products = webClient.get().uri("/allbrand").retrieve().bodyToMono(Products.class).block();
 		model.addAttribute("brands", products.getBrands());
+
 		Category category = webClient.get().uri("/category").retrieve().bodyToMono(Category.class).block();
 		model.addAttribute("category", category.getCategory());
 
@@ -71,7 +73,6 @@ public class ProductController {
 
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonInString = mapper.writeValueAsString(product);
-		log.info(jsonInString);
 
 		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/product");
 		webClient.post().uri("/create").header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -87,8 +88,8 @@ public class ProductController {
 
 		WebClient webClient = WebClient.create();
 
-		Products productList = webClient.get().uri("http://kosa1.iptime.org:50507/product/list/{pageNo}", pageNo).retrieve()
-				.bodyToMono(Products.class).block();
+		Products productList = webClient.get().uri("http://kosa1.iptime.org:50507/product/list/{pageNo}", pageNo)
+				.retrieve().bodyToMono(Products.class).block();
 		Category categoryList = webClient.get().uri("http://kosa1.iptime.org:50507/product/category").retrieve()
 				.bodyToMono(Category.class).block();
 
@@ -196,8 +197,8 @@ public class ProductController {
 		log.info("실행");
 
 		WebClient getRowsWebClient = WebClient.create();
-		IntegerVariable totalRows = getRowsWebClient.get().uri("http://kosa1.iptime.org:50507/product/stock/totalrows").retrieve()
-				.bodyToMono(IntegerVariable.class).block();
+		IntegerVariable totalRows = getRowsWebClient.get().uri("http://kosa1.iptime.org:50507/product/stock/totalrows")
+				.retrieve().bodyToMono(IntegerVariable.class).block();
 
 		WebClient webClient = WebClient.create();
 		StockLists stockLists = webClient.get().uri("http://kosa1.iptime.org:50507/product/stock/list/{pageNo}", pageNo)
@@ -208,7 +209,7 @@ public class ProductController {
 		model.addAttribute("stocks", stockLists.getStockLists());
 		model.addAttribute("pager", pager);
 
-		return "/product/productStock";
+		return "product/productStock";
 	}
 
 	@GetMapping("/search")
@@ -223,6 +224,7 @@ public class ProductController {
 						.queryParam("pageNo", pageNo).queryParam("clarge", clarge).queryParam("cmedium", cmedium)
 						.queryParam("csmall", csmall).build())
 				.retrieve().bodyToMono(Products.class).block();
+
 		Category categoryList = webClient.get().uri("http://kosa1.iptime.org:50507/product/category").retrieve()
 				.bodyToMono(Category.class).block();
 
@@ -237,13 +239,14 @@ public class ProductController {
 		model.addAttribute("cs", csmall);
 		model.addAttribute("categoryList", categoryList.getCategory());
 
-		return "/product/productList";
+		return "product/productList";
 	}
 
 	@GetMapping("/searchInStock")
 	public String getSearchStockList(@RequestParam String type, @RequestParam String keyword,
 			@RequestParam(defaultValue = "1") int pageNo, HttpSession session, Model model) {
 		log.info("실행");
+
 		WebClient webClient = WebClient.create("http://kosa1.iptime.org:50507/product");
 
 		StockLists stocklists = webClient
@@ -258,7 +261,7 @@ public class ProductController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("type", type);
 
-		return "/product/productStock";
+		return "product/productStock";
 
 	}
 
@@ -290,7 +293,7 @@ public class ProductController {
 
 		model.addAttribute("reviewList", reviewList.getReviewList());
 
-		return "/product/productReview";
+		return "product/productReview";
 	}
 
 	@GetMapping("/review/detail")
@@ -303,7 +306,7 @@ public class ProductController {
 
 		model.addAttribute("review", review);
 
-		return "/product/productReviewDetail";
+		return "product/productReviewDetail";
 	}
 
 	@PostMapping("/review/answer/update")
@@ -319,8 +322,6 @@ public class ProductController {
 
 		Result result = webClient.post().uri("http://kosa1.iptime.org:50507/product/review/answer/update")
 				.body(BodyInserters.fromFormData(map)).retrieve().bodyToMono(Result.class).block();
-
-		log.info(result.toString());
 
 		return "redirect:/admin/product/review/detail?rno=" + String.valueOf(rno);
 	}
